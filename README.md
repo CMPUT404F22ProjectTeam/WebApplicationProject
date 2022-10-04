@@ -9,3 +9,15 @@ A Web Application Project :)
 | Yuting He | yhe7 |
 | Simiao Zheng | simiao4 |
 | Steven Truong | svtruong |
+
+## LICENSE
+LICENSE'D under the Apache 2 license
+
+
+Contributors:
+
+    Ke Li
+    Yanzhi Huang
+    Yuting He
+    Simiao Zheng
+    Steven Truong
