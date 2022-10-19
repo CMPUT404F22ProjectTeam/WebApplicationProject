@@ -1,11 +1,46 @@
 .post_information {
-    z-index: 1;
     position: fixed;
-    background-color: white;
+    background-color:white;
     border: 2px solid black;
+    padding: 20px;
     top: 50%;
     left: 50%;
+    width: 60%;
+    height: 60%;
     transform: translate(-50%, -50%);
+}
+input{
+    width: 100%;
+    padding: 10px 20px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    box-sizing: border-box;
+}
+textarea{
+    width: 100%;
+    top: 10px;
+    height: 150px;
+    padding: 10px 20px;
+    margin: 15px 0;
+    display: inline-block;
+    background-color: #f8f8f8;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+}
+.button{
+    position: relative;
+    left: 2%;
+    top: 10px;
+    padding: 10px 15px; 
+}
+
+.label{
+    padding: 10px 15px; 
 }
 .close{
     position: fixed;

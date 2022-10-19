@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import { Alert, FormGroup, FormControl } from '@mui/material';
+
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+
 import "./Post.css";
 
 const initState = {
   title: "",
   description: "",
-  pub_lic: true,
-  pri_vate: false,
+  status:[],
 };
 
 export default class Post extends Component {
@@ -17,6 +17,26 @@ export default class Post extends Component {
     super(props);
     this.state = initState;
   }
+
+  save = async (e) => {
+    e.preventDefault();
+    const {
+      title,
+      description,
+    } = this.state;
+
+    if (!title) {
+      this.setState({
+        flash: { status: "is-danger", msg: "Title cannot be blank!"},
+      });
+    }else{
+      this.props.toggle();
+    }
+  };
+  
+  /*error message handler*/
+  handleChange = (e) =>
+    this.setState({ [e.target.name]: e.target.value, error: "" });
 
   handleClick = () => {
    this.props.toggle();
@@ -26,81 +46,71 @@ export default class Post extends Component {
     const {
       title,
       description,
-      pub_lic,
-      pri_vate,
     } = this.state;
-    // To do:
-    // public and private only can choose one in checked box
-    const handleChange = (event) => {
-      this.setState({
-        [event.target.name]: event.target.checked,
-      });
-    };
-    
-    const error = [pub_lic,pri_vate].filter((v) => v).length !== 1;
-
     return (
-      <div className='post_information'>
+      <form className='post_information' onSubmit={this.save}>
         <span className="close" onClick={this.handleClick}>
             &times;
           </span>
-        <form>
-            <div>
-            <span className='label'>Title：</span>
+            <div className='label'>Title：
                 <input
                     placeholder='Enter title here'
                     className='title-input'
                     name='title'
+                    type="text"
                     value={title}
                     onChange={this.handleChange}
                 />
             </div>
-            <div>
-            {/* To do:
-            larger description text box */}
-            <span className='label'>Description：</span>
-                <input
+            <div className='label'>Description：
+                <textarea
                     placeholder='What&apos;s happening?'
                     className='description-input'
                     name='description'
+                    type="textarea"
                     value={description}
                     onChange={this.handleChange}
                 />
             </div>
-            <FormControl
-            required
-            error={error}
-            component="fieldset"
-            sx={{ m: 2 }}
-            variant="standard"
-            >
-            <FormGroup>
             <div>
-            <FormControlLabel
-            value="public"   
-            control={
-              <Checkbox checked={pub_lic} onChange={handleChange} name="public" />
-            }
-            label="Public"
-            labelPlacement="public"
-            />
-            <FormControlLabel
-            value="private"   
-            control={
-              <Checkbox checked={pri_vate} onChange={handleChange} name="private" />
-            }
-            label="Private"
-            labelPlacement="private"
-            />
-            </div>
-            </FormGroup>
-            <FormHelperText>You can display an error</FormHelperText>
+            <Box className='label' sx={{ minWidth: 120 }}>
+            <FormControl Halfwidth>
+            <NativeSelect
+              defaultValue='everyone'
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Privacy"
+            >
+            <option value='everyone'>Public</option>
+            <option value='friends'>Friends</option>
+            <option value='only_me'>Only Me</option>
+            </NativeSelect>
             </FormControl>
-            <button className="button" type="submit"  onClick={this.save}>
-              Submit
-            </button>
-        </form>
-      </div>
+            </Box>
+            {/* keep this version
+            use button to select privacy
+            <FormControl>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="public"
+              name="radio-buttons-group"
+             >
+            <FormControlLabel value="public" control={<Radio />} label="Public" />
+            <FormControlLabel value="private" control={<Radio />} label="Private" />
+            </RadioGroup>
+            </FormControl> */}
+            </div>
+            {this.state.flash && (
+            <div className={`notification ${this.state.flash.status}`}>
+              {this.state.flash.msg}
+            </div>
+             )}
+            <div className="field is-clearfix">
+              <button className="button" type="submit" onClick={this.save}>
+                Submit
+              </button>
+            </div>
+            </form>
     );
  }
 }
