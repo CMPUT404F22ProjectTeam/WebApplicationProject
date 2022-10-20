@@ -6,6 +6,6 @@ from rest_framework.response import Response
 # Create your views here.
 class AuthorViewSet(viewsets.ModelViewSet):
     def sign_up(self, request):
-        displayname = request.data.get('displayname')
-        return Response(displayname)
+        return Response()
+        
 
