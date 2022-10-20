@@ -54,26 +54,31 @@ export default class Login extends Component {
         } = this.state;
         return (
             <form className='login' onSubmit={this.save}>
-                <h1>Login</h1>
+                <div className='login_info'>
+                    <h1>Login</h1>
 
-                <Form
-                    type="email"
-                    name="email"
-                    action={this.handleChange}
-                    placeholder="Email"
-                    value={email}
-                ></Form>
+                    <Form
+                        type="email"
+                        name="email"
+                        action={this.handleChange}
+                        placeholder="Email"
+                        value={email}
+                    ></Form>
 
-                <Form
-                    type="password"
-                    name="password"
-                    action={this.handleChange}
-                    placeholder="Password"
-                    value={password}
-                ></Form>
+                    <Form
+                        type="password"
+                        name="password"
+                        action={this.handleChange}
+                        placeholder="Password"
+                        value={password}
+                    ></Form>
+                    <a href="/Home" className="button" type="submit">Login</a>
+                </div>
+
+
 
                 <form className="center">
-                    <a href="/home" className="button" type="submit">Login</a>
+
                     <RedirectLink message="Forgot Password?" link="Click here!" href="/reset" />
                     <RedirectLink message="Do not have an account?" link="Sign up here!" href="/signup" />
                 </form>
