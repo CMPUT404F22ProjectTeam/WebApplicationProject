@@ -4,7 +4,7 @@ const Form = ({ type, name, action, placeholder, value }) => {
     return (
         <input
             type={type}
-            className="form"
+            className="input"
             name={name}
             onChange={action}
             placeholder={placeholder}

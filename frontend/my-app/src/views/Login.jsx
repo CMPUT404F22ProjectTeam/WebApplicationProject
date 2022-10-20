@@ -73,7 +73,7 @@ export default class Login extends Component {
                 ></Form>
 
                 <form className="center">
-                    <a href="/Home" className="button" type="submit">Login</a>
+                    <a href="/home" className="button" type="submit">Login</a>
                     <RedirectLink message="Forgot Password?" link="Click here!" href="/reset" />
                     <RedirectLink message="Do not have an account?" link="Sign up here!" href="/signup" />
                 </form>
