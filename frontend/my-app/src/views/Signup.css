@@ -1,0 +1,38 @@
+.signup {
+    justify-content: space-between;
+    margin: auto;
+    position: fixed;
+    background-color: white;
+    border: 2px solid grey;
+    border-radius: 8px;
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    transform: translate(-50%, -50%);
+}
+
+.center {
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    padding: 20px;
+}
+
+h1 {
+    color: black;
+    text-align: center;
+}
+
+.button {
+    background-color: blue;
+    font-size: 15px;
+    padding: 10px 15px;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    position: center;
+    display: inline-block;
+}
