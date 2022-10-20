@@ -1,86 +1,63 @@
-import React, { Component } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Form from '../components/Form';
 import RedirectLink from '../components/RedirectLink';
 import "./Login.css";
 
-const initState = {
-    email: "",
-    password: "",
-    status: [],
-};
+export default function Login() {
 
-export default class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = initState;
-    }
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
 
-    save = async (e) => {
-        e.preventDefault();
-        const {
-            email,
-            password,
-        } = this.state;
+    const handleEmail = useCallback((event) => {
+        setError('')
+        setEmail(event.target.value)
+    }, []);
 
+    const handlePassword = useCallback((event) => {
+        setError('')
+        setPassword(event.target.value)
+    }, [])
+
+    const handleLogin = useCallback(async (e) => {
+        e.preventDefault()
         if (!email) {
-            this.setState({
-                flash: { status: "is-danger", msg: "*Email cannot be blank!" },
-            });
+            setError('*Email cannot be blank!')
         } else if (!password) {
-            this.setState({
-                flash: { status: "is-danger", msg: "*Password cannot be blank!" },
-            });
+            setError('*Password cannot be blank!')
         } else {
-            this.props.toggle();
+            /*connect with backend*/
+            navigate('/home')
         }
-    };
+    })
 
-    /*error message handler*/
-    handleChange = (e) =>
-        this.setState({ [e.target.name]: e.target.value, error: "" });
-
-    render() {
-        const {
-            email,
-            password,
-        } = this.state;
-        return (
-            <form className='login' onSubmit={this.save}>
-                <h1>Login</h1>
-                <div class="container">
-
+    return (
+        <form className='login' onSubmit={handleLogin}>
+            <h1>Login</h1>
+            <div class="container">
                 <Form
                     type="email"
                     name="email"
-                    action={this.handleChange}
+                    action={handleEmail}
                     placeholder="Email"
-                    value={email}
                 ></Form>
                 <Form
                     type="password"
                     name="password"
-                    action={this.handleChange}
+                    action={handlePassword}
                     placeholder="Password"
-                    value={password}
                 ></Form>
-                <form action="/home">
-                    <button type="submit">Login</button>
-                </form>
-                </div>
-
-                {this.state.flash && (
-                    <div className='flash'>
-                        <div className={`notification ${this.state.flash.status}`}>
-                            {this.state.flash.msg}
-                        </div>
-                    </div>
+                <button type="submit">Login</button>
+                {error && (
+                    <p className="error"> {error} </p>
                 )}
+            </div>
 
-                <form className="center">
-                    <RedirectLink message="Forgot Password?" link="Click here!" href="/reset" />
-                    <RedirectLink message="Do not have an account?" link="Sign up here!" href="/signup" />
-                </form>
+            <form className="center">
+                <RedirectLink message="Do not have an account?" link="Sign up here!" href="/signup" />
             </form>
-        );
-    }
+        </form>
+    );
 }

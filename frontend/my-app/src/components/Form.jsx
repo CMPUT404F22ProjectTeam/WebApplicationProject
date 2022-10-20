@@ -8,8 +8,6 @@ const Form = ({ type, name, action, placeholder, value }) => {
             name={name}
             onChange={action}
             placeholder={placeholder}
-            value={value}
-            required
         />
     )
 }
