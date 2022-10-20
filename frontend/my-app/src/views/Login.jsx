@@ -56,22 +56,24 @@ export default class Login extends Component {
             <form className='login' onSubmit={this.save}>
                 <h1>Login</h1>
                 <div class="container">
-                    <Form
-                        type="email"
-                        name="email"
-                        action={this.handleChange}
-                        placeholder="Email"
-                        value={email}
-                    ></Form>
-                    <Form
-                        type="password"
-                        name="password"
-                        action={this.handleChange}
-                        placeholder="Password"
-                        value={password}
-                    ></Form>
-                    {/* <a href="/Home" className="button" type="submit">Login</a> */}
+
+                <Form
+                    type="email"
+                    name="email"
+                    action={this.handleChange}
+                    placeholder="Email"
+                    value={email}
+                ></Form>
+                <Form
+                    type="password"
+                    name="password"
+                    action={this.handleChange}
+                    placeholder="Password"
+                    value={password}
+                ></Form>
+                <form action="/home">
                     <button type="submit">Login</button>
+                </form>
                 </div>
 
                 {this.state.flash && (
