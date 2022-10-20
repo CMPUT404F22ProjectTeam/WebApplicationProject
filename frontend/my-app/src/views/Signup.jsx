@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from '../components/Form';
 import RedirectLink from '../components/RedirectLink';
-import "./Signup.css";
+import "./Login.css";
 
 export default function Login() {
 
@@ -65,7 +65,7 @@ export default function Login() {
                     action={handleConfirmPassword}
                     placeholder="Confirm Password"
                 ></Form>
-                <button type="submit">Sign Up</button>
+                <button className="button1" type="submit">Sign Up</button>
                 {error && (
                     <p className="error"> {error} </p>
                 )}

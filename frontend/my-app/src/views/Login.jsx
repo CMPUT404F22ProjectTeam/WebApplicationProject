@@ -49,7 +49,7 @@ export default function Login() {
                     action={handlePassword}
                     placeholder="Password"
                 ></Form>
-                <button type="submit">Login</button>
+                <button className="button1" type="submit">Login</button>
                 {error && (
                     <p className="error"> {error} </p>
                 )}
