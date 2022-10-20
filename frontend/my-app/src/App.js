@@ -1,5 +1,4 @@
 import React from 'react'
-import Post from './views/Post'
 import Home from './views/Home'
 import "bootstrap/dist/css/bootstrap.min.css";
 
