@@ -70,8 +70,9 @@ export default class Login extends Component {
                     placeholder="Password"
                     value={password}
                 ></Form>
-                {/* <a href="/Home" className="button" type="submit">Login</a> */}
-                <button type="submit">Login</button>
+                <form action="/home">
+                    <button type="submit">Login</button>
+                </form>
                 </div>
                 <form className="center">
                     <RedirectLink message="Forgot Password?" link="Click here!" href="/reset" />

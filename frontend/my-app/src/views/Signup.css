@@ -13,12 +13,12 @@
     transform: translate(-50%, -50%);
 }
 
-.center {
+/* .center {
     justify-content: space-between;
     text-align: center;
     align-items: center;
     padding: 20px;
-}
+} */
 
 h1 {
     color: black;

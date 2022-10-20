@@ -15,6 +15,13 @@ h1 {
     text-align: center;
 }
 
+.center {
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    padding: 20px;
+}
+
 button{
     background-color: blue;
     color: white;
