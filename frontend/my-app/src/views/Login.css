@@ -10,6 +10,14 @@
     width: 80%;
 }
 
+.signup {
+    background-color: white;
+    margin: 5% auto 15% auto;
+    border-radius: 25px;
+    border: 2px solid black;
+    width: 80%;
+}
+
 .center {
     justify-content: space-between;
     text-align: center;
@@ -22,7 +30,7 @@ h1 {
     text-align: center;
 }
 
-button {
+.button1 {
     background-color: blue;
     color: white;
     padding: 14px 20px;
@@ -38,13 +46,10 @@ button:hover {
     opacity: 0.8;
 }
 
-
-.flash {
-    position: absolute;
+.error {
     font-size: medium;
     font-style: italic;
     color: rgb(240, 0, 0);
-    left: 50%;
-    bottom: 2%;
-    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    width: fit-content;
 }
