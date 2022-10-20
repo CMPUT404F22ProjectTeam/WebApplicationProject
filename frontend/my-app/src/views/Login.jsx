@@ -54,9 +54,8 @@ export default class Login extends Component {
         } = this.state;
         return (
             <form className='login' onSubmit={this.save}>
-                <div className='login_info'>
-                    <h1>Login</h1>
-
+                <h1>Login</h1>
+                <div class="container">
                     <Form
                         type="email"
                         name="email"
@@ -64,7 +63,6 @@ export default class Login extends Component {
                         placeholder="Email"
                         value={email}
                     ></Form>
-
                     <Form
                         type="password"
                         name="password"
@@ -72,7 +70,8 @@ export default class Login extends Component {
                         placeholder="Password"
                         value={password}
                     ></Form>
-                    <button className="button" type="submit" onClick={this.save} >Login</button>
+                    {/* <a href="/Home" className="button" type="submit">Login</a> */}
+                    <button type="submit">Login</button>
                 </div>
 
                 {this.state.flash && (

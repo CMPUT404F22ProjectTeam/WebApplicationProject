@@ -1,16 +1,9 @@
 .signup {
-    justify-content: space-between;
-    margin: auto;
-    position: fixed;
     background-color: white;
-    border: 2px solid grey;
-    border-radius: 8px;
-    padding: 20px;
-    top: 50%;
-    left: 50%;
-    width: 60%;
-    height: 60%;
-    transform: translate(-50%, -50%);
+    margin: 5% auto 15% auto;
+    border-radius: 25px;
+    border: 2px solid black;
+    width: 80%;
 }
 
 .center {
@@ -25,14 +18,28 @@ h1 {
     text-align: center;
 }
 
-.button {
+button {
     background-color: blue;
-    font-size: 15px;
-    padding: 10px 15px;
     color: white;
-    text-align: center;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    position: center;
-    display: inline-block;
+    padding: 14px 20px;
+    margin: 0 auto;
+    display: block;
+    border: none;
+    cursor: pointer;
+    width: fit-content;
+    border-radius: 10px;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.flash {
+    position: absolute;
+    font-size: medium;
+    font-style: italic;
+    color: rgb(240, 0, 0);
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%, -50%);
 }
