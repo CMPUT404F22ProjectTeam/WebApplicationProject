@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import Form from '../components/Form';
 import RedirectLink from '../components/RedirectLink';
-import "./Login.css";
+import "./Signup.css";
 
 const initState = {
     email: "",
     password: "",
+    confirmPassword: "",
     status: [],
 };
 
-export default class Login extends Component {
+export default class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = initState;
@@ -20,6 +21,7 @@ export default class Login extends Component {
         const {
             email,
             password,
+            confirmPassword,
         } = this.state;
 
         if (!email) {
@@ -33,6 +35,14 @@ export default class Login extends Component {
         if (!password) {
             this.setState({
                 flash: { status: "is-danger", msg: "Password cannot be blank!" },
+            });
+        } else {
+            this.props.toggle();
+        }
+
+        if (confirmPassword !== password) {
+            this.setState({
+                flash: { status: "is-danger", msg: "The passwords does not match!" },
             });
         } else {
             this.props.toggle();
@@ -51,10 +61,11 @@ export default class Login extends Component {
         const {
             email,
             password,
+            confirmPassword,
         } = this.state;
         return (
-            <form className='login' onSubmit={this.save}>
-                <h1>Login</h1>
+            <form className='signup' onSubmit={this.save}>
+                <h1>Sign Up</h1>
 
                 <Form
                     type="email"
@@ -72,10 +83,17 @@ export default class Login extends Component {
                     value={password}
                 ></Form>
 
+                <Form
+                    type="password"
+                    name="confirmPassword"
+                    action={this.handleChange}
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                ></Form>
+
                 <form className="center">
-                    <a href="/Home" className="button" type="submit">Login</a>
-                    <RedirectLink message="Forgot Password?" link="Click here!" href="/reset" />
-                    <RedirectLink message="Do not have an account?" link="Sign up here!" href="/signup" />
+                    <a href="/" className="button" type="submit">Sign Up</a>
+                    <RedirectLink message="Already have an account?" link="Back to Login" href="/" />
                 </form>
             </form>
         );
