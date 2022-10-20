@@ -1,18 +1,13 @@
-.container{
+.container {
     padding: 16px;
 }
 
 .login {
-    background-color:white;
+    background-color: white;
     margin: 5% auto 15% auto;
     border-radius: 25px;
     border: 2px solid black;
-    width: 80%; 
-}
-
-h1 {
-    color: black;
-    text-align: center;
+    width: 80%;
 }
 
 .center {
@@ -22,12 +17,17 @@ h1 {
     padding: 20px;
 }
 
-button{
+h1 {
+    color: black;
+    text-align: center;
+}
+
+button {
     background-color: blue;
     color: white;
     padding: 14px 20px;
     margin: 0 auto;
-    display:block;
+    display: block;
     border: none;
     cursor: pointer;
     width: fit-content;
@@ -38,3 +38,13 @@ button{
     opacity: 0.8;
 }
 
+
+.flash {
+    position: absolute;
+    font-size: medium;
+    font-style: italic;
+    color: rgb(240, 0, 0);
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%, -50%);
+}

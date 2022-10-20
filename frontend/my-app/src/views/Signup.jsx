@@ -66,33 +66,42 @@ export default class Signup extends Component {
         return (
             <form className='signup' onSubmit={this.save}>
                 <h1>Sign Up</h1>
+                <div class="container">
+                    <Form
+                        type="email"
+                        name="email"
+                        action={this.handleChange}
+                        placeholder="Email"
+                        value={email}
+                    ></Form>
 
-                <Form
-                    type="email"
-                    name="email"
-                    action={this.handleChange}
-                    placeholder="Email"
-                    value={email}
-                ></Form>
+                    <Form
+                        type="password"
+                        name="password"
+                        action={this.handleChange}
+                        placeholder="Password"
+                        value={password}
+                    ></Form>
 
-                <Form
-                    type="password"
-                    name="password"
-                    action={this.handleChange}
-                    placeholder="Password"
-                    value={password}
-                ></Form>
-
-                <Form
-                    type="password"
-                    name="confirmPassword"
-                    action={this.handleChange}
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                ></Form>
+                    <Form
+                        type="password"
+                        name="confirmPassword"
+                        action={this.handleChange}
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                    ></Form>
+                    {/* <a href="/" className="button" type="submit">Sign Up</a> */}
+                    <button type="submit">Sign Up</button>
+                </div>
+                {this.state.flash && (
+                    <div className='flash'>
+                        <div className={`notification ${this.state.flash.status}`}>
+                            {this.state.flash.msg}
+                        </div>
+                    </div>
+                )}
 
                 <form className="center">
-                    <a href="/" className="button" type="submit">Sign Up</a>
                     <RedirectLink message="Already have an account?" link="Back to Login" href="/" />
                 </form>
             </form>
