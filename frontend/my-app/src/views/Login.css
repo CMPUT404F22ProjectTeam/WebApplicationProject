@@ -1,0 +1,37 @@
+.login {
+    justify-content: space-between;
+    margin: auto;
+    position: fixed;
+    background-color: white;
+    border: 2px solid grey;
+    border-radius: 8px;
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    transform: translate(-50%, -50%);
+}
+
+.center {
+    text-align: center;
+    align-items: center;
+    padding: 20px;
+}
+
+h1 {
+    color: black;
+    text-align: center;
+}
+
+.button {
+    background-color: aqua;
+    font-size: 12px;
+    padding: 10px 15px;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+    position: center;
+}

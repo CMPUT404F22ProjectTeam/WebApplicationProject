@@ -1,0 +1,23 @@
+.div {
+    display: block;
+    border: 2px solid grey;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.p {
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.a {
+    display: inline-block;
+    vertical-align: baseline;
+    font-weight: bold;
+    font-size: small;
+    color: blue;
+}
