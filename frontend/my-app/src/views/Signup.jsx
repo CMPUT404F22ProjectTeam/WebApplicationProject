@@ -28,19 +28,11 @@ export default class Signup extends Component {
             this.setState({
                 flash: { status: "is-danger", msg: "Email cannot be blank!" },
             });
-        } else {
-            this.props.toggle();
-        }
-
-        if (!password) {
+        } else if (!password) {
             this.setState({
                 flash: { status: "is-danger", msg: "Password cannot be blank!" },
             });
-        } else {
-            this.props.toggle();
-        }
-
-        if (confirmPassword !== password) {
+        } else if (confirmPassword !== password) {
             this.setState({
                 flash: { status: "is-danger", msg: "The passwords does not match!" },
             });
@@ -52,10 +44,6 @@ export default class Signup extends Component {
     /*error message handler*/
     handleChange = (e) =>
         this.setState({ [e.target.name]: e.target.value, error: "" });
-
-    handleClick = () => {
-        this.props.toggle();
-    };
 
     render() {
         const {

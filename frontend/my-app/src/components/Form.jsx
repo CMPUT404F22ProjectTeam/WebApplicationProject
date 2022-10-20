@@ -9,6 +9,7 @@ const Form = ({ type, name, action, placeholder, value }) => {
             onChange={action}
             placeholder={placeholder}
             value={value}
+            required
         />
     )
 }
