@@ -1,24 +1,23 @@
+
 from email.policy import default
-from operator import mod
-from tabnanny import check
-from turtle import title
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import PermissionsMixin
+# from django.contrib.auth.models import PermissionsMixin
 
-
+def default_list():
+    return []
 # Create your models here.
 class Author(AbstractUser):
 
     type = "author"
 
     id = models.URLField(primary_key=True, max_length=255)
-    host = models.URLField(max_length=255)
+    host = models.URLField(max_length=255, default = '')
     displayName = models.CharField(max_length=255, default = '')
-    url = models.URLField(max_length=255)
-    github = models.URLField(required=False, blank=True)
-    profileImage = models.ImageField(required=False, blank=True)
+    url = models.URLField(max_length=255, default = '')
+    github = models.URLField(blank=True,default = '')
+    profileImage = models.ImageField(blank=True)
 
 
 class FollowRequest(models.Model):
@@ -35,8 +34,7 @@ class Friend(models.Model):
     type = "Friend"
 
     actor = models.CharField(max_length=255)
-    # -----
-    object = models.JSONField(default=[])
+    object = models.JSONField(default=default_list)
 
 
 class Liked(models.Model):
@@ -44,7 +42,7 @@ class Liked(models.Model):
     type = "liked"
 
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    items = models.JSONField(default=[])
+    items = models.JSONField(default=default_list)
 
 
 class Likes(models.Model):
@@ -65,34 +63,34 @@ class Inbox(models.Model):
 
 
 
-class Comment(models.Model):
+# class Comment(models.Model):
 
-    type = "comment"
+#     type = "comment"
     
-    author = models.CharField(max_length=60)
-    comment = models.TextField()
-    contentType = models.CharField(max_length=60)
-    published = models.DateTimeField(default=timezone.now)
-    id = models.URLField(primary_key=True, max_length=255)
+#     author = models.CharField(max_length=60)
+#     comment = models.TextField()
+#     contentType = models.CharField(max_length=60)
+#     published = models.DateTimeField(default=timezone.now)
+#     id = models.URLField(primary_key=True, max_length=255)
 
 
-class Post(models.Model):
+# class Post(models.Model):
 
-    type = "post"
+#     type = "post"
 
-    title = models.CharField(max_length=255, default = '')
-    id = models.URLField(primary_key=True, max_length=255)
-    source = models.URLField(max_length=255)
-    origin = models.URLField(max_length=255)
-    description = models.TextField(max_length=255, default = '')
-    contentType = models.CharField(max_length=60)
-    content = models.TextField(blank=True)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    #categories
-    published = models.DateTimeField(default=timezone.now)
-    count = models.ImageField(default=0, blank=True)
-    visibility = models.CharField(default="PUBLIC")
-    unlisted = models.BooleanField(default="False")
+#     title = models.CharField(max_length=255, default = '')
+#     id = models.URLField(primary_key=True, max_length=255)
+#     source = models.URLField(max_length=255)
+#     origin = models.URLField(max_length=255)
+#     description = models.TextField(max_length=255, default = '')
+#     contentType = models.CharField(max_length=60)
+#     content = models.TextField(blank=True)
+#     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+#     #categories
+#     published = models.DateTimeField(default=timezone.now)
+#     count = models.ImageField(default=0, blank=True)
+#     visibility = models.CharField(default="PUBLIC")
+#     unlisted = models.BooleanField(default="False")
 
 
 
