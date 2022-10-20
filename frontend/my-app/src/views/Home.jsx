@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './../components/Navbar/Navbar';
+import Navbar from '../components/Navbar/Navbar';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Post from './Post'
 
