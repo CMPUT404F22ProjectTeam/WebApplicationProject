@@ -84,7 +84,6 @@ export default class Login extends Component {
                 )}
 
                 <form className="center">
-
                     <RedirectLink message="Forgot Password?" link="Click here!" href="/reset" />
                     <RedirectLink message="Do not have an account?" link="Sign up here!" href="/signup" />
                 </form>
