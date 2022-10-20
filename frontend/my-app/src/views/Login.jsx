@@ -24,7 +24,7 @@ export default class Login extends Component {
 
         if (!email) {
             this.setState({
-                flash: { status: "is-danger", msg: "Email cannot be blank!" },
+                flash: { status: "is-danger", msg: "*Email cannot be blank!" },
             });
         } else {
             this.props.toggle();
@@ -32,7 +32,7 @@ export default class Login extends Component {
 
         if (!password) {
             this.setState({
-                flash: { status: "is-danger", msg: "Password cannot be blank!" },
+                flash: { status: "is-danger", msg: "*Password cannot be blank!" },
             });
         } else {
             this.props.toggle();
@@ -72,10 +72,16 @@ export default class Login extends Component {
                         placeholder="Password"
                         value={password}
                     ></Form>
-                    <a href="/Home" className="button" type="submit">Login</a>
+                    <button className="button" type="submit" onClick={this.save} >Login</button>
                 </div>
 
-
+                {this.state.flash && (
+                    <div className='flash'>
+                        <div className={`notification ${this.state.flash.status}`}>
+                            {this.state.flash.msg}
+                        </div>
+                    </div>
+                )}
 
                 <form className="center">
 

@@ -47,3 +47,13 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.flash {
+    position: absolute;
+    font-size: medium;
+    font-style: italic;
+    color: rgb(240, 0, 0);
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%, -50%);
+}
