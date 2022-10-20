@@ -99,7 +99,6 @@ export default class Post extends Component {
             </FormControl>
             </Box>
             </div>
-            </div>
             {this.state.flash && (
             <div className='flash'>
             <div className={`notification ${this.state.flash.status}`}>
@@ -108,10 +107,13 @@ export default class Post extends Component {
             </div>
              )}
             <div className="field is-clearfix">
-              <button className="button" type="submit" onClick={this.save}>
+              <button class="btn" type="submit" onClick={this.save}>
                 Submit
               </button>
             </div>
+            
+            </div>
+            
             </form>
     );
  }
