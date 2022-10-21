@@ -60,14 +60,12 @@ button[type=submit]{
 
 .flash{
     font-size: medium;
-    font-style: italic;
+    font-style: italic; 
     padding: 14px 20px;
     color: rgb(240, 0, 0);
 }
 
 .close{
-    position: absolute;
+    float:right;
     font-size: x-large;
-    top: 1%;
-    right: 1%;
 }
