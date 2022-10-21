@@ -1,5 +1,6 @@
 
 from email.policy import default
+from tkinter.tix import Tree
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
@@ -16,8 +17,9 @@ class Author(AbstractUser):
     host = models.URLField(max_length=255, default = '')
     displayName = models.CharField(max_length=255, default = '')
     url = models.URLField(max_length=255, default = '')
-    github = models.URLField(blank=True,default = '')
-    profileImage = models.ImageField(blank=True)
+    github = models.URLField(null=True, blank=True)
+    profileImage = models.ImageField(null=True, blank=True)
+    admin_permission = models.BooleanField(default="False")
 
 
 class FollowRequest(models.Model):
