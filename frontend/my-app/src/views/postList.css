@@ -1,6 +1,6 @@
-.btn{
+.btn {
   align-items: center;
-  background-color: #318ce7;
+  background-color: orange;
   border: 0;
   border-radius: 100px;
   box-sizing: border-box;
@@ -27,8 +27,8 @@
 }
 
 .btn:hover,
-.btn:focus { 
-  background-color: #16437E;
+.btn:focus {
+  background-color: #cc7000;
   color: #ffffff;
 }
 
@@ -37,7 +37,7 @@
   color: rgb(255, 255, 255, .7);
 }
 
-.btn:disabled { 
+.btn:disabled {
   cursor: not-allowed;
   background: rgba(0, 0, 0, .08);
   color: rgba(0, 0, 0, .3);
