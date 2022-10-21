@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 import "./Post.css";
 
@@ -56,12 +57,13 @@ export default class Post extends Component {
     const {
       title,
       description,
+      type,
       privacy,
     } = this.state;
     return (
       <form className='post_information' onSubmit={this.save}>
-        <span className="close" onClick={this.handleClick}>&times;</span>
         <div className='user_input'>
+        <span className="close" onClick={this.handleClick}>&times;</span>
             <div className='label'>
               <label className='hint'>Title：</label>
                 <input
@@ -84,7 +86,19 @@ export default class Post extends Component {
                     onChange={this.handleChange}
                 />
             </div>
-            <div>
+            <Box className='label' sx={{ minWidth: 120}}>
+                <FormControl>
+                      <NativeSelect
+                        defaultValue='text/plain'
+                        name="type"
+                        value={type}
+                        >
+                        <option value={"text/plain"}>PLAIN</option>
+                        <option value={"text/markdown"}>MARKDOWN</option>
+                        <option value={"image/png;base64"}>IMAGE_PNG</option>
+                        </NativeSelect>
+                </FormControl>
+            </Box>
             <Box className='label' sx={{ minWidth: 120 }}>
             <FormControl Halfwidth>
             <NativeSelect
@@ -98,7 +112,6 @@ export default class Post extends Component {
             </NativeSelect>
             </FormControl>
             </Box>
-            </div>
             {this.state.flash && (
             <div className='flash'>
             <div className={`notification ${this.state.flash.status}`}>
