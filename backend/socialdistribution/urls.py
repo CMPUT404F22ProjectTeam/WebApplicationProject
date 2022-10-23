@@ -9,5 +9,6 @@ from .viewsets.comment_views import CommentViewSet
 urlpatterns = [
     path('authors/', AuthorViewSet.as_view({'put': 'sign_up'})),
     path('posts/', PostViewSet.as_view),
-    path('comments/', CommentViewSet.as_view)
+    path('comments/', CommentViewSet.as_view),
+    
 ]

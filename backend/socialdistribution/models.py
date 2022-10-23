@@ -88,10 +88,10 @@ class Post(models.Model):
     contentType = models.CharField(max_length=60)
     content = models.TextField(blank=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    #categories
+    categories = models.JSONField(default=default_list, null=True)
     published = models.DateTimeField(default=timezone.now)
     count = models.ImageField(default=0, blank=True)
-    visibility = models.CharField(default="PUBLIC")
+    visibility = models.CharField(max_length=50, default="PUBLIC")
     unlisted = models.BooleanField(default="False")
 
     def __str__(self) -> str:
