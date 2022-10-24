@@ -32,7 +32,7 @@ def getPostIDFromRequestURL(id):
 
 def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
-    author_id = f"{HOST}/authors/{id}"
+    author_id = f"{host}/authors/{id}"
 
     return author_id
 
@@ -86,7 +86,22 @@ class PostViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=400)
 
+    # Get all posts of a author
+    # URL: ://service/authors/{AUTHOR_ID}/posts/
+    def getlist(self, request, *args, **kwargs):
+        author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
+        queryset = Post.objects.filter(author = author_id)
+        return Response(PostSerializer(queryset, many = True).data)
 
+    # GET get a specific post using POST_ID
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
+    def get(self, request, *args, **kwargs):
+        author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
+        post_id = request.get_full_path().split('/')[-1]
+        querypost = Post.objects.get(id = post_id)
+        return Response(PostSerializer(querypost, many = True).data)
+    
+    
 '''
 class Post(models.Model):
 
