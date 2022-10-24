@@ -1,6 +1,7 @@
 from urllib import response
 from rest_framework import viewsets
-from rest_framework.response import Response, uuid
+import uuid
+from rest_framework.response import Response
 from django.http import JsonResponse
 from socialdistribution.models import *
 from socialdistribution.serializers import PostSerializer

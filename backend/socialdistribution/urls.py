@@ -12,6 +12,8 @@ urlpatterns = [
     path('authors/<str:author_id>/', AuthorViewSet.as_view({'get': 'find_author', 'post': 'update_profile'})),
 
     path('posts/', PostViewSet.as_view),
-    path('comments/', CommentViewSet.as_view),
+    path('comments/', CommentViewSet.as_view({'post': 'create_comment'})),
+
+
     
 ]
