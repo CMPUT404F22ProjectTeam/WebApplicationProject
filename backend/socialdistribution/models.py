@@ -64,35 +64,41 @@ class Inbox(models.Model):
     message = models.JSONField(null=True)
 
 
+# Damian
+class Comment(models.Model):
 
-# class Comment(models.Model):
-
-#     type = "comment"
+    type = "comment"
     
-#     author = models.CharField(max_length=60)
-#     comment = models.TextField()
-#     contentType = models.CharField(max_length=60)
-#     published = models.DateTimeField(default=timezone.now)
-#     id = models.URLField(primary_key=True, max_length=255)
+    author = models.CharField(max_length=60)
+    comment = models.TextField()
+    contentType = models.CharField(max_length=60)
+    published = models.DateTimeField(default=timezone.now)
+    id = models.URLField(primary_key=True, max_length=255)
 
+    def __str__(self) -> str:
+        return self.comment
 
-# class Post(models.Model):
+# Damian
+class Post(models.Model):
 
-#     type = "post"
+    type = "post"
+    title = models.CharField(max_length=255, default = '')
+    id = models.URLField(primary_key=True, max_length=255)
+    source = models.URLField(max_length=255)
+    origin = models.URLField(max_length=255)
+    description = models.TextField(max_length=255, default = '')
+    contentType = models.CharField(max_length=60)
+    content = models.TextField(blank=True)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    categories = models.JSONField(default=default_list, null=True)
+    published = models.DateTimeField(default=timezone.now)
+    count = models.ImageField(default=0, blank=True)
+    comments = models.CharField(max_length=255)
+    visibility = models.CharField(max_length=50, default="PUBLIC")
+    unlisted = models.BooleanField(default="False")
 
-#     title = models.CharField(max_length=255, default = '')
-#     id = models.URLField(primary_key=True, max_length=255)
-#     source = models.URLField(max_length=255)
-#     origin = models.URLField(max_length=255)
-#     description = models.TextField(max_length=255, default = '')
-#     contentType = models.CharField(max_length=60)
-#     content = models.TextField(blank=True)
-#     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-#     #categories
-#     published = models.DateTimeField(default=timezone.now)
-#     count = models.ImageField(default=0, blank=True)
-#     visibility = models.CharField(default="PUBLIC")
-#     unlisted = models.BooleanField(default="False")
+    def __str__(self) -> str:
+        return self.content
 
 
 
