@@ -91,6 +91,7 @@ class Post(models.Model):
     categories = models.JSONField(default=default_list, null=True)
     published = models.DateTimeField(default=timezone.now)
     count = models.ImageField(default=0, blank=True)
+    comments = models.CharField(max_length=255)
     visibility = models.CharField(max_length=50, default="PUBLIC")
     unlisted = models.BooleanField(default="False")
 

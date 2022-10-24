@@ -1,5 +1,4 @@
 from urllib import response
-from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response, uuid
 from django.http import JsonResponse
@@ -32,7 +31,7 @@ def getPostIDFromRequestURL(id):
 
 def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
-    author_id = f"{host}/authors/{id}"
+    author_id = f"{HOST}/authors/{id}"
 
     return author_id
 
@@ -100,11 +99,111 @@ class PostViewSet(viewsets.ModelViewSet):
         post_id = request.get_full_path().split('/')[-1]
         querypost = Post.objects.get(id = post_id)
         return Response(PostSerializer(querypost, many = True).data)
+
+    # POST update the post whose id is POST_ID (must be authenticated) 
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
+    def update(self, request, *args, **kwargs):
+        RequestData = request.data.copy()
+        author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
+        post_id = request.get_full_path().split('/')[-1]
+        querypost = Post.objects.get(id = post_id)
+
+        
+        # update the post
+        title = RequestData.get('title', None)
+        source = RequestData.get('source', None)
+        origin = RequestData.get('origin', None)
+        description = RequestData.get('description', None)
+        contentType = RequestData.get('content_type', None)
+        content = RequestData.get('content', None)
+        author = RequestData.get('author', None)
+        categories = RequestData.get('categories', None)
+        published = RequestData.get('published', None)
+        count = RequestData.get('count', None)
+        visibility = RequestData.get('visibility', None)
+        unlisted = RequestData.get('unlisted', None)
+
+        # update the post
+        querypost.title = title
+        querypost.source = source
+        querypost.origin = origin
+        querypost.description = description
+        querypost.contentType = contentType
+        querypost.content = content
+        querypost.author = author
+        querypost.categories = categories
+        querypost.published = published
+        querypost.count = count
+        querypost.visibility = visibility
+        querypost.unlisted = unlisted
+
+        querypost.save()
+        
+        return Response("[POST]")
     
-    
+    # DELETE delete the post whose id is POST_ID (must be authenticated)
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
+    def delete(self, request, *args, **kwargs):
+        author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
+        post_id = request.get_full_path().split('/')[-1]
+        querypost = Post.objects.get(id = post_id)
+
+        # delete the post
+        try:
+            querypost.delete()
+        except ValueError:
+            return Response("[POST_NOT_FOUND]")
+        return Response("[POST_DELETED]")
+
+    # PUT [local] create a post where its id is POST_ID 
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
+    def put(self, request, *args, **kwargs):
+        author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
+        post_id = request.get_full_path().split('/')[-1]
+        querypost = Post.objects.get(id = post_id)
+
+        # create a post whose id is POST_ID
+        title = request.data.get('title', None)
+        source = request.data.get('source', None)
+        origin = request.data.get('origin', None)
+        description = request.data.get('description', None)
+        contentType = request.data.get('content_type', None)
+        content = request.data.get('content', None)
+        author = request.data.get('author', None)
+        categories = request.data.get('categories', None)
+        published = request.data.get('published', None)
+        count = request.data.get('count', None)
+        comments = request.data.get('comments', None)
+        visibility = request.data.get('visibility', None)
+        unlisted = request.data.get('unlisted', None)
+        # create a post
+        post_data = {
+            "title": title,
+            "id": post_id,
+            "source": source,
+            "origin": origin,
+            "description": description,
+            "contentType": contentType,
+            "content": content,
+            "author": author,
+            "categories": categories,
+            "count": count,
+            "comments": comments,
+            "published": published,
+            "visibility": visibility,
+            "unlisted": unlisted
+        }
+        # check inbox post
+        # NOT DONE yet
+        serializer = self.serializer_class(data = post_data)
+        serializer.is_valid(raise_exception = True)
+        serializer.save()
+        return Response(serializer.data, status=200)
+
+
 '''
 class Post(models.Model):
-
+    
     type = "post"
     title = models.CharField(max_length=255, default = '')
     id = models.URLField(primary_key=True, max_length=255)
