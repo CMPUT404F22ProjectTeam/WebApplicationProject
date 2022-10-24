@@ -1,6 +1,7 @@
 from urllib import response
 from rest_framework import viewsets
-from rest_framework.response import Response, uuid
+from rest_framework.response import Response 
+import uuid
 from django.http import JsonResponse
 from socialdistribution.models import *
 from socialdistribution.serializers import PostSerializer
@@ -203,7 +204,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
 '''
 class Post(models.Model):
-    
+
     type = "post"
     title = models.CharField(max_length=255, default = '')
     id = models.URLField(primary_key=True, max_length=255)
