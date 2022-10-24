@@ -68,7 +68,7 @@ class Comment(models.Model):
     type = "comment"
     
     author = models.CharField(max_length=60)
-    comment = models.TextField()
+    comment = models.TextField(default = "")
     contentType = models.CharField(max_length=60)
     published = models.DateTimeField(default=timezone.now)
     id = models.URLField(primary_key=True, max_length=255)
@@ -91,7 +91,7 @@ class Post(models.Model):
     categories = models.JSONField(default=default_list, null=True)
     published = models.DateTimeField(default=timezone.now)
     count = models.ImageField(default=0, blank=True)
-    comments = models.CharField(max_length=255)
+    comments = models.CharField(default = "",max_length=255)
     visibility = models.CharField(max_length=50, default="PUBLIC")
     unlisted = models.BooleanField(default="False")
 
