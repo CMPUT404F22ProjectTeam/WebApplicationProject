@@ -9,7 +9,7 @@ function CommentList() {
                 return (
                     <li key={key}>
                         <div className="SingleComment">
-                            <p className="userComment">@{val.user}:</p>
+                            <a className="userComment">@{val.user}:</a>
                             <p className='comment'>{val.comment}</p>
                         </div>
                     </li>

@@ -1,9 +1,7 @@
 import React from "react";
 import Form from "./Form";
-import ShareIcon from '@mui/icons-material/Share';
-import EditIcon from '@mui/icons-material/Edit';
 import './SinglePost.css'
-const SinglePost = ({ name, description, image, comments, like, userHref, handleShare, handleEdit, handleComment, handleLike }) => {
+const FriendSinglePost = ({ name, description, image, comments, like, userHref, handleComment, handleLike }) => {
     return (
         <div className="singlePost">
             <a className="userName" href={userHref}>@{name}:</a>
@@ -12,12 +10,6 @@ const SinglePost = ({ name, description, image, comments, like, userHref, handle
                 <img className='postImage' src={image} />
             </div>
             <div className="postBar">
-                <button className="eds" onClick={handleShare}>
-                    <ShareIcon />
-                </button>
-                <button className="eds" onClick={handleEdit}>
-                    <EditIcon />
-                </button>
                 <Form
                     type="text"
                     name="comment"
@@ -32,4 +24,4 @@ const SinglePost = ({ name, description, image, comments, like, userHref, handle
         </div>
     )
 }
-export default SinglePost
+export default FriendSinglePost

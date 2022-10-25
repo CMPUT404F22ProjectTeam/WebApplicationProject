@@ -20,6 +20,11 @@
     font-size: 15px;
 }
 
+.userComment:hover {
+    color: blue;
+    cursor: pointer;
+}
+
 .comment {
     color: black;
     font-size: 15px;
