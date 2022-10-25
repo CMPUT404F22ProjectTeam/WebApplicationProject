@@ -8,7 +8,7 @@ const SinglePost = ({ name, description, image, comments, like, userHref, handle
             <a className="userName" href={userHref}>@{name}:</a>
             <p className="singleDes">{description}</p>
             <div className='center'>
-                <img className='postImage' src={image} alt="singlePost" />
+                <img className='postImage' src={image} />
             </div>
             <div className="postBar">
                 <button className="eds">

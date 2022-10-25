@@ -1,7 +1,7 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Post from './Post'
-import PostList from '../components/PostList';
+import MyPostList from '../components/MyPostList';
 
 import "./myPost.css";
 
@@ -25,8 +25,7 @@ export default class MyPost extends React.Component {
                 </div>
                 {this.state.seen ? <Post toggle={this.togglePop} /> : null}
                 <div>
-                    <PostList />
-
+                    <MyPostList />
                 </div>
             </div>
         );
