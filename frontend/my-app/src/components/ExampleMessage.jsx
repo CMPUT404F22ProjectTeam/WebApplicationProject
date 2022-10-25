@@ -1,15 +1,18 @@
-import React from "react";
 export const ExMessageData = [
     {
-        message: "Amy liked your post.",
+        name: "Amy",
+        message: " liked your post.",
     },
     {
-        message: "Bety commented your post.",
+        name: "Bety",
+        message: " commented your post.",
     },
     {
-        message: "Charlotte followed you.",
+        name: "Charlotte",
+        message: " followed you.",
     },
     {
-        message: "David became your true friend.",
+        name: "David",
+        message: " became your true friend.",
     }
 ]

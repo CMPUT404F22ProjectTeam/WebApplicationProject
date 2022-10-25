@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar/Navbar'
 import './worldPage.css'
 import MessageList from '../components/MessageList';
 
-export default function WorldPage() {
+export default function MessagePage() {
     return (
         <div className='worldPage'>
             <div className='bar'>

@@ -9,7 +9,8 @@ function MessageList() {
                 return (
                     <li key={key}>
                         <div className="SingleMessage">
-                            <p className="message">@{val.message}</p>
+                            <a className="userName">@{val.name}</a>
+                            <p className="message">{val.message}</p>
                         </div>
                     </li>
                 );
