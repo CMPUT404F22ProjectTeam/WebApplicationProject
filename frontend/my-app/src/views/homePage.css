@@ -1,35 +1,37 @@
+.homePage {
+    width: 100vw;
+    height: 100vh;
+}
+
 .profile {
     background-color: #f5f5dc;
     padding: 0;
-    left: 150px;
+    left: 147px;
     width: 20%;
     height: 100%;
     border: 3px groove #d3d3d3;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-items: center;
 }
 
 .name {
     text-align: center;
     font-size: large;
-    padding-top: 40px;
+    margin-top: 50px;
     font-weight: bold;
 }
 
-.page {
-    width: 100vw;
-    height: 100vh;
-}
-
-.split #bar {
+.bar {
     left: 0;
-    width: 10%;
+    height: 100%;
 }
 
 .Home {
     background-color: #f5f5dc;
     right: 0;
-    width: 72%;
+    width: 71%;
     height: 100%;
     border: 3px groove #d3d3d3;
 }
@@ -41,4 +43,41 @@
     z-index: 1;
     top: 0;
     overflow-x: hidden;
+}
+
+.profileimg {
+    margin-top: 60px;
+    border-radius: 50%;
+}
+
+.editProfile {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    align-items: center;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: orange;
+    border: 0;
+    border-radius: 100px;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 15px;
+}
+
+.editProfile:hover {
+    background-color: #cc7000;
+    color: #ffffff;
+}
+
+.center {
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    padding: 16px;
 }
