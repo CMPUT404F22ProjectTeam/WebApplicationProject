@@ -10,3 +10,10 @@
     height: 100%;
     border: 3px groove #d3d3d3;
 }
+
+.messageHeader {
+    color: orange;
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+}

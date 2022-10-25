@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar/Navbar'
 import './worldPage.css'
-import PostList from '../components/PostList';
+import MessageList from '../components/MessageList';
 
 export default function WorldPage() {
     return (
@@ -9,9 +9,10 @@ export default function WorldPage() {
             <div className='bar'>
                 <Navbar />
             </div>
-            <div className=' split world'>
+            <div className='split world'>
                 <div className='container'>
-                    <PostList />
+                    <h1 className='messageHeader'>Here are your new messages!</h1>
+                    <MessageList />
                 </div>
             </div>
         </div>
