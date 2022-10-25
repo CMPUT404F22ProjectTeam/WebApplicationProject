@@ -27,9 +27,10 @@ def real_author_id(request):
     return author_id
 
 
-# URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments post Method
+# URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments POST Method
 class CommentViewSet(viewsets.ModelViewSet):
     
+
     def create_comment(self, request):
         # get comment's author id
         author_id = real_author_id
@@ -44,8 +45,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         #get post author
         author = Post.objects.get(id=post_id)
         print(author)
-        
-
         
         return response()
 

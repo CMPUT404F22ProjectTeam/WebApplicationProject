@@ -1,3 +1,4 @@
+import datetime
 from urllib import response
 from rest_framework import viewsets
 from rest_framework.response import Response 
@@ -49,16 +50,23 @@ class PostViewSet(viewsets.ModelViewSet):
         source = RequestData.get('source', None)
         origin = RequestData.get('origin', None)
         description = RequestData.get('description', None)
-        contentType = RequestData.get('content_type', None)
+        contentType = RequestData.get('content_type', "text/plain")
         content = RequestData.get('content', None)
         author = RequestData.get('author', None)
+        # author_id应该用不到author直接就是authorid
         categories = RequestData.get('categories', None)
         published = RequestData.get('published', None)
         count = RequestData.get('count', None)
-        visibility = RequestData.get('visibility', None)
-        unlisted = RequestData.get('unlisted', None)
-
+        count = str(len(content))
+        #visibility = RequestData.get('visibility', None)
+        visibility = RequestData.get('visibility', "PUBLIC")
+        #unlisted = RequestData.get('unlisted', None)
+        unlisted = RequestData.get('unlisted', False)
+        print("==================")
+        print(author_id)
+        print(count)
         # Create a new post
+        publish_time = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         post_uuid = str(uuid.uuid4())
         post_id = f"{author_id}/posts/{post_uuid}"
         comments = f"{post_id}/comments/"
@@ -70,11 +78,11 @@ class PostViewSet(viewsets.ModelViewSet):
             "description": description,
             "contentType": contentType,
             "content": content,
-            "author": author,
+            "author": author_id,
             "categories": categories,
             "count": count,
             "comments": comments,
-            "published": published,
+            "published": publish_time,
             "visibility": visibility,
             "unlisted": unlisted
         }
