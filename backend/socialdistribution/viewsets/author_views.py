@@ -7,7 +7,10 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.http import JsonResponse
-from socialdistribution.pagination import CustomPagination
+from rest_framework.pagination import PageNumberPagination
+from django.core.paginator import Paginator
+
+
 
 #https://stackoverflow.com/questions/534839/how-to-create-a-guid-uuid-in-python
 #https://docs.djangoproject.com/en/4.1/ref/request-response/
@@ -20,35 +23,31 @@ HOST = "http://127.0.0.1:8000/"
 class AuthorViewSet(viewsets.ModelViewSet):
 
     # URL: ://service/authors OR  GET ://service/authors?page=10&size=5    GET Method
-
     def list_all(self, request):
-
-        pagination = CustomPagination
-        #get the request data from request
-        page = request.data.get('page', None)
-        size = request.data.get('size', None)
 
         #check url have to pagenation
         url = request.build_absolute_uri()
         is_pagination = True if 'page' in url else False
 
+        if is_pagination:
+            size = request.build_absolute_uri()[-1]
+            author_queryset = Author.objects.all()
+            # set up pagination
+            pagination = Paginator(author_queryset, size)
+            page = request.GET.get('page')
+            authors = pagination.get_page(page)
+
+        else:
+            authors = Author.objects.all()
         
-        #get all author from database
-    
-        author_queryset = Author.objects.all()
-        all_authors = AuthorSerializer(author_queryset, many=True)
+        all_authors = AuthorSerializer(authors, many=True)
         authors_response = {'type': 'authors',
         'items':all_authors.data} 
-        
         return Response(authors_response)
+
+
+
           
-        # else:
-        #     TODO:Pagination
-        #     pass
-            #calculate the page search range
-
-
-            #get data from database
     
     # URL://service/authors/{AUTHOR_ID}/ GET METHOD
     def find_author(self, request, author_id):

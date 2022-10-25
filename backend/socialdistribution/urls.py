@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework import routers
 from django.conf.urls import include
 from .viewsets.author_views import AuthorViewSet
@@ -17,6 +17,6 @@ urlpatterns = [
     path('authors/<str:author_id>/posts/<str:post_id>/', PostViewSet.as_view({'get': 'get', 'put': 'put', 'post': 'update', 'delete': 'delete'})),
     
     # Comment url
-    path('comments/', CommentViewSet.as_view({'post': 'create_comment'})),
+    path('authors/<str:author_id>/posts/<str:post_id>/comments/', CommentViewSet.as_view({'post': 'create_comment'})),
 
 ]
