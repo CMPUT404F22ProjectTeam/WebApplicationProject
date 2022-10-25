@@ -1,6 +1,6 @@
 import "./Form.css";
 
-const Form = ({ type, name, action, placeholder, value }) => {
+const Form = ({ type, name, action, placeholder }) => {
     return (
         <input
             type={type}

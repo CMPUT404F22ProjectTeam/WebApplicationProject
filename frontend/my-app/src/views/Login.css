@@ -1,8 +1,5 @@
 /* for both login and signup*/
 
-.container {
-    padding: 16px;
-}
 
 .login {
     background-color: white;
@@ -55,5 +52,3 @@ button:hover {
     margin: 0 auto;
     width: fit-content;
 }
-
-

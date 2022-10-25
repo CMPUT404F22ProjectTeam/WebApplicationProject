@@ -1,0 +1,12 @@
+.worldPage {
+    width: 100vw;
+    height: 100vh;
+}
+
+.world {
+    background-color: #f5f5dc;
+    right: 0;
+    width: 89.2%;
+    height: 100%;
+    border: 3px groove #d3d3d3;
+}
