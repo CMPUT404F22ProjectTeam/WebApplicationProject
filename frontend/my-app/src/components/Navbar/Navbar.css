@@ -1,12 +1,13 @@
 .Sidebar {
     display: flex;
     height: 100%;
-    width: 5%;
-    background-color:#f7f8fa;
+    width: 13%;
+    background-color: #f7f8fa;
 }
 
 .SidebarList {
     margin-top: 10px;
+    margin-left: 15px;
 }
 
 .SidebarList .row {
@@ -27,16 +28,23 @@
     place-items: center;
 }
 
-.icon-button{
-    display:block;
+.icon-button {
+    display: block;
     height: 50px;
     width: 50px;
     border-radius: 50%;
     border: 1px solid white;
     background-color: white;
+    box-shadow: 3px 3px 3px #999898;
 }
+
 .icon-button:hover,
 .icon-button:focus {
-  background-color: #cc7000;
-  color: #ffffff;
+    background-color: #cc7000;
+    color: #ffffff;
+}
+
+.row #active {
+    background-color: #cc7000;
+    color: #ffffff;
 }

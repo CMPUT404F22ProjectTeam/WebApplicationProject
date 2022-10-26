@@ -5,7 +5,7 @@
 .profile {
     background-color: #f7f8fa;
     padding: 0;
-    left: 5%;
+    left: 10%;
     width: 20%;
     height: 100%;
     border: 1px groove #d3d3d3;
@@ -23,7 +23,6 @@
 }
 
 .bar {
-    left: 0;
     height: 100%;
 }
 
@@ -59,6 +58,3 @@
     align-items: center;
     padding: 20px;
 }
-
-
-
