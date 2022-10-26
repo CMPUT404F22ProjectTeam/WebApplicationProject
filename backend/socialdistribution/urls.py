@@ -17,6 +17,6 @@ urlpatterns = [
     path('authors/<str:author_id>/posts/<str:post_id>/', PostViewSet.as_view({'get': 'get', 'put': 'put', 'post': 'update', 'delete': 'delete'})),
     
     # Comment url
-    path('authors/<str:author_id>/posts/<str:post_id>/comments', CommentViewSet.as_view({'post': 'create_comment'})),
+    path('authors/<str:author_id>/posts/<str:post_id>/comments', CommentViewSet.as_view({'post': 'create_comment', 'get': 'all_post_comments'})),
 
 ]

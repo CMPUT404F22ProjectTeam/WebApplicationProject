@@ -39,7 +39,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         # print(post_id) #edb04567-c77f-4886-b87d-797bc5ce3ad1
 
         # get data from request
-        current_author_id = current_id(request) #http://localhost:8000/authors/404hhh
+        current_author_id = current_id(request) # http://localhost:8000/authors/404hhh
         comment_content = request.data.get('content')
 
         # create the data for comment
@@ -49,7 +49,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
         #get post origin author
         post = Post.objects.get(uuid=post_id)
-        comment_id = post.id + comment_uuid #http://127.0.0.1:8000/authors/test000/posts/edb04567-c77f-4886-b87d-797bc5ce3ad1
+        comment_id = post.id + comment_uuid # http://127.0.0.1:8000/authors/test000/posts/edb04567-c77f-4886-b87d-797bc5ce3ad1
         current_author = Author.objects.get(id = current_author_id)
         author_info = AuthorSerializer(current_author)
         author_json = author_info.data
@@ -57,6 +57,11 @@ class CommentViewSet(viewsets.ModelViewSet):
         #save in database and response message
         Comment.objects.create(id=comment_id, author=current_author_id, comment=comment_content,
         contentType=comment_type, published=publish_time)
+
+        # add comment in post taoble
+        post.comments = comment_id + '/n'+ post.comments
+        post.save()
+
         response_msg = {"type":"comment",
         "author": author_json,
         "comment": comment_content,
@@ -69,7 +74,26 @@ class CommentViewSet(viewsets.ModelViewSet):
     # URL://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments 
     # GET Method
     def all_post_comments(self, request, author_id, post_id):
-        pass
+        # get post
+        post = Post.objects.get(uuid=post_id)
+        comment_list = post.comments.split("/n")
+        total_comment = len(comment_list)
+
+
+
+        # check url have to pagenation
+        url = request.build_absolute_uri()
+        is_pagination = True if 'page' in url else False
+        
+
+
+        if is_pagination:
+            size = request.build_absolute_uri()[-1]
+
+            pagination = Paginator(author_queryset, size)
+            page = request.GET.get('page')
+
+
 
 
 
