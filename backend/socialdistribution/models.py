@@ -96,6 +96,7 @@ class Post(models.Model):
     comments = models.CharField(default = "",max_length=255)
     visibility = models.CharField(max_length=50, default="PUBLIC")
     unlisted = models.BooleanField(default="False")
+    uuid = models.CharField(max_length=60, null=True)
 
     def __str__(self) -> str:
         return self.content

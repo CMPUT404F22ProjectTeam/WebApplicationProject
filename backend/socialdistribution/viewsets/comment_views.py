@@ -39,9 +39,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         current_author_id = current_id(request)
         post_id = real_post_id(request)
         comment_content = request.data.get('content')
-        print("======================")
-        print(current_author_id)
-        print(post_id)
+        # print(current_author_id)
+        # print(post_id)
 
         # create the data for comment
         publish_time = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
@@ -49,7 +48,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         comment_type = "text/markdown"
 
         #get post origin author
-        author = Post.objects.get(id=post_id)
+        post = Post.objects.get(id=post_id)
+        
 
         return response()
 

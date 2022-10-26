@@ -5,7 +5,7 @@ from rest_framework.response import Response
 import uuid
 from django.http import JsonResponse
 from socialdistribution.models import *
-from socialdistribution.serializers import PostSerializer
+from socialdistribution.serializers import PostSerializer, AuthorSerializer
 from . import urlhandler
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
@@ -24,7 +24,7 @@ posts can also hyperlink to images that are public
 
 '''
 
-HOST = 'http://localhost:8000'
+HOST = 'http://127.0.0.1:8000'
 
 
 def getPostIDFromRequestURL(id):
@@ -34,7 +34,6 @@ def getPostIDFromRequestURL(id):
 def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
     author_id = f"{HOST}/authors/{id}"
-
     return author_id
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -52,21 +51,16 @@ class PostViewSet(viewsets.ModelViewSet):
         description = RequestData.get('description', None)
         contentType = RequestData.get('content_type', "text/plain")
         content = RequestData.get('content', None)
-        author = RequestData.get('author', None)
-        # author_id应该用不到author直接就是authorid
         categories = RequestData.get('categories', None)
-        published = RequestData.get('published', None)
         count = RequestData.get('count', None)
-        count = str(len(content))
-        #visibility = RequestData.get('visibility', None)
         visibility = RequestData.get('visibility', "PUBLIC")
-        #unlisted = RequestData.get('unlisted', None)
         unlisted = RequestData.get('unlisted', False)
-        print("==================")
-        print(author_id)
-        print(count)
+
         # Create a new post
-        publish_time = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        author = Author.objects.get(id=author_id)
+        author_info = AuthorSerializer(author)
+        author_json = author_info.data
+        published = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         post_uuid = str(uuid.uuid4())
         post_id = f"{author_id}/posts/{post_uuid}"
         comments = f"{post_id}/comments/"
@@ -78,21 +72,25 @@ class PostViewSet(viewsets.ModelViewSet):
             "description": description,
             "contentType": contentType,
             "content": content,
-            "author": author_id,
+            "author": author_json,
             "categories": categories,
             "count": count,
-            "comments": comments,
-            "published": publish_time,
+            "commentsSrc": comments,
+            "published": published,
             "visibility": visibility,
             "unlisted": unlisted
         }
 
-        serializer = self.serializer_class(data = post_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=200)
-        else:
-            return Response(serializer.errors, status=400)
+        #create in database
+        Post.objects.create(title= title, id= post_id, source= source, origin = origin, description = description, contentType = contentType,
+        content = content, author=author, categories = categories, count= count, comments = comments, published = published, visibility= visibility,
+        unlisted= unlisted, uuid = post_uuid)
+        # serializer = self.serializer_class(data = post_data)
+        # print(serializer)
+        # if serializer.is_valid():
+        return Response(post_data, status=200)
+        # else:
+        #     return Response(serializer.errors, status=400)
 
     # Get all posts of a author
     # URL: ://service/authors/{AUTHOR_ID}/posts/

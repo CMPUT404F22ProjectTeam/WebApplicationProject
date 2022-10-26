@@ -22,7 +22,7 @@ HOST = "http://127.0.0.1:8000/"
 
 class AuthorViewSet(viewsets.ModelViewSet):
 
-    # URL: ://service/authors OR  GET ://service/authors?page=10&size=5    GET Method
+    # URL: ://service/authors OR  GET ://service/authors?page=10&size=5    GET Method DONE
     def list_all(self, request):
 
         #check url have to pagenation
@@ -76,8 +76,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
             author.displayName = username
         if github:
             author.github = f'https://github.com/{github}'
-        if profileImage:
-            author.profileImage = profileImage
+        # if profileImage:
+        #     author.profileImage = profileImage
 
         author.save()
         author_info = AuthorSerializer(author)
