@@ -1,0 +1,19 @@
+.Home {
+    background-color: #f7f8fa;
+    right: 0;
+    width: 75%;
+    height: 100%;
+}
+
+.split {
+    height: 100%;
+    position: fixed;
+    display: flex;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+}
+
+.container {
+    padding: 16px;
+}

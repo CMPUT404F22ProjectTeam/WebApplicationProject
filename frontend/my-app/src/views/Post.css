@@ -1,13 +1,5 @@
-.post_information {
-    background-color:white;
-    margin: 5% auto 15% auto;
-    border-radius: 25px;
-    border: 2px solid black;
-    width: 80%; 
-}
-
 .user_input{
-    padding: 25px;
+    padding: 20px;
 }
 
 input{
@@ -58,6 +50,10 @@ button[type=submit]{
     padding: 10px 15px; 
 }
 
+.checkbox-label{
+    margin-left: 3%;
+}
+
 .flash{
     font-size: medium;
     font-style: italic; 
@@ -65,7 +61,7 @@ button[type=submit]{
     color: rgb(240, 0, 0);
 }
 
-.close{
-    float:right;
+.back{
+    margin-left: 1%;
     font-size: x-large;
 }
