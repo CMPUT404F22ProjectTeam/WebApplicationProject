@@ -54,7 +54,11 @@ class AuthorViewSet(viewsets.ModelViewSet):
 
         # get the id from request and delete the "/"
         id = request.build_absolute_uri()[:-1]
+        # id = HOST + f'authors/{author_id}'
+        # print("ID>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ id)
 
+        author = Author.objects.get(id=id)
+        # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ author)
         #find id in database
         try:
             author = Author.objects.get(id=id)

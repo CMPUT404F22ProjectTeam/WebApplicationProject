@@ -97,7 +97,14 @@ class PostViewSet(viewsets.ModelViewSet):
     def getlist(self, request, *args, **kwargs):
         author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
         queryset = Post.objects.filter(author = author_id)
-        return Response(PostSerializer(queryset, many = True).data)
+        # queryset = Post.objects.all()
+
+        post_data = PostSerializer(queryset, many = True)
+        all_posts = {
+            'type': 'posts',
+            'item': post_data.data
+        }
+        return Response(all_posts, status=200)
 
     # GET get a specific post using POST_ID
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
