@@ -11,9 +11,8 @@ function Sidebar() {
           <li
             key={key}
             className="row"
-            id={window.location.pathname === val.link ? "active" : ""}
             onClick={() => { window.location.pathname = val.link }}>
-            <button className = "icon-button" id="icon" >{val.icon}</button>
+            <button className="icon-button" id={window.location.pathname === val.link ? "active" : ""} >{val.icon}</button>
           </li>
         );
       })}</ul>
