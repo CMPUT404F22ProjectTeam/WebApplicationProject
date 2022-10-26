@@ -7,7 +7,7 @@ from .viewsets.comment_views import CommentViewSet
 
 
 urlpatterns = [
-    path('login/', AuthorViewSet.as_view({'put': 'sign_up'})),
+    # path('login/', AuthorViewSet.as_view({'put': 'sign_up'})),
     # Author url
     path('authors/', AuthorViewSet.as_view({'get': 'list_all'})),
     path('authors/<str:author_id>/', AuthorViewSet.as_view({'get': 'find_author', 'post': 'update_profile'})),

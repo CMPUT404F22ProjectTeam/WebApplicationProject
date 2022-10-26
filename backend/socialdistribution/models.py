@@ -84,7 +84,7 @@ class Post(models.Model):
     type = "post"
     title = models.CharField(max_length=255, default = '')
     id = models.URLField(primary_key=True, max_length=255)
-    source = models.URLField(max_length=255)
+    source = models.URLField(max_length=255, null=True)
     origin = models.URLField(max_length=255)
     description = models.TextField(max_length=255, default = '')
     contentType = models.CharField(max_length=60)
