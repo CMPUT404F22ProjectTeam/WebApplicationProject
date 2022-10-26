@@ -63,8 +63,9 @@ class PostViewSet(viewsets.ModelViewSet):
         published = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
         post_uuid = str(uuid.uuid4())
         post_id = f"{author_id}/posts/{post_uuid}"
-        #删掉
-        # comments = f"{post_id}/comments/"
+        comments = None
+
+        
         post_data = {
             "title": title,
             "id": post_id,
