@@ -1,0 +1,19 @@
+.worldPage {
+    width: 100vw;
+    height: 100vh;
+}
+
+.world {
+    background-color: #f7f8fa;
+    right: 0;
+    width: 89.2%;
+    height: 100%;
+    border: 3px groove #d3d3d3;
+}
+
+.messageHeader {
+    color: orange;
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+}

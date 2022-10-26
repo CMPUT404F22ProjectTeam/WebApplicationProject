@@ -1,0 +1,24 @@
+.MessageList {
+    border: 1px solid grey;
+    height: 100%;
+    margin-top: 20px;
+    padding: 0;
+    margin-bottom: 20px;
+    list-style-type: none;
+    width: 100%;
+}
+
+.SingleMessage {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid grey;
+    list-style-type: none;
+    vertical-align: middle;
+}
+
+.message {
+    color: black;
+    font-size: 15px;
+    margin-top: 10px;
+
+}
