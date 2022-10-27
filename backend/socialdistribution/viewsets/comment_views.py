@@ -61,9 +61,9 @@ class CommentViewSet(viewsets.ModelViewSet):
 
         # add comment in post taoble
         post.comments = str(comment_id) + '/n'+ str(post.comments)
-        
-        print(">>>>>>>>>>>>>>>>>>>>>")
-        print(post.comments)
+        post.count += 1
+        # print(">>>>>>>>>>>>>>>>>>>>>")
+        # print(post.count)
         post.save()
 
         response_msg = {"type":"comment",
