@@ -18,6 +18,7 @@ export default function App() {
         <Route exact path='/message' element={< MessagePage />}></Route>
         <Route exact path='/friend' element={< FriendPage />}></Route>
         <Route exact path='/Post' element={< Post />}></Route>
+        <Route path="/authors/:author_id/posts" element={< Post />} />
       </Routes>
     </Router>
 

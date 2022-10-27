@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 import "./Post.css";
 import axios from "axios";
 
-const base_url = process.env.REACT_APP_BASE_URL;
-const userID = localStorage.getItem('userID');
+const base_url = "http://127.0.0.1:8000";
+const userID = 1111111111;
+// localStorage.getItem(userID);
 // Post
 const initState = {
   type:"post",
@@ -20,7 +21,7 @@ const initState = {
   //  "origin":"http://whereitcamefrom.com/posts/zzzzz",
   source:"auto",
   origin:"auto",
-  id:`${base_url}/author/${userID}/posts/` ,
+  id:`${base_url}/authors/${userID}/posts/` ,
   description:"" ,
   comments:"",
   contentType:"text/plain",
@@ -59,7 +60,7 @@ export default class Post extends Component {
         flash: { status: "is-danger", msg: "*Title cannot be blank!"},
       })}
       axios
-      .post('/',{
+      .post(`${base_url}/authors/${userID}/posts/`,{
         title,
         source,
         origin,
