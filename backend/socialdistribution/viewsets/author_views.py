@@ -33,6 +33,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
             size = request.build_absolute_uri()[-1]
             author_queryset = Author.objects.all()
             # set up pagination
+            # print(">>>>>>>>>>>>>>>>>>>>>")
+            # print(author_queryset):<QuerySet [<Author: test1>, <Author: test000>, <Author: 404hhh>, <Author: 404t05>]>
             pagination = Paginator(author_queryset, size)
             page = request.GET.get('page')
             authors = pagination.get_page(page)
