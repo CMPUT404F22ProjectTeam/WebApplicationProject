@@ -351,7 +351,7 @@ class PostViewSet(viewsets.ModelViewSet):
             "published": published,
             "visibility": visibility,
             "unlisted": unlisted
-=======
+
     #GET Method
     #list all public post
     #url: http://127.0.0.1:8000/authors/1111111111/posts_all/
@@ -361,7 +361,7 @@ class PostViewSet(viewsets.ModelViewSet):
         response_msg = {
             "type": "Posts",
             "items": author_info.data
->>>>>>> origin/Backend
+
         }
         
         return Response(post_data, status=200)
