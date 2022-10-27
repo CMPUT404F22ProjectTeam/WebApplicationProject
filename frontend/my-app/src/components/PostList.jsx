@@ -1,9 +1,9 @@
-import React from "react";
-import { ExPostData } from './ExamplePost'
+import React, { useState } from "react";
 import SinglePost from "./SinglePost";
 import './PostList.css'
+import { ExPostData } from './ExamplePost'
 
-function PostList({ handleComment, handleLike, handleShare, handleEdit }) {
+function PostList({ handleComment, handleShare, handleEdit }) {
     return (<div>
         <ul className="PostList">
             {ExPostData.map((val, key) => {
@@ -15,7 +15,7 @@ function PostList({ handleComment, handleLike, handleShare, handleEdit }) {
                             description={val.description}
                             image={val.image}
                             comments={val.comments}
-                            like={val.like}
+                            like={like}
                             handleComment={handleComment}
                             handleLike={handleLike}
                             handleShare={handleShare}

@@ -1,7 +1,9 @@
 import React from 'react'
 import Navbar from '../components/Navbar/Navbar'
 import './worldPage.css'
-import PostList from '../components/PostList';
+import SinglePost from "../components/SinglePost";
+import { ExPostData } from '../components/ExamplePost'
+import '../components/PostList.css'
 
 export default function WorldPage() {
     return (
@@ -11,7 +13,24 @@ export default function WorldPage() {
             </div>
             <div className=' split world'>
                 <div className='container'>
-                    <PostList />
+                    <ul className="PostList">
+                        {ExPostData.map((val, key) => {
+                            return (
+                                <li key={key} id="onePost">
+                                    <SinglePost
+                                        name={val.name}
+                                        userHref={val.userHref}
+                                        description={val.description}
+                                        image={val.image}
+                                        comments={val.comments}
+                                        like={val.like}
+                                    //handleComment={handleComment}
+                                    //handleShare={handleShare}
+                                    //handleEdit={handleEdit}
+                                    />
+                                </li>
+                            );
+                        })}</ul>
                 </div>
             </div>
         </div>
