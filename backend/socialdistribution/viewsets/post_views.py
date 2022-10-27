@@ -231,22 +231,5 @@ class PostViewSet(viewsets.ModelViewSet):
             "type": "Posts",
             "items": author_info.data
         }
+        
         return Response(response_msg)
-
-'''
-class Post(models.Model):
-
-    type = "post"
-    id = models.URLField(primary_key=True, max_length=255)
-    source = models.URLField(max_length=255)
-    origin = models.URLField(max_length=255)
-    description = models.TextField(max_length=255, default = '')
-    contentType = models.CharField(max_length=60)
-    content = models.TextField(blank=True)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    #categories
-    published = models.DateTimeField(default=timezone.now)
-    count = models.ImageField(default=0, blank=True)
-    visibility = models.CharField(max_length=50, default="PUBLIC")
-    unlisted = models.BooleanField(default="False")
-'''
