@@ -8,7 +8,6 @@ A Web Application Project :)
 | Yanzhi Huang | yanzhi |
 | Yuting He | yhe7 |
 | Simiao Zheng | simiao4 |
-| Steven Truong | svtruong |
 
 ## LICENSE
 LICENSE'D under the Apache 2 license
@@ -20,4 +19,3 @@ Contributors:
     Yanzhi Huang
     Yuting He
     Simiao Zheng
-    Steven Truong
