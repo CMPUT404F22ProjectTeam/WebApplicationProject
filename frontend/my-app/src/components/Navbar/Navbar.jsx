@@ -1,7 +1,6 @@
 import React from "react";
 import './Navbar.css'
 import { SidebarData } from './NavbarData'
-import IconButton from '@mui/material/IconButton';
 
 function Sidebar() {
   return (<div className="Sidebar">
