@@ -1,7 +1,6 @@
 import React from "react";
 import './Navbar.css'
 import { SidebarData } from './NavbarData'
-import IconButton from '@mui/material/IconButton';
 
 function Sidebar() {
   return (<div className="Sidebar">
@@ -11,9 +10,8 @@ function Sidebar() {
           <li
             key={key}
             className="row"
-            id={window.location.pathname === val.link ? "active" : ""}
             onClick={() => { window.location.pathname = val.link }}>
-            <button className = "icon-button" id="icon" >{val.icon}</button>
+            <button className="icon-button" id={window.location.pathname === val.link ? "active" : ""} >{val.icon}</button>
           </li>
         );
       })}</ul>

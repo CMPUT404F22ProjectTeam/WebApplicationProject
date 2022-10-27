@@ -1,13 +1,20 @@
 .Sidebar {
     display: flex;
     height: 100%;
-    width: 5%;
-    background-color:#f7f8fa;
+    width: 10%;
+    left:0;
+    background-color: #f7f8fa;
 }
 
-.SidebarList {
-    margin-top: 10px;
-}
+.li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    /* zoom:1; */
+    display: inline;
+} 
+
+
 
 .SidebarList .row {
     height: 50px;
@@ -21,22 +28,26 @@
 }
 
 .row #icon {
-    flex: 30%;
     display: grid;
     color: #c3cad9;
     place-items: center;
 }
 
-.icon-button{
-    display:block;
+.icon-button {
+    display: block;
     height: 50px;
-    width: 50px;
     border-radius: 50%;
     border: 1px solid white;
     background-color: white;
 }
+
 .icon-button:hover,
 .icon-button:focus {
-  background-color: #cc7000;
-  color: #ffffff;
+    background-color: #cc7000;
+    color: #ffffff;
+}
+
+.row #active {
+    background-color: #cc7000;
+    color: #ffffff;
 }

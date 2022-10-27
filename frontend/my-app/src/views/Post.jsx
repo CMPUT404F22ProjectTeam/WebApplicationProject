@@ -4,8 +4,12 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { MenuItem, InputLabel,Checkbox, FormControlLabel } from '@mui/material';
 import HomeNavbar from './../components/Navbar/HomeNavbar'
+import { Link } from "react-router-dom";
 import "./Post.css";
+import axios from "axios";
+
 const base_url = process.env.REACT_APP_BASE_URL;
+const userID = localStorage.getItem('userID');
 // Post
 const initState = {
   type:"post",
@@ -16,7 +20,7 @@ const initState = {
   //  "origin":"http://whereitcamefrom.com/posts/zzzzz",
   source:"auto",
   origin:"auto",
-  // id:`${base_url}/author/${userID}/posts/` ,
+  id:`${base_url}/author/${userID}/posts/` ,
   description:"" ,
   comments:"",
   contentType:"text/plain",
@@ -34,40 +38,53 @@ export default class Post extends Component {
     console.log(this.props)
   }
 
-  // save = async (e) => {
-  //   e.preventDefault();
-  //   const {
-  //     title,
-  //     description,
-  //   } = this.state;
-  //   // make sure every Post has a title
-  //   if (!title) {
-  //     this.setState({
-  //       flash: { status: "is-danger", msg: "*Title cannot be blank!"},
-  //     });
-  //   }else{
-      // ----------TO DO---------
-      // NEED MORE WORK ON STATE
-      // save the Post
-      // this.props.context.Post(
-      //   {
-      //     title,
-      //     description,
-      //   },
-      //   () => this.setState(initState)
-      // );
-  //     this.props.toggle();
-  //   }
-  // };
+  save = async (e) => {
+    e.preventDefault();
+    const {
+      title,
+      source,
+      origin,
+      description,
+      contentType,
+      content,
+      categories,
+      published,
+      visibility,
+      unlisted,
+    } = this.state;
+
+    // make sure every Post has a title
+    if (!title) {
+      this.setState({
+        flash: { status: "is-danger", msg: "*Title cannot be blank!"},
+      })}
+      axios
+      .post('/',{
+        title,
+        source,
+        origin,
+        description,
+        contentType,
+        content,
+        categories,
+        published,
+        visibility,
+        unlisted,
+      })
+      this.props.toggle();
+    };
   
   /*error message handler*/
   handleChange = (e) =>
     this.setState({ [e.target.name]: e.target.value, error: "" });
 
+  handleCheckBox = (e) =>
+    this.setState({ [e.target.name]: e.target.checked, error: "" });
   // handle close
   handleClick = () => {
    this.props.toggle();
   };
+
 
   render() {
     const {
@@ -88,9 +105,9 @@ export default class Post extends Component {
         <HomeNavbar />
       </div>
       <div className='split Home'>
-        <span className="back" onClick={this.handleClick}>&times;</span>
+        <Link to={`./../`} className="back">x</Link>
         <div className='container'>
-          {/* <form className='post_information' onSubmit={this.save}> */}
+          <form className='post_information' onSubmit={this.save}>
             <div className='user_input'>
               
               <div className='label'>
@@ -121,7 +138,7 @@ export default class Post extends Component {
                   <Select
                     name="contentType"
                     value={contentType}
-                    onChange={this.handleForm}
+                    onChange={this.handleChange}
                   >
                   <MenuItem value={"text/plain"}>Plain</MenuItem>
                   <MenuItem value={"text/markdown"}>Markdown</MenuItem>
@@ -137,7 +154,7 @@ export default class Post extends Component {
                 <Select
                   name="visibility"
                   value={visibility}
-                  onChange={this.handleForm}
+                  onChange={this.handleChange}
                 >
                 <MenuItem value={"PUBLIC"}>Public</MenuItem>
                 <MenuItem value={"FRIENDS"}>Friend Only</MenuItem>
@@ -151,11 +168,11 @@ export default class Post extends Component {
                   <Checkbox 
                   name = "unlisted" 
                   checked = {unlisted} 
-                  // onChange={handleCheckBox} 
+                  onChange={this.handleCheckBox} 
                   />
                 }/>
               </Box>
-            {/* {this.state.flash && (
+            {this.state.flash && (
             <div className='flash'>
             <div className={`notification ${this.state.flash.status}`}>
               {this.state.flash.msg}
@@ -166,8 +183,9 @@ export default class Post extends Component {
               <button class="btn" type="submit" onClick={this.save}>
                 Submit
               </button>
-            </div> */}
             </div>
+            </div>
+            </form>
             </div>
             </div>
             </div>
