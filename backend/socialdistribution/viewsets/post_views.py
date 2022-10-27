@@ -180,8 +180,8 @@ class PostViewSet(viewsets.ModelViewSet):
         # published = request.data.get('published', None)
         count = request.data.get('count', None)
         comments = request.data.get('comments', None)
-        visibility = request.data.get('visibility', None)
-        unlisted = request.data.get('unlisted', None)
+        visibility = request.data.get('visibility', "PUBLIC")
+        unlisted = request.data.get('unlisted', False)
 
         author = Author.objects.get(id=author_id)
         author_info = AuthorSerializer(author)
@@ -226,12 +226,22 @@ class PostViewSet(viewsets.ModelViewSet):
         
         return Response(post_data, status=200)
 
+    #GET Method
+    #list all public post
+    #url: http://127.0.0.1:8000/authors/1111111111/posts_all/
+    def all_public(self, request, author_id):
+        all_public_queryset = Post.objects.filter(visibility="PUBLIC")
+        author_info = PostSerializer(all_public_queryset, many=True)
+        response_msg = {
+            "type": "Posts",
+            "items": author_info.data
+        }
+        return Response(response_msg)
 
 '''
 class Post(models.Model):
 
     type = "post"
-    title = models.CharField(max_length=255, default = '')
     id = models.URLField(primary_key=True, max_length=255)
     source = models.URLField(max_length=255)
     origin = models.URLField(max_length=255)
