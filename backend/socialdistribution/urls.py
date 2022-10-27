@@ -1,6 +1,8 @@
 from django.urls import path, include
 from rest_framework import routers
 from django.conf.urls import include
+
+from .viewsets.follow_request_view import FollowRequestViewSet
 from .viewsets.author_views import AuthorViewSet
 from .viewsets.post_views import PostViewSet
 from .viewsets.comment_views import CommentViewSet
@@ -18,5 +20,8 @@ urlpatterns = [
     path('authors/<str:author_id>/posts_all/', PostViewSet.as_view({'get': 'all_public'})),
     # Comment url
     path('authors/<str:author_id>/posts/<str:post_id>/comments', CommentViewSet.as_view({'post': 'create_comment', 'get': 'all_post_comments'})),
+
+    # follow request
+    path('authors/<str:author_id>/follow_request/<str:object_author_id>/', FollowRequestViewSet.as_view({'post': 'sent_follow_request'}))
 
 ]
