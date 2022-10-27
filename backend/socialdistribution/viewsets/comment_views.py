@@ -33,8 +33,8 @@ def current_id(request):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    
-    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments POST Method
+    # POST Method create a new comment
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments 
     def create_comment(self, request, author_id, post_id):
         # print(author_id) #404hhh
         # print(post_id) #edb04567-c77f-4886-b87d-797bc5ce3ad1
@@ -77,7 +77,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     # URL://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
     # http://service/posts/{post_id}/comments?page=4&size=40 
-    # GET Method
+    # GET Method list all comments pagination
     def all_post_comments(self, request, author_id, post_id):
         
         #check url have to pagenation
