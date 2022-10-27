@@ -2,15 +2,20 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Form from "./Form";
 import './SinglePost.css'
-const MySinglePost = ({ description, image, comments, like, handleDel, handleEdit, handleComment, handleSend }) => {
+const MySinglePost = ({ description, image, comments, like, handleDel, handleComment, handleSend }) => {
+    const navigate = useNavigate();
     const [count, setCount] = useState(like);
     let is_liked = count === (like + 1);
     const handleLike = () => {
         if (is_liked === false) {
             setCount((count) => count + 1);
         }
+    }
+    const handleEdit = () => {
+        navigate("/Post");
     }
     return (
         <div className="singlePost">
