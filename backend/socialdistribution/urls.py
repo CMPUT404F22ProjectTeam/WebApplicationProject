@@ -6,6 +6,7 @@ from .viewsets.follow_request_view import FollowRequestViewSet
 from .viewsets.author_views import AuthorViewSet
 from .viewsets.post_views import PostViewSet
 from .viewsets.comment_views import CommentViewSet
+from .viewsets.likes_view import LikesViewSet
 
 
 urlpatterns = [
@@ -22,6 +23,9 @@ urlpatterns = [
     path('authors/<str:author_id>/posts/<str:post_id>/comments', CommentViewSet.as_view({'post': 'create_comment', 'get': 'all_post_comments'})),
 
     # follow request
-    path('authors/<str:author_id>/follow_request/<str:object_author_id>/', FollowRequestViewSet.as_view({'post': 'sent_follow_request'}))
+    path('authors/<str:author_id>/follow_request/<str:object_author_id>/', FollowRequestViewSet.as_view({'post': 'sent_follow_request'})),
 
+    # like request
+    path('authors/<str:author_id>/posts/<str:post_id>/likes', LikesViewSet.as_view({'get': 'getlist'})),
+    path('authors/<str:author_id>/posts/<str:post_id>/inbox/', LikesViewSet.as_view({'post': 'create'})),
 ]

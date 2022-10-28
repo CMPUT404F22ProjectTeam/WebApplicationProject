@@ -17,3 +17,12 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['type', 'author', 'comment', 'contentType', 'published','id']
         
+class LikesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Likes
+        fields = ['context', 'summary', 'type', 'author', 'object']
+
+class LikedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Liked
+        fields = ['type','items']
