@@ -11,6 +11,7 @@ function MessageList() {
                         <div className="SingleMessage">
                             <a className="userName">@{val.name}</a>
                             <p className="message">{val.message}</p>
+                            <button className="accept">Accept</button>
                         </div>
                     </li>
                 );

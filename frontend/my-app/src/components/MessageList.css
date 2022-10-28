@@ -20,5 +20,25 @@
     color: black;
     font-size: 15px;
     margin-top: 10px;
+}
 
+.accept {
+    background-color: orange;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    width: 80px;
+    height: 40px;
+    float: right;
+}
+
+.accept:hover {
+    background-color: #cc7000;
+    color: #ffffff;
+}
+
+.align-right {
+    text-align: right;
 }
