@@ -7,7 +7,7 @@ from .viewsets.author_views import AuthorViewSet
 from .viewsets.post_views import PostViewSet
 from .viewsets.comment_views import CommentViewSet
 from .viewsets.likes_view import LikesViewSet
-
+from .viewsets.liked_view import LikedViewSet
 
 urlpatterns = [
     # path('login/', AuthorViewSet.as_view({'put': 'sign_up'})),
@@ -25,7 +25,12 @@ urlpatterns = [
     # follow request
     path('authors/<str:author_id>/follow_request/<str:object_author_id>/', FollowRequestViewSet.as_view({'post': 'sent_follow_request'})),
 
-    # like request
+    # likes request
     path('authors/<str:author_id>/posts/<str:post_id>/likes', LikesViewSet.as_view({'get': 'getlist'})),
     path('authors/<str:author_id>/posts/<str:post_id>/inbox/', LikesViewSet.as_view({'post': 'create'})),
+    path('authors/<str:author_id>/posts/<str:post_id>/comments/<str:comment_id>/likes', LikesViewSet.as_view({'get': 'getcomments'})),
+
+    # liked request
+    path('authors/<str:author_id>/liked', LikedViewSet.as_view({'get': 'list'})),
+
 ]

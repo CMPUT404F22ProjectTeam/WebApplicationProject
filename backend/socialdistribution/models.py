@@ -55,6 +55,7 @@ class Likes(models.Model):
     summary = models.CharField(max_length=255, default="")
     author = models.URLField(max_length=255, default="")
     object = models.URLField(max_length=255, default="")
+    comment = models.CharField(max_length=255, default="")
     
 
 class Inbox(models.Model):

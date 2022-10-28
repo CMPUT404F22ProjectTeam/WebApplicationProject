@@ -63,7 +63,16 @@ class LikesViewSet(viewsets.ModelViewSet):
         Likes.objects.create(context = context, summary = summary, author = author_id, object = object_id)
 
         return Response(likes_data, status=200)
-        
 
+    
+
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments/{COMMENT_ID}/likes
+    # GET [local, remote] a list of likes from other authors on AUTHOR_ID’s post POST_ID comment COMMENT_ID
+    def getcomments(self, request, *args, **kwargs):
+        author_id = getAuthorIDFromRequestURL(request, kwargs.get('author_id'))
+        comment_id = request.build_absolute_uri()[:-5]
+        queryset = Likes.objects.filter(comment = comment_id)
+        queryset = list(queryset.values())
+        return Response(LikesSerializer(queryset, many=True).data)
     
     

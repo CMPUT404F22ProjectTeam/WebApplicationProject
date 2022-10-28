@@ -22,7 +22,3 @@ class LikesSerializer(serializers.ModelSerializer):
         model = Likes
         fields = ['context', 'summary', 'type', 'author', 'object']
 
-class LikedSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Liked
-        fields = ['type','items']

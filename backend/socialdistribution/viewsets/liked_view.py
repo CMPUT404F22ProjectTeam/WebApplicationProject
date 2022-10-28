@@ -5,7 +5,7 @@ from rest_framework.response import Response
 import uuid
 from django.http import JsonResponse
 from socialdistribution.models import *
-from socialdistribution.serializers import PostSerializer, AuthorSerializer
+from socialdistribution.serializers import *
 from . import urlhandler
 
 '''
@@ -22,3 +22,17 @@ def getAuthorIDFromRequestURL(request, id):
     author_id = f"{HOST}/authors/{id}"
     return author_id
 
+class LikedViewSet(viewsets.ModelViewSet):
+    queryset = Likes.objects.all()
+
+    # URL: ://service/authors/{AUTHOR_ID}/liked
+    # GET [local, remote] list what public things AUTHOR_ID liked
+    def list(self, request, *args, **kwargs):
+        author_id = getAuthorIDFromRequestURL(request, kwargs['id'])
+        liked = Likes.objects.filter(author = author_id)
+        liked_info = LikesSerializer(liked, many = True)
+        liked_data = {
+            'type': 'liked',
+            'items': liked_info.data
+        }
+        return Response(liked_data)
