@@ -52,7 +52,7 @@ class PostViewSet(viewsets.ModelViewSet):
         contentType = RequestData.get('content_type', "text/plain")
         content = RequestData.get('content', None)
         categories = RequestData.get('categories', None)
-        count = RequestData.get('count', None)
+        count = RequestData.get('count', 0)
         visibility = RequestData.get('visibility', "PUBLIC")
         unlisted = RequestData.get('unlisted', False)
 
@@ -125,7 +125,7 @@ class PostViewSet(viewsets.ModelViewSet):
         description = RequestData.get('description', None)
         content = RequestData.get('content', None)
         categories = RequestData.get('categories', None)
-        count = querypost.count
+        # count = querypost.count
         visibility = RequestData.get('visibility', "PUBLIC")
         unlisted = RequestData.get('unlisted', False)
 
@@ -136,8 +136,6 @@ class PostViewSet(viewsets.ModelViewSet):
             querypost.description = description
         if content:
             querypost.content = content
-            count = len(content)
-            querypost.count = count
         if visibility:
             querypost.visibility = visibility
         if unlisted:
@@ -178,10 +176,10 @@ class PostViewSet(viewsets.ModelViewSet):
         # author = request.data.get('author', None)
         categories = request.data.get('categories', None)
         # published = request.data.get('published', None)
-        count = request.data.get('count', None)
+        count = request.data.get('count', 0)
         comments = request.data.get('comments', None)
-        visibility = request.data.get('visibility', None)
-        unlisted = request.data.get('unlisted', None)
+        visibility = request.data.get('visibility', "PUBLIC")
+        unlisted = request.data.get('unlisted', False)
 
         author = Author.objects.get(id=author_id)
         author_info = AuthorSerializer(author)
@@ -197,9 +195,6 @@ class PostViewSet(viewsets.ModelViewSet):
         querypost.author = author
         querypost.categories = categories
         querypost.content = content
-        if count == None:
-            count = len(content)
-            querypost.count = count
         querypost.comments = comments
         querypost.published = published
         querypost.visibility = visibility
@@ -226,22 +221,15 @@ class PostViewSet(viewsets.ModelViewSet):
         
         return Response(post_data, status=200)
 
-
-'''
-class Post(models.Model):
-
-    type = "post"
-    title = models.CharField(max_length=255, default = '')
-    id = models.URLField(primary_key=True, max_length=255)
-    source = models.URLField(max_length=255)
-    origin = models.URLField(max_length=255)
-    description = models.TextField(max_length=255, default = '')
-    contentType = models.CharField(max_length=60)
-    content = models.TextField(blank=True)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    #categories
-    published = models.DateTimeField(default=timezone.now)
-    count = models.ImageField(default=0, blank=True)
-    visibility = models.CharField(max_length=50, default="PUBLIC")
-    unlisted = models.BooleanField(default="False")
-'''
+    #GET Method
+    #list all public post
+    #url: http://127.0.0.1:8000/authors/1111111111/posts_all/
+    def all_public(self, request, author_id):
+        all_public_queryset = Post.objects.filter(visibility="PUBLIC")
+        author_info = PostSerializer(all_public_queryset, many=True)
+        response_msg = {
+            "type": "Posts",
+            "items": author_info.data
+        }
+        
+        return Response(response_msg)

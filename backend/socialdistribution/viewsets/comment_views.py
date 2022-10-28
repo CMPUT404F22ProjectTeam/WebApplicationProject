@@ -3,10 +3,11 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.http import JsonResponse
-from socialdistribution.serializers import AuthorSerializer
+from socialdistribution.serializers import AuthorSerializer, CommentSerializer
 from socialdistribution.models import *
 import uuid
 import datetime
+from django.core.paginator import Paginator
 
 
 '''
@@ -32,8 +33,8 @@ def current_id(request):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    
-    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments POST Method
+    # POST Method create a new comment
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments 
     def create_comment(self, request, author_id, post_id):
         # print(author_id) #404hhh
         # print(post_id) #edb04567-c77f-4886-b87d-797bc5ce3ad1
@@ -59,39 +60,61 @@ class CommentViewSet(viewsets.ModelViewSet):
         contentType=comment_type, published=publish_time)
 
         # add comment in post taoble
-        post.comments = comment_id + '/n'+ post.comments
+        post.comments = str(comment_id) + '/n'+ str(post.comments)
+        post.count += 1
+        # print(">>>>>>>>>>>>>>>>>>>>>")
+        # print(post.count)
         post.save()
 
         response_msg = {"type":"comment",
         "author": author_json,
-        "comment": comment_content,
+        "comment": post.comments,
         "contentType": comment_type,
         "published": publish_time,
         "id": comment_id}
 
         return JsonResponse(response_msg)
 
-    # URL://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments 
-    # GET Method
+    # URL://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
+    # http://service/posts/{post_id}/comments?page=4&size=40 
+    # GET Method list all comments pagination
     def all_post_comments(self, request, author_id, post_id):
-        # get post
-        post = Post.objects.get(uuid=post_id)
-        comment_list = post.comments.split("/n")
-        total_comment = len(comment_list)
-
-
-
-        # check url have to pagenation
+        
+        #check url have to pagenation
         url = request.build_absolute_uri()
         is_pagination = True if 'page' in url else False
         
+        # use post uuid get all comment correspond to this post and save in a list
+        comments = []
+        post = Post.objects.get(uuid=post_id)
+        comment_list = post.comments.split("/n")[:-1]
+        
+        # parse all comments to dictionary
+        for item in comment_list:
+            comments_queryset = Comment.objects.get(id=item)
+            comments.append(comments_queryset)
 
 
         if is_pagination:
+            # set up pagination
             size = request.build_absolute_uri()[-1]
-
-            pagination = Paginator(author_queryset, size)
+            pagination = Paginator(comments, size)
             page = request.GET.get('page')
+            comments = pagination.get_page(page)
+
+        all_comments = CommentSerializer(comments, many=True)
+        real_post_id = HOST + f'/authors/{author_id}/posts/{post_id}'
+        real_comment_id = real_post_id + f'/comments'
+        comments_response = {
+            "type": "comments",
+            "page": page,
+            "size": size,
+            "post": real_post_id,
+            "id":real_comment_id,
+            "comments": all_comments.data}
+
+        return JsonResponse(comments_response)
+
 
 
 

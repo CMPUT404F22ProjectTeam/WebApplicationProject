@@ -25,10 +25,11 @@ class Author(AbstractUser):
 class FollowRequest(models.Model):
 
     type = "Follow"
-    summary = models.CharField(max_length=255)
+    summary = models.CharField( max_length=255)
     # actor sent request to object's inbox
     actor = models.CharField(max_length=255)
     object = models.CharField(max_length=255)
+    id = models.CharField(primary_key=True, max_length=255)
 
 
 class Friend(models.Model):
