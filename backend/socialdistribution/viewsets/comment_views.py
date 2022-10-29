@@ -76,7 +76,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         return JsonResponse(response_msg)
 
     # URL://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
-    # http://service/posts/{post_id}/comments?page=4&size=40 
+    # http://service/authors/{authors_id}/posts/{post_id}/comments?page=4&size=40 
     # GET Method list all comments pagination
     def all_post_comments(self, request, author_id, post_id):
         
@@ -87,33 +87,38 @@ class CommentViewSet(viewsets.ModelViewSet):
         # use post uuid get all comment correspond to this post and save in a list
         comments = []
         post = Post.objects.get(uuid=post_id)
-        comment_list = post.comments.split("/n")[:-1]
+        print(">>>>>>>>>>>>>>>>>>>>>")
+        print(post.comments)
+        if post.comments == None:
+            return Response(None)
+        else:
+            comment_list = post.comments.split("/n")[:-1]
         
-        # parse all comments to dictionary
-        for item in comment_list:
-            comments_queryset = Comment.objects.get(id=item)
-            comments.append(comments_queryset)
+            # parse all comments to dictionary
+            for item in comment_list:
+                comments_queryset = Comment.objects.get(id=item)
+                comments.append(comments_queryset)
 
 
-        if is_pagination:
-            # set up pagination
-            size = request.build_absolute_uri()[-1]
-            pagination = Paginator(comments, size)
-            page = request.GET.get('page')
-            comments = pagination.get_page(page)
+            if is_pagination:
+                # set up pagination
+                size = request.build_absolute_uri()[-1]
+                pagination = Paginator(comments, size)
+                page = request.GET.get('page')
+                comments = pagination.get_page(page)
 
-        all_comments = CommentSerializer(comments, many=True)
-        real_post_id = HOST + f'/authors/{author_id}/posts/{post_id}'
-        real_comment_id = real_post_id + f'/comments'
-        comments_response = {
-            "type": "comments",
-            "page": page,
-            "size": size,
-            "post": real_post_id,
-            "id":real_comment_id,
-            "comments": all_comments.data}
+            all_comments = CommentSerializer(comments, many=True)
+            real_post_id = HOST + f'/authors/{author_id}/posts/{post_id}'
+            real_comment_id = real_post_id + f'/comments'
+            comments_response = {
+                "type": "comments",
+                "page": page,
+                "size": size,
+                "post": real_post_id,
+                "id":real_comment_id,
+                "comments": all_comments.data}
 
-        return JsonResponse(comments_response)
+            return JsonResponse(comments_response)
 
 
 
