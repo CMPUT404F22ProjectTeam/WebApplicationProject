@@ -50,7 +50,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
         #get post origin author
         post = Post.objects.get(uuid=post_id)
-        comment_id = post.id + comment_uuid # http://127.0.0.1:8000/authors/test000/posts/edb04567-c77f-4886-b87d-797bc5ce3ad1
+        comment_id = post.id + f'/comments/{comment_uuid}' # http://127.0.0.1:8000/authors/1111111111/posts/e164864f-1bf3-458c-bf50-a9627f275395/comments/960fb760b84342c7b14f88eadf83a408
         current_author = Author.objects.get(id = current_author_id)
         author_info = AuthorSerializer(current_author)
         author_json = author_info.data
@@ -62,7 +62,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         # add comment in post taoble
         post.comments = str(comment_id) + '/n'+ str(post.comments)
         post.count += 1
-        # print(">>>>>>>>>>>>>>>>>>>>>")
+        
         # print(post.count)
         post.save()
 
@@ -92,7 +92,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         username = author.displayName
         
         if post.comments == None:
-            return Response(None)
+            return Response({})
             
         else:
             comment_list = post.comments.split("/n")[:-1]
@@ -115,12 +115,11 @@ class CommentViewSet(viewsets.ModelViewSet):
                 size=len(comment_list)
                 page = 1 
 
-            print()
+            
             all_comments = CommentSerializer(comments, many=True)
             real_post_id = HOST + f'/authors/{author_id}/posts/{post_id}'
             real_comment_id = real_post_id + f'/comments'
             comments_response = {
-                "author_id": username,
                 "type": "comments",
                 "page": page,
                 "size": size,
