@@ -115,17 +115,19 @@ class CommentViewSet(viewsets.ModelViewSet):
                 size=len(comment_list)
                 page = 1 
 
+            print()
             all_comments = CommentSerializer(comments, many=True)
             real_post_id = HOST + f'/authors/{author_id}/posts/{post_id}'
             real_comment_id = real_post_id + f'/comments'
             comments_response = {
+                "author_id": username,
                 "type": "comments",
                 "page": page,
                 "size": size,
                 "post": real_post_id,
                 "id":real_comment_id,
-                "comments": all_comments.data,
-                "author_id": username}
+                "comments": all_comments.data
+                }
 
             return JsonResponse(comments_response)
 
