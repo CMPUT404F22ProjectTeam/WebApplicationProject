@@ -1,23 +1,33 @@
-import React from "react";
-import { ExPostData } from './ExamplePost'
+import axios from "axios";
+import React, { useState } from "react";
 import MySinglePost from "./MySinglePost";
+import CommentList from './CommentList'
 import './PostList.css'
 
 function MyPostList({ handleDel, handleEdit, handleComment, handleLike }) {
+    const AUTHOR_ID = "111";
+    const base_url = "http://127.0.0.1:8000";
+    const [postData, setPostData] = useState([]);
+
+    axios
+        .get(`${base_url}/authors/${AUTHOR_ID}/posts`)
+        .then((data) => {
+            setPostData(data.data)
+        })
+        .catch((e) => console.log(e));
+
     return (<div>
         <ul className="PostList">
-            {ExPostData.map((val, key) => {
+            {postData.map((val, key) => {
                 return (
                     <li key={key} id="onePost">
                         <MySinglePost
                             description={val.description}
-                            image={val.image}
-                            comments={val.comments}
-                            like={val.like}
+                            postId={val.id}
+                            like={0}
+                            comments={<CommentList postId={val.id} />}
                             handleDel={handleDel}
-                            handleEdit={handleEdit}
                             handleComment={handleComment}
-                            handleLike={handleLike}
                         />
                     </li>
                 );
