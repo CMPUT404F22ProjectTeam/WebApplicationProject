@@ -79,20 +79,24 @@ class CommentViewSet(viewsets.ModelViewSet):
     # http://service/authors/{authors_id}/posts/{post_id}/comments?page=4&size=40 
     # GET Method list all comments pagination
     def all_post_comments(self, request, author_id, post_id):
-        
+        real_author_id = HOST + f'/authors/{author_id}'
         #check url have to pagenation
         url = request.build_absolute_uri()
         is_pagination = True if 'page' in url else False
         
+
         # use post uuid get all comment correspond to this post and save in a list
         comments = []
         post = Post.objects.get(uuid=post_id)
-        print(">>>>>>>>>>>>>>>>>>>>>")
-        print(post.comments)
+        author = Author.objects.get(id=real_author_id)
+        username = author.displayName
+        
         if post.comments == None:
             return Response(None)
+            
         else:
             comment_list = post.comments.split("/n")[:-1]
+
         
             # parse all comments to dictionary
             for item in comment_list:
@@ -106,6 +110,10 @@ class CommentViewSet(viewsets.ModelViewSet):
                 pagination = Paginator(comments, size)
                 page = request.GET.get('page')
                 comments = pagination.get_page(page)
+            
+            else:
+                size=len(comment_list)
+                page = 1 
 
             all_comments = CommentSerializer(comments, many=True)
             real_post_id = HOST + f'/authors/{author_id}/posts/{post_id}'
@@ -116,7 +124,8 @@ class CommentViewSet(viewsets.ModelViewSet):
                 "size": size,
                 "post": real_post_id,
                 "id":real_comment_id,
-                "comments": all_comments.data}
+                "comments": all_comments.data,
+                "author_id": username}
 
             return JsonResponse(comments_response)
 
