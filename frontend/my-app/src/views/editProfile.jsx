@@ -3,6 +3,7 @@ import './home/homePage.css'
 import Navbar from '../components/Navbar/Navbar';
 import Form from '../components/Form';
 import { Link, useNavigate } from "react-router-dom";
+import FormData from 'form-data';
 import axios from 'axios';
 export default function EditProfile() {
     const AUTHOR_ID = "111";
@@ -10,26 +11,35 @@ export default function EditProfile() {
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [github, setGithub] = useState('');
+    const [error, setError] = useState('');
+    let data = new FormData()
 
     const handleName = useCallback((event) => {
+        setError('')
         setName(event.target.value)
     }, [])
 
     const handleGit = useCallback((event) => {
+        setError('')
         setGithub(event.target.value)
     }, [])
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault()
-        axios.post(`${base_url}/authors/${AUTHOR_ID}/`, {
-            username: { name },
-            github: { github },
-        })
+        if (name) {
+            data.append('username', name)
+        }
+        if (github) {
+            data.append('github', github)
+        }
+        axios
+            .post(`${base_url}/authors/${AUTHOR_ID}/`, data)
             .then((response) => {
                 console.log(response);
                 navigate('/')
             })
             .catch((e) => {
+                setError(e)
                 console.log(e);
             });
     })
@@ -55,9 +65,10 @@ export default function EditProfile() {
                             action={handleGit}
                             placeholder="github name"
                         />
-                        <button class="btn" type="submit" onClick={handleSubmit} >
+                        <button class="btn" type="submit"  >
                             Submit
                         </button>
+                        <p className="flash">{error}</p>
                     </form>
                 </div>
             </div>

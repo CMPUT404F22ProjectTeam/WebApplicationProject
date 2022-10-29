@@ -21,11 +21,12 @@
 .name {
     text-align: center;
     font-size: large;
-    margin-top: 50px;
+    margin-top: 40px;
     font-weight: bold;
 }
 
 .profileimg {
+    position: relative;
     margin-top: 60px;
     border-radius: 50%;
 }
@@ -62,4 +63,9 @@
 .editProfile:disabled {
     background-color: #cc7000;
     color: #ffffff;
+}
+
+.profileImgDiv {
+    display: flex;
+    justify-content: center;
 }
