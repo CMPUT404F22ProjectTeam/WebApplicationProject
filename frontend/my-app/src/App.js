@@ -6,6 +6,7 @@ import MessagePage from './views/messagePage';
 import FriendPage from './views/FriendPage';
 import Post from './views/Post'
 import EditProfile from './views/editProfile';
+import OtherUserPage from './views/otherUserPage'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
@@ -20,6 +21,7 @@ export default function App() {
         <Route exact path='/friend' element={< FriendPage />}></Route>
         <Route exact path='/Post' element={< Post />}></Route>
         <Route exact path='/editProfile' element={< EditProfile />}></Route>
+        <Route exact path='/otherProfile' element={< OtherUserPage />}></Route>
       </Routes>
     </Router>
 

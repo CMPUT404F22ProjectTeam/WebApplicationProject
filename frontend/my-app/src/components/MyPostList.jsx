@@ -26,8 +26,6 @@ function MyPostList({ handleDel, handleEdit, handleComment, handleLike }) {
                             postId={val.id}
                             like={0}
                             comments={<CommentList postId={val.id} />}
-                            handleDel={handleDel}
-                            handleComment={handleComment}
                         />
                     </li>
                 );

@@ -14,6 +14,7 @@
     border-bottom: 1px solid grey;
     list-style-type: none;
     vertical-align: middle;
+    align-items: stretch;
 }
 
 .message {
@@ -29,9 +30,10 @@
     color: white;
     font-size: 15px;
     text-align: center;
-    width: 80px;
-    height: 40px;
+    width: 70px;
+    height: 30px;
     float: right;
+    margin-top: 10px;
 }
 
 .accept:hover {
@@ -41,4 +43,14 @@
 
 .align-right {
     text-align: right;
+}
+
+.messagePart {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+}
+
+.acceptButton {
+    width: 40%;
 }
