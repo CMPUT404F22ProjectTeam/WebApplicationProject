@@ -21,7 +21,7 @@ const MySinglePost = ({ description, image, comments, like, postId }) => {
         }
     }
     const handleEdit = () => {
-        navigate("/Post");
+        navigate("/Post", { state: { id: postId } });
     }
 
     const handleDel = () => {
