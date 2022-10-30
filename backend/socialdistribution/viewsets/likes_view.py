@@ -40,6 +40,23 @@ class LikesViewSet(viewsets.ModelViewSet):
         # print("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>",object_id)
         return Response(LikesSerializer(queryset, many=True).data)
 
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/likes
+    # POST [local, remote] a list of likes from other authors on AUTHOR_ID’s post POST_ID
+    def postlist(self, request, *args, **kwargs):
+        RequestData = request.data.copy()
+        author_id = getAuthorIDFromRequestURL(request, kwargs.get('author_id'))
+        object_id = request.build_absolute_uri()[:-6]
+        context = RequestData.get('context', None)
+        summary = RequestData.get('summary', None)
+
+        # create in database
+        Likes.objects.create(context = context, summary = summary, author = author_id, object = object_id)
+
+        queryset = Likes.objects.filter(object = object_id)
+        queryset = list(queryset.values())
+        # print("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>",object_id)
+        return Response(LikesSerializer(queryset, many=True).data)
+    
     # URL: ://service/authors/{AUTHOR_ID}/inbox/
     # POST [local, remote]: send a like object to AUTHOR_ID
     def create(self, request, *args, **kwargs):
