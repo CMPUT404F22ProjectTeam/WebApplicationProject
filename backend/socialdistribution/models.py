@@ -25,10 +25,11 @@ class Author(AbstractUser):
 class FollowRequest(models.Model):
 
     type = "Follow"
-    summary = models.CharField( max_length=255)
+    summary = models.CharField(max_length=255)
     # actor sent request to object's inbox
     actor = models.CharField(max_length=255)
     object = models.CharField(max_length=255)
+    relation = models.CharField(default='N', max_length=50)
     id = models.CharField(primary_key=True, max_length=255)
 
 
@@ -83,11 +84,11 @@ class Comment(models.Model):
 class Post(models.Model):
 
     type = "post"
-    title = models.CharField(max_length=255, default = '')
+    title = models.CharField(max_length=255, default = "")
     id = models.URLField(primary_key=True, max_length=255)
     source = models.URLField(max_length=255, null=True)
     origin = models.URLField(max_length=255)
-    description = models.TextField(max_length=255, default = '')
+    description = models.TextField(max_length=255, default = "")
     contentType = models.CharField(max_length=60)
     content = models.TextField(blank=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)

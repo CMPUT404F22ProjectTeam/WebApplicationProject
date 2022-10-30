@@ -15,5 +15,10 @@ class PostSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['type', 'author', 'comment', 'contentType', 'published','id']
+        fields = ['type', 'author', 'comment', 'contentType', 'published', 'id']
+
+class FollowersSerializer(serializers.Serializer):
+    class Meta:
+        model = FollowRequest
+        field = '__all__'
         
