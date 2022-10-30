@@ -1,6 +1,6 @@
 
 from email.policy import default
-from tkinter.tix import Tree
+# from tkinter.tix import Tree
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
@@ -57,6 +57,7 @@ class Likes(models.Model):
     summary = models.CharField(max_length=255, default="")
     author = models.URLField(max_length=255, default="")
     object = models.URLField(max_length=255, default="")
+    comment = models.CharField(max_length=255, default="")
     
 
 class Inbox(models.Model):

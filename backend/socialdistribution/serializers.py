@@ -22,3 +22,8 @@ class FollowersSerializer(serializers.Serializer):
         model = FollowRequest
         field = '__all__'
         
+class LikesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Likes
+        fields = ['context', 'summary', 'type', 'author', 'object']
+
