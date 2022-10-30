@@ -22,6 +22,7 @@ export default function App() {
         <Route exact path='/Post' element={< Post />}></Route>
         <Route exact path='/editProfile' element={< EditProfile />}></Route>
         <Route exact path='/otherProfile' element={< OtherUserPage />}></Route>
+        <Route exact path='/world/otherProfile' element={< OtherUserPage />}></Route>
       </Routes>
     </Router>
 
