@@ -10,6 +10,7 @@ from .viewsets.comment_views import CommentViewSet
 from .viewsets.friend_view import FriendViewSet
 from .viewsets.liked_view import LikedViewSet
 from .viewsets.likes_view import LikesViewSet
+from .viewsets.image_post_view import ImagePostViewSet
 
 urlpatterns = [
     # path('login/', AuthorViewSet.as_view({'put': 'sign_up'})),
@@ -25,7 +26,12 @@ urlpatterns = [
     path('authors/<str:author_id>/posts/<str:post_id>/comments', CommentViewSet.as_view({'post': 'create_comment', 'get': 'all_post_comments'})),
 
     # follow request
+<<<<<<< HEAD
     # path('authors/<str:author_id>/follow_request/<str:object_author_id>/', FollowRequestViewSet.as_view({'post': 'sent_follow_request'})),
+=======
+    path('authors/<str:author_id>/follow_request/<str:object_author_id>/', FollowRequestViewSet.as_view({'post': 'sent_follow_request'})),
+    path('authors/<str:author_id>/follow_request',  FollowRequestViewSet.as_view({'get':'get_follow_request'})),
+>>>>>>> 42d111813b0a5246472cfbad56d0bc125ab8fd0b
 
     # likes request
     path('authors/<str:author_id>/posts/<str:post_id>/likes', LikesViewSet.as_view({'get': 'getlist', 'post': 'postlist'})),
@@ -36,6 +42,14 @@ urlpatterns = [
     path('authors/<str:author_id>/liked', LikedViewSet.as_view({'get': 'list'})),
 
     # follow/friend
+<<<<<<< HEAD
     path('authors/<str:author_id>/followers', FriendViewSet.as_view({'get': 'get_followers'}))
 
+=======
+    path('authors/<str:author_id>/followers', FriendViewSet.as_view({'get': 'get_followers'})),
+    path('authors/<str:author_id>/followers/<str:foreign_author_id>', FriendViewSet.as_view({'get': 'is_follower', 'put': 'accept_follow_request', 'delete': 'remove_follower'})),
+    
+    # image posts request
+    path('authors/<str:author_id>/posts/<str:post_id>/image', ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
+>>>>>>> 42d111813b0a5246472cfbad56d0bc125ab8fd0b
 ]
