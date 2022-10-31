@@ -1,22 +1,23 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import React from "react";
+import './Navbar.css'
+import { SidebarData } from './NavbarData'
 
-function HomeNavbar() {
+function Sidebar() {
   return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand href="#home">404</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+  <div className="Sidebar">
+    <ul className="SidebarList">
+      {SidebarData.map((val, key) => {
+        return (
+          <li
+            key={key}
+            className="row"
+            onClick={() => { window.location.pathname = val.link }}>
+            <button className="icon-button" id={window.location.pathname === val.link ? "active" : ""} >{val.icon}</button>
+          </li>
+        );
+      })}</ul>
+  </div>
+  )
 }
 
-export default HomeNavbar;
+export default Sidebar;

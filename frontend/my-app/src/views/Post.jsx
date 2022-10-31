@@ -1,16 +1,38 @@
 import React, {Component} from 'react';
-
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
-import NativeSelect from '@mui/material/NativeSelect';
-
+import Select from '@mui/material/Select';
+import { MenuItem, InputLabel,Checkbox, FormControlLabel } from '@mui/material';
+import HomeNavbar from './../components/Navbar/HomeNavbar'
+import { Link } from "react-router-dom";
 import "./Post.css";
+import axios from "axios";
 
+import FormData from 'form-data';
+
+const base_url = "http://127.0.0.1:8000";
+const userID = "1111111111";
+// Post
 const initState = {
-  title: "",
-  description: "",
-  status:[],
+  type:"post",
+  title:"",
+  //  where did you get this post from?
+  //  "source":"http://lastplaceigotthisfrom.com/posts/yyyyy",
+  //  where is it actually from
+  //  "origin":"http://whereitcamefrom.com/posts/zzzzz",
+  // source:"auto",
+  // origin:"auto",
+  // id:`${base_url}/authors/${userID}/posts/` ,
+  description:"" ,
+  // comments:"",
+  contentType:"text/plain",
+  content:"",
+  categories:"web" ,
+  // published: false,
+  visibility:"PUBLIC",
+  unlisted: false,
 };
+let data = new FormData()
 
 export default class Post extends Component {
   constructor(props) {
@@ -20,97 +42,147 @@ export default class Post extends Component {
 
   save = async (e) => {
     e.preventDefault();
-    const {
-      title,
-      description,
-    } = this.state;
-
-    if (!title) {
-      this.setState({
-        flash: { status: "is-danger", msg: "Title cannot be blank!"},
-      });
-    }else{
+    // if(this.state.title){
+    //   data.append('title', this.state.title)
+    // }
+    // make sure every Post has a title
+    if (!this.state.title) {
+      return this.setState({
+        flash: { status: "is-danger", msg: "*Title cannot be blank!"},
+      })}
+      axios
+        .post(base_url+'/authors/'+userID+'/posts/' , data)
       this.props.toggle();
-    }
-  };
+    };
   
   /*error message handler*/
-  handleChange = (e) =>
+  handleChange = (e) =>{
+    data.append([e.target.name], e.target.value)
     this.setState({ [e.target.name]: e.target.value, error: "" });
+  }
+  handleCheckBox = (e) =>
+    this.setState({ [e.target.name]: e.target.checked, error: "" });
 
+  // handle close
   handleClick = () => {
    this.props.toggle();
   };
 
+
   render() {
     const {
       title,
+      // source,
+      // origin,
       description,
+      contentType,
+      content,
+      categories,
+      // published,
+      visibility,
+      unlisted,
     } = this.state;
     return (
-      <form className='post_information' onSubmit={this.save}>
-        <span className="close" onClick={this.handleClick}>
-            &times;
-          </span>
-            <div className='label'>Title：
-                <input
+    <div>
+      <div className='bar'>
+        <HomeNavbar />
+      </div>
+      <div className='split Home'>
+        <Link to={`./../`} className="back">x</Link>
+        <div className='container'>
+          <form className='post_information' onSubmit={this.save}>
+            <div className='user_input'>
+              
+              <div className='label'>
+                <label className='hint'>Title：</label>
+                  <input
                     placeholder='Enter title here'
                     className='title-input'
                     name='title'
                     type="text"
-                    value={title}
+                    defaultValue={title}
                     onChange={this.handleChange}
                 />
-            </div>
-            <div className='label'>Description：
-                <textarea
-                    placeholder='What&apos;s happening?'
+              </div>
+              <div className='label'>
+                <label className='hint'>Description：</label>
+                  <textarea
+                    placeholder='Give a brief description'
                     className='description-input'
                     name='description'
                     type="textarea"
                     value={description}
                     onChange={this.handleChange}
-                />
-            </div>
-            <div>
-            <Box className='label' sx={{ minWidth: 120 }}>
-            <FormControl Halfwidth>
-            <NativeSelect
-              defaultValue='everyone'
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Privacy"
-            >
-            <option value='everyone'>Public</option>
-            <option value='friends'>Friends</option>
-            <option value='only_me'>Only Me</option>
-            </NativeSelect>
-            </FormControl>
-            </Box>
-            {/* keep this version
-            use button to select privacy
-            <FormControl>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="public"
-              name="radio-buttons-group"
-             >
-            <FormControlLabel value="public" control={<Radio />} label="Public" />
-            <FormControlLabel value="private" control={<Radio />} label="Private" />
-            </RadioGroup>
-            </FormControl> */}
-            </div>
+                  />
+              </div>
+              <div className='label'>
+                <label className='hint'>Content：</label>
+                  <textarea
+                    placeholder='What&apos;s happening?'
+                    className='content-input'
+                    name='content'
+                    type="textarea"
+                    value={content}
+                    onChange={this.handleChange}
+                  />
+              </div>
+              <Box className='label' sx={{ minWidth: 120}}>
+                <FormControl sx={{ m: 1, minWidth: 200 }}>
+                  <InputLabel id="simple-select-label">Content Type</InputLabel>
+                  <Select
+                    name="contentType"
+                    value={contentType}
+                    onChange={this.handleChange}
+                  >
+                  <MenuItem value={"text/plain"}>Plain</MenuItem>
+                  <MenuItem value={"text/markdown"}>Markdown</MenuItem>
+                  <MenuItem value={"application/base64"}>Application</MenuItem>
+                  <MenuItem value={"image/png;base64"}>PNG</MenuItem>
+                  <MenuItem value={"image/jpeg;base64"}>JPEG</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box className='label' sx={{ minWidth: 120 }}>
+                <FormControl sx={{ m: 1, minWidth: 200 }}>
+                <InputLabel id="simple-select-label">Visibility</InputLabel>
+                <Select
+                  name="visibility"
+                  value={visibility}
+                  onChange={this.handleChange}
+                >
+                <MenuItem value={"PUBLIC"}>Public</MenuItem>
+                <MenuItem value={"FRIENDS"}>Friend Only</MenuItem>
+                </Select>
+                </FormControl>
+              </Box>
+              <Box className='checkbox-label' sx={{ minWidth: 120}}>
+                <FormControlLabel
+                  label="Unlisted"
+                  control={
+                  <Checkbox 
+                  name = "unlisted" 
+                  checked = {unlisted} 
+                  onChange={this.handleCheckBox} 
+                  />
+                }/>
+              </Box>
             {this.state.flash && (
+            <div className='flash'>
             <div className={`notification ${this.state.flash.status}`}>
               {this.state.flash.msg}
             </div>
+            </div>
              )}
             <div className="field is-clearfix">
-              <button className="button" type="submit" onClick={this.save}>
+              <Link to={`./../`} class="btn" onClick={this.save}>
                 Submit
-              </button>
+              </Link>
+            </div>
             </div>
             </form>
+            </div>
+            </div>
+            </div>
     );
  }
 }

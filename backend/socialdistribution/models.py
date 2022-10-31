@@ -1,5 +1,6 @@
 
 from email.policy import default
+# from tkinter.tix import Tree
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
@@ -16,8 +17,9 @@ class Author(AbstractUser):
     host = models.URLField(max_length=255, default = '')
     displayName = models.CharField(max_length=255, default = '')
     url = models.URLField(max_length=255, default = '')
-    github = models.URLField(blank=True,default = '')
-    profileImage = models.ImageField(blank=True)
+    github = models.URLField(null=True, blank=True)
+    profileImage = models.ImageField(null=True, blank=True)
+    admin_permission = models.BooleanField(default="False")
 
 
 class FollowRequest(models.Model):
@@ -27,6 +29,8 @@ class FollowRequest(models.Model):
     # actor sent request to object's inbox
     actor = models.CharField(max_length=255)
     object = models.CharField(max_length=255)
+    relation = models.CharField(default='N', max_length=50)
+    id = models.CharField(primary_key=True, max_length=255)
 
 
 class Friend(models.Model):
@@ -53,6 +57,7 @@ class Likes(models.Model):
     summary = models.CharField(max_length=255, default="")
     author = models.URLField(max_length=255, default="")
     object = models.URLField(max_length=255, default="")
+    comment = models.CharField(max_length=255, default="")
     
 
 class Inbox(models.Model):
@@ -62,35 +67,42 @@ class Inbox(models.Model):
     message = models.JSONField(null=True)
 
 
+# Damian
+class Comment(models.Model):
 
-# class Comment(models.Model):
-
-#     type = "comment"
+    type = "comment"
     
-#     author = models.CharField(max_length=60)
-#     comment = models.TextField()
-#     contentType = models.CharField(max_length=60)
-#     published = models.DateTimeField(default=timezone.now)
-#     id = models.URLField(primary_key=True, max_length=255)
+    author = models.CharField(max_length=60)
+    comment = models.TextField(default = "")
+    contentType = models.CharField(max_length=60)
+    published = models.DateTimeField(default=timezone.now)
+    id = models.URLField(primary_key=True, max_length=255)
 
+    def __str__(self) -> str:
+        return self.comment
 
-# class Post(models.Model):
+# Damian
+class Post(models.Model):
 
-#     type = "post"
+    type = "post"
+    title = models.CharField(max_length=255, default = "")
+    id = models.URLField(primary_key=True, max_length=255)
+    source = models.URLField(max_length=255, null=True)
+    origin = models.URLField(max_length=255)
+    description = models.TextField(max_length=255, default = "")
+    contentType = models.CharField(max_length=60)
+    content = models.TextField(blank=True)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    categories = models.JSONField(default=default_list, null=True)
+    published = models.DateTimeField(default=timezone.now)
+    count = models.IntegerField(default=0, blank=True)
+    comments = models.TextField(null=True)
+    visibility = models.CharField(max_length=50, default="PUBLIC")
+    unlisted = models.BooleanField(default="False")
+    uuid = models.CharField(max_length=60, null=True)
 
-#     title = models.CharField(max_length=255, default = '')
-#     id = models.URLField(primary_key=True, max_length=255)
-#     source = models.URLField(max_length=255)
-#     origin = models.URLField(max_length=255)
-#     description = models.TextField(max_length=255, default = '')
-#     contentType = models.CharField(max_length=60)
-#     content = models.TextField(blank=True)
-#     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-#     #categories
-#     published = models.DateTimeField(default=timezone.now)
-#     count = models.ImageField(default=0, blank=True)
-#     visibility = models.CharField(default="PUBLIC")
-#     unlisted = models.BooleanField(default="False")
+    def __str__(self) -> str:
+        return self.content
 
 
 
