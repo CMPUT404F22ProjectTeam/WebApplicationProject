@@ -4,7 +4,7 @@ import './home/homePage.css'
 import axios from "axios";
 
 export default function Profile() {
-    const AUTHOR_ID = "111";
+    const AUTHOR_ID = "1111111111";
     const base_url = "http://127.0.0.1:8000";
     const navigate = useNavigate();
     const [name, setName] = useState('');

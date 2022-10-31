@@ -6,7 +6,7 @@ import axios from "axios";
 import './PostList.css'
 
 function FriendPostList() {
-    const AUTHOR_ID = "111";
+    const AUTHOR_ID = "1111111111";
     const base_url = "http://127.0.0.1:8000";
     const [postData, setPostData] = useState([]);
 
