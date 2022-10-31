@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from socialdistribution.models import *
 from socialdistribution.serializers import PostSerializer, AuthorSerializer
 from . import urlhandler
+
+from rest_framework import permissions
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
 GET [local, remote] get the public post whose id is POST_ID
@@ -33,19 +35,21 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 class PostViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
     quaryset = Post.objects.all()
     serializer_class = PostSerializer
 
     # POST create a new post
     # URL: ://service/authors/{AUTHOR_ID}/posts/
     def create(self, request, *args, **kwargs):
+
         RequestData = request.data.copy()
         author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
         title = RequestData.get('title', None)
         # source = RequestData.get('source', None)
         origin = RequestData.get('origin', author_id)
         description = RequestData.get('description', None)
-        contentType = RequestData.get('content_type', "text/plain")
+        contentType = RequestData.get('contentType', "text/plain")
         content = RequestData.get('content', None)
         categories = RequestData.get('categories', None)
         count = RequestData.get('count', 0)
@@ -190,7 +194,6 @@ class PostViewSet(viewsets.ModelViewSet):
         querypost.content = content
         querypost.author = author
         querypost.categories = categories
-        querypost.content = content
         querypost.comments = comments
         querypost.published = published
         querypost.visibility = visibility

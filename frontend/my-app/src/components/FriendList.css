@@ -1,0 +1,15 @@
+.FriendList {
+    border-top: 1px solid grey;
+    margin-top: 20px;
+    padding: 0;
+    margin-bottom: 20px;
+    list-style-type: none;
+    width: 100%;
+    margin-left: -1px;
+}
+
+.SingleFriend {
+    border-bottom: 1px solid grey;
+    list-style-type: none;
+    height: 30px;
+}

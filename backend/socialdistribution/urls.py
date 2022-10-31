@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from django.conf.urls import include
 
-from .viewsets.friend_view import FriendViewSet
+# from .viewsets.friend_view import FriendViewSet
 from .viewsets.follow_request_view import FollowRequestViewSet
 from .viewsets.author_views import AuthorViewSet
 from .viewsets.post_views import PostViewSet
