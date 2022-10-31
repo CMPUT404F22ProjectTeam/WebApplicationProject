@@ -6,16 +6,25 @@ import axios from "axios";
 import FormData from 'form-data'
 import { useNavigate } from 'react-router-dom';
 
-const FriendSinglePost = ({ author, postId, description, image, comments }) => {
+const FriendSinglePost = ({ postId, comments }) => {
     const [like, setLike] = useState(0);
     const [name, setName] = useState('');
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState('');
+    const [authorId, setAuthorId] = useState('');
+    const [description, setDescription] = useState('');
+    const [image, setImage] = useState('');
     const navigate = useNavigate();
-    const AUTHOR_ID = author;
     let commentData = new FormData();
     let likeData = new FormData();
 
+    axios
+        .get(`${postId}/`)
+        .then((data) => {
+            setAuthorId(data.data.author)
+            setDescription(data.data.description)
+        })
+        .catch((e) => console.log(e));
     axios
         .get(`${postId}/likes`)
         .then((data) => {
@@ -38,14 +47,14 @@ const FriendSinglePost = ({ author, postId, description, image, comments }) => {
     }
 
     axios
-        .get(`${AUTHOR_ID}`)
+        .get(`${authorId}`)
         .then((data) => {
             setName(data.data.displayName)
         })
         .catch((e) => console.log(e));
 
     const toOtherUser = () => {
-        navigate('./otherProfile', { state: { id: AUTHOR_ID } });
+        navigate('./otherProfile', { state: { id: authorId } });
     }
 
     const handleComment = useCallback((event) => {
