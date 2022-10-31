@@ -37,41 +37,51 @@ let data = new FormData()
 class UploadImage extends React.Component {
   state = {
     // Initially, no file is selected
-    selectedFile: null,
-    base64URL: ""
+    myFile: "",
   };
 
-  handleFileInputChange = async e => {
+  convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      let file;
+      let fileReader = new FileReader();
+
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        console.log(fileReader);
+        console.log(fileReader.reult);
+        resolve(fileReader.result);
+      };
+      console.log(file);
+    });
+  };
+
+  handleFileUpload = async (e) => {
     console.log(e.target.files[0]);
     let { file } = this.state;
-
     file = e.target.files[0];
-  }
 
-    onFileChange(e) {
-      let files = e.target.files;
-      let fileReader = new FileReader();
-      fileReader.readAsDataURL(files[0]);
+    this.convertToBase64(file)
+      .then(result=>{
+        file["base64"] = result;
+      this.setState({
+        base64URL: result,
+        file
+      });
+      console.log(this.state)
+      this.props.handleUpload(this.state.base64URL);
+      })
+    this.setState({
+      file: e.target.files[0]
+    });
 
-      fileReader.onload = (event) => {
-          this.setState({
-              selectedImage: event.target.result,
-          })
-      }
-    }
+
+  };
 
   render() {
     return (
-      <div>
-        <div className="form-group mb-3">
-        <label className="text-white">Select File</label>
-          <input type="file" className="form-control" name="image" onChange={this.onFileChange} />
-        </div>
-    
-    <div className="d-grid">
-       <button type="submit" className="btn btn-outline-primary" onClick={()=>this.onSubmit()}>Store</button>
-    </div>
-    </div>
+      <div className="form-group mb-3">
+        <input type="file" className="form-control" name="image" onChange={this.onFileChange} />
+      </div>
     );
   }
 }
@@ -84,17 +94,12 @@ export default class Post extends Component {
 
   save = async (e) => {
     e.preventDefault();
-    // if(this.state.title){
-    //   data.append('title', this.state.title)
-    // }
-    // make sure every Post has a title
     if (!this.state.title) {
       return this.setState({
         flash: { status: "is-danger", msg: "*Title cannot be blank!"},
       })}
       axios
         .post(base_url+'/authors/'+userID+'/posts/' , data)
-      this.props.toggle();
     };
   
   /*error message handler*/
@@ -104,11 +109,14 @@ export default class Post extends Component {
   }
   handleCheckBox = (e) =>
     this.setState({ [e.target.name]: e.target.checked, error: "" });
-
-  // handle close
-  handleClick = () => {
-   this.props.toggle();
-  };
+  
+  handleUpload = (value) =>{
+    this.setState((prevState) => {
+      prevState.content = value;
+      console.log(this.state.content)
+      return prevState;
+    });
+  }
 
   handleContent = () => {
     if(this.state.contentType == "text/markdown" || this.state.contentType == "application/base64" || this.state.contentType == "text/plain" ){
@@ -130,7 +138,7 @@ export default class Post extends Component {
         <label className='hint'>Content：</label>
           <UploadImage
           value={this.state.content}
-            onChange={this.handleChange}
+          onChange={this.handleFileUpload}
       />
        </div>
       )
