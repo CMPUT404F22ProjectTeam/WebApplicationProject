@@ -11,13 +11,14 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['type', 'title', 'id','source', 'origin', 'description','contentType','content', 'author', 'published', 'count', 'published','visibility', 'unlisted']
-
+        
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['type', 'author', 'comment', 'contentType', 'published', 'id']
 
 class FollowersSerializer(serializers.Serializer):
+    post_items = PostSerializer(serializers.Serializer)
     class Meta:
         model = FollowRequest
         field = ['type', 'summary', 'actor', 'object', 'relation', 'id']
