@@ -1,5 +1,5 @@
 import React from "react";
-import { ExFriendData } from './ExampleFriend'
+import { ExFriendData } from './../Example/ExampleFriend'
 import './FriendList.css'
 
 function FriendList() {

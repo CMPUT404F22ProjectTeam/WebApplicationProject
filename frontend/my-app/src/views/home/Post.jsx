@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { MenuItem, InputLabel,Checkbox, FormControlLabel } from '@mui/material';
-import HomeNavbar from './../components/Navbar/HomeNavbar'
+import HomeNavbar from './../../components/Navbar/HomeNavbar'
 import { Link } from "react-router-dom";
 import "./Post.css";
 import axios from "axios";

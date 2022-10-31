@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FriendSinglePost from "./FriendSinglePost";
-import CommentList from './CommentList';
+import CommentList from './../Comment/CommentList';
 import axios from "axios";
 import './PostList.css'
 

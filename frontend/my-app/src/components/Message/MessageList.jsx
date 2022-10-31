@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { ExMessageData } from './ExampleMessage'
+import { ExMessageData } from './../Example/ExampleMessage'
 import './MessageList.css'
 
 function MessageList() {

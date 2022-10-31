@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
-import MySinglePost from "./MySinglePost";
-import CommentList from './CommentList'
+import MySinglePost from "./../Post/MySinglePost";
+import CommentList from './../Comment/CommentList'
 import './PostList.css'
 
 function MyPostList() {

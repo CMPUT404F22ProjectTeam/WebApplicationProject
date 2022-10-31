@@ -1,7 +1,7 @@
 import React from 'react'
-import Navbar from '../components/Navbar/Navbar'
+import Navbar from './../../components/Navbar/Navbar'
 import './worldPage.css'
-import PostList from '../components/PostList';
+import PostList from './../../components/Post/PostList';
 
 export default function WorldPage() {
     return (
