@@ -8,7 +8,7 @@ install postgresql v15.0
 create the `localhost` server based on instruction
 make sure to have database user account with the below credential:\
 `username: postgres`\
-`password: postgres`
+`password: mysite`
 
 #### Setup Virtual Environment
 
