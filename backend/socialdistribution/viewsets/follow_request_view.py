@@ -23,21 +23,25 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
         object = Author.objects.get(id=real_object_id)
         object_username = object.displayName
         summary = f'{actor_username} wants to follow {object_username}'
-        # request_status = 1 # R :sending requirement 
-        id =f'{real_author_id}TO{real_object_id}'
+        request_status = "R" # R :sending requirement 
+        id=f"{author_id}to{object_author_id}"
 
+        # check if already exist request
         try:
-            is_followed = FollowRequest.objects.get(id=id)
-            response_msg = 'request has been sent'
-
-        except FollowRequest.DoesNotExist:
+            is_send = FollowRequest.objects.get(id=id)
+            print(is_send)
+            relation = is_send.relation
+            print(relation)
+            if relation == 'R':
+                response_msg = "Already send"
+            else:
+                response_msg = "Friend"
+        except:    
             FollowRequest.objects.create(
-            summary = summary, actor=real_author_id, object=real_object_id, id = id
-            )
+            summary = summary, actor=real_author_id, object=real_object_id, relation=request_status, id=id)
             response_msg = "Sending"
             
-            
-        # TODO: sendtoinbox
+        # TODO: sendtoinbox???
 
 
         return Response(response_msg)

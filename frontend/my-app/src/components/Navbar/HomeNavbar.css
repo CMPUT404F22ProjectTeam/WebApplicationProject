@@ -15,41 +15,8 @@
     justify-items: center;
 }
 
-.name {
-    text-align: center;
-    font-size: large;
-    margin-top: 50px;
-    font-weight: bold;
-}
-
 .bar {
     height: 100%;
-}
-
-.profileimg {
-    margin-top: 60px;
-    border-radius: 50%;
-}
-
-.editProfile {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    align-items: center;
-    box-sizing: border-box;
-    text-align: center;
-    background-color: orange;
-    border: 0;
-    border-radius: 100px;
-    color: #ffffff;
-    cursor: pointer;
-    display: inline-flex;
-    font-size: 15px;
-}
-
-.editProfile:hover {
-    background-color: #cc7000;
-    color: #ffffff;
 }
 
 .center {

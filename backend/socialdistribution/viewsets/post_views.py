@@ -11,19 +11,15 @@ from . import urlhandler
 from rest_framework import permissions
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
-
 GET [local, remote] get the public post whose id is POST_ID
 POST [local] update the post whose id is POST_ID (must be authenticated)
 DELETE [local] remove the post whose id is POST_ID
 PUT [local] create a post where its id is POST_ID
-
 Creation URL ://service/authors/{AUTHOR_ID}/posts/
 GET [local, remote] get the recent posts from author AUTHOR_ID (paginated)
 POST [local] create a new post but generate a new id
-
 Be aware that Posts can be images that need base64 decoding.
 posts can also hyperlink to images that are public
-
 '''
 
 HOST = 'http://127.0.0.1:8000'

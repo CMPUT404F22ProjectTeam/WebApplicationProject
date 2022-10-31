@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import './HomeNavbar.css'
+import Profile from '../../views/profile';
 
 export default function HomeNavbar() {
     return (
@@ -9,10 +10,7 @@ export default function HomeNavbar() {
                 <Navbar />
             </div>
             <div className='split profile'>
-                <button className='editProfile'>Edit</button>
-                <img class='profileimg' src={require("../../public/profile.jpg")} alt="profile" width="100px" height="100px" />
-                <p className='name'>Hello</p>
-                <p className='name'>404 User</p>
+                <Profile />
             </div>
         </div>
     );

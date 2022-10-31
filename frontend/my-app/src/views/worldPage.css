@@ -17,3 +17,56 @@
     font-weight: bold;
     text-align: center;
 }
+
+.userHeader {
+    color: black;
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+}
+
+.beFriendButton {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    margin-top: 50px;
+    align-items: center;
+    width: fit-content;
+}
+
+.followButton {
+    background-color: orange;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    width: 80px;
+    height: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.BackButton {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    align-items: center;
+    background-color: orange;
+    border: 0;
+    border-radius: 100px;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    min-height: 40px;
+    overflow: hidden;
+    padding: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    text-decoration: none;
+}

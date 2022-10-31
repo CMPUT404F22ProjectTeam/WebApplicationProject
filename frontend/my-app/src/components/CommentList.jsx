@@ -1,17 +1,24 @@
-import React from "react";
-import { ExCommentData } from './ExampleComment'
+import React, { useState } from "react";
+import SingleComment from "./SingleComment";
+import axios from "axios";
 import './CommentList.css'
 
-function CommentList() {
+function CommentList({ postId }) {
+    const [comments, setComments] = useState([]);
+
+    axios
+        .get(`${postId}/comments`)
+        .then((data) => {
+            setComments(data.data.comments)
+        })
+        .catch((e) => console.log(e));
+
     return (<div>
         <ul className="CommentList">
-            {ExCommentData.map((val, key) => {
+            {comments.map((val, key) => {
                 return (
                     <li key={key}>
-                        <div className="SingleComment">
-                            <a className="userComment">@{val.user}:</a>
-                            <p className='comment'>{val.comment}</p>
-                        </div>
+                        <SingleComment authorId={val.author} comment={val.comment} />
                     </li>
                 );
             })}</ul>

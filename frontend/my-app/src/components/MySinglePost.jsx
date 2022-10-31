@@ -1,9 +1,80 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import React from "react";
+import SendIcon from '@mui/icons-material/Send';
+import React, { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import Form from "./Form";
+import axios from "axios";
+import FormData from 'form-data'
 import './SinglePost.css'
-const MySinglePost = ({ description, image, comments, like, handleDel, handleEdit, handleComment, handleLike }) => {
+
+const MySinglePost = ({ description, image, comments, postId }) => {
+    const navigate = useNavigate();
+    const [like, setLike] = useState(0);
+    const [comment, setComment] = useState('');
+    const [commentError, setCommentError] = useState('');
+    let commentData = new FormData();
+    let likeData = new FormData();
+
+    axios
+        .get(`${postId}/likes`)
+        .then((data) => {
+            setLike(Number(data.data.length))
+        })
+        .catch((e) => console.log(e));
+
+    const handleLike = () => {
+        likeData.append('context', "Charlote likes your post.")
+        likeData.append('summary', "123456")
+        axios
+            .post(`${postId}/likes`, likeData)
+            .then((response) => {
+                console.log(response);
+                window.location.reload()
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+    const handleEdit = () => {
+        navigate("/Post", { state: { id: postId } });
+    }
+
+    const handleDel = () => {
+        axios
+            .delete(`${postId}/`)
+            .then((response) => {
+                console.log(response);
+                window.location.reload()
+            })
+            .catch((e) => {
+                console.log(e);
+                alert(e);
+            });
+    }
+    const handleComment = useCallback((event) => {
+        setComment(event.target.value)
+        setCommentError('')
+    }, [])
+
+    const handleSend = useCallback(async (e) => {
+        e.preventDefault()
+        if (!comment) {
+            setCommentError("*Cannot send an empty comment!")
+        }
+        else {
+            commentData.append('content', comment)
+            axios
+                .post(`${postId}/comments`, commentData)
+                .then((response) => {
+                    console.log(response);
+                    window.location.reload()
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        }
+    })
     return (
         <div className="singlePost">
             <p className="singleDes">{description}</p>
@@ -20,13 +91,17 @@ const MySinglePost = ({ description, image, comments, like, handleDel, handleEdi
                 <Form
                     type="text"
                     name="comment"
-                    onchange={handleComment}
+                    action={handleComment}
                     placeholder="leave your comment"
                 ></Form>
+                <button className="eds" onClick={handleSend}>
+                    <SendIcon />
+                </button>
                 <button className="like" onClick={handleLike}>
                     Like {like}
                 </button>
             </div>
+            <p className="flash">{commentError}</p>
             <ul>{comments}</ul>
         </div>
     )

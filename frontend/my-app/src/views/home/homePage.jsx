@@ -2,6 +2,7 @@ import React from 'react'
 import HomeNavbar from '../../components/Navbar/HomeNavbar'
 import './homePage.css'
 import MyPost from '../myPost';
+
 export default function HomePage() {
     return (
         <div className='homePage'>
