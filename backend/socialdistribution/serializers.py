@@ -20,7 +20,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class FollowersSerializer(serializers.Serializer):
     class Meta:
         model = FollowRequest
-        field = '__all__'
+        field = ['type', 'summary', 'actor', 'object', 'relation', 'id']
         
 class LikesSerializer(serializers.ModelSerializer):
     class Meta:

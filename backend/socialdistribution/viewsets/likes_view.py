@@ -34,7 +34,7 @@ class LikesViewSet(viewsets.ModelViewSet):
     # GET [local, remote] a list of likes from other authors on AUTHOR_ID’s post POST_ID
     def getlist(self, request, *args, **kwargs):
         author_id = getAuthorIDFromRequestURL(request, kwargs.get('author_id'))
-        object_id = request.build_absolute_uri()[:-5]
+        object_id = request.build_absolute_uri()[:-6]
         queryset = Likes.objects.filter(object = object_id)
         queryset = list(queryset.values())
         # print("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>",object_id)
