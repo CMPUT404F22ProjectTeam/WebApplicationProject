@@ -29,11 +29,9 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
         # check if already exist request
         try:
             is_send = FollowRequest.objects.get(id=id)
-            print(is_send)
             relation = is_send.relation
-            print(relation)
             if relation == 'R':
-                response_msg = "Already send"
+                response_msg = "request has been sent"
             else:
                 response_msg = "Friend"
         except:    
