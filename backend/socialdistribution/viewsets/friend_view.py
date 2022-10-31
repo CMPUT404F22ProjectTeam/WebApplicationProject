@@ -22,7 +22,7 @@ class FriendViewSet(viewsets.ModelViewSet):
             follower = Author.objects.get(id=item.actor)
             followers_list.append(follower)
 
-        print(followers_list)
+        # print(followers_list)
 
         if len(followers_list) == 0 :
             response_msg = {

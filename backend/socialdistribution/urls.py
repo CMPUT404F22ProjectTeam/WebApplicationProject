@@ -26,7 +26,7 @@ urlpatterns = [
 
     # follow request
     path('authors/<str:author_id>/follow_request/<str:object_author_id>/', FollowRequestViewSet.as_view({'post': 'sent_follow_request'})),
-
+    path('authors/<str:author_id>/follow_request',  FollowRequestViewSet.as_view({'get':'get_follow_request'})),
     # likes request
     path('authors/<str:author_id>/posts/<str:post_id>/likes', LikesViewSet.as_view({'get': 'getlist', 'post': 'postlist'})),
     path('authors/<str:author_id>/posts/<str:post_id>/inbox/', LikesViewSet.as_view({'post': 'create'})),
