@@ -1,5 +1,6 @@
 from urllib import response
 from rest_framework import viewsets
+from socialdistribution.serializers import FollowersSerializer
 from socialdistribution.models import Author
 from rest_framework.response import Response
 from socialdistribution.models import *
@@ -44,4 +45,32 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
 
         return Response(response_msg)
         
+    # GET Method
+    # author get all follow request from object
+    # URL: ://service/authors/{AUTHOR_ID}/follow_request
+    def get_follow_request(self, request, author_id):
+
+        request_list = []
+
+        #get current id and object id
+        real_author_id = HOST + f'/authors/{author_id}'
+
+        request_set = FollowRequest.objects.filter(object=real_author_id, relation='R')
+        for item in request_set:
+            actors = Author.objects.get(id=item.actor)
+            request_list.append({'displayName': actors.displayName, 'id':actors.id})
+
+        if len(request_list) == 0:
+             return Response({})
+
+        else:
+            return Response(request_list)
+
+    
+
+
+
+       
+
+
 

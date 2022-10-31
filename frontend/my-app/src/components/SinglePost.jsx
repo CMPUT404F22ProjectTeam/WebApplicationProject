@@ -79,7 +79,6 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
                 })
                 .catch((e) => {
                     console.log(e);
-                    alert(e);
                 });
         }
     })

@@ -90,35 +90,35 @@ class AuthorViewSet(viewsets.ModelViewSet):
         return Response(author_info.data)
 
     # URL: ://service/login   PUT Method
-    # def sign_up(self, request):
-    #     # process data for response
-    #     username = request.data.get('username')
-    #     password = request.data.get('password')
+    def sign_up(self, request):
+        # process data for response
+        username = request.data.get('username')
+        password = request.data.get('password')
 
-    #     author_id = str(uuid.uuid4().hex)
-    #     id = HOST + f'authors/{author_id}'
-    #     host = HOST
-    #     url =  HOST + f'authors/{author_id}'
-    #     admin_permission = request.data.get('admin_permission','False')
-    #     github = request.data.get('github')
-    #     profileImage = request.data.get('profileImage')
+        author_id = str(uuid.uuid4().hex)
+        id = HOST + f'authors/{author_id}'
+        host = HOST
+        url =  HOST + f'authors/{author_id}'
+        admin_permission = request.data.get('admin_permission','False')
+        github = request.data.get('github')
+        profileImage = request.data.get('profileImage')
 
-    #     # handle errors
-    #     if username == None or password == None:
-    #         return Response({"msg": "Please input your username or password"}, 500)
+        # handle errors
+        if username == None or password == None:
+            return Response({"msg": "Please input your username or password"}, 500)
 
-    #     #save in database
-    #     Author.objects.create(id=id, host=host, username=username, url=url, github=github, profileImage =profileImage, admin_permission=admin_permission)
+        #save in database
+        Author.objects.create(id=id, host=host, username=username, url=url, github=github, profileImage =profileImage, admin_permission=admin_permission)
 
-    #     # Response 
-    #     response_msg = {'id': id, 
-    #     "host": host, 
-    #     "username": username, 
-    #     'url': url,
-    #     'github' : github , 
-    #     'profileImage': profileImage}
+        # Response 
+        response_msg = {'id': id, 
+        "host": host, 
+        "username": username, 
+        'url': url,
+        'github' : github , 
+        'profileImage': profileImage}
         
-    #     return JsonResponse(response_msg)
+        return JsonResponse(response_msg)
         
 
     

@@ -4,7 +4,7 @@ import axios from "axios";
 import CommentList from './CommentList'
 import './PostList.css'
 
-function PostList({ handleComment, handleLike, handleShare, handleEdit }) {
+function PostList({ handleShare }) {
     const AUTHOR_ID = "1111111111";
     const base_url = "http://127.0.0.1:8000";
     const [postData, setPostData] = useState([]);
@@ -12,7 +12,6 @@ function PostList({ handleComment, handleLike, handleShare, handleEdit }) {
         .get(`${base_url}/authors/${AUTHOR_ID}/posts_all`)
         .then((data) => {
             setPostData(data.data.items)
-
         })
         .catch((e) => console.log(e));
 

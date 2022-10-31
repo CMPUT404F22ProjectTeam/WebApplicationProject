@@ -41,6 +41,7 @@ const MySinglePost = ({ description, image, comments, postId }) => {
     }
 
     const handleDel = () => {
+        alert("Delete Successfully!")
         axios
             .delete(`${postId}/`)
             .then((response) => {
@@ -49,9 +50,9 @@ const MySinglePost = ({ description, image, comments, postId }) => {
             })
             .catch((e) => {
                 console.log(e);
-                alert(e);
             });
     }
+
     const handleComment = useCallback((event) => {
         setComment(event.target.value)
         setCommentError('')
