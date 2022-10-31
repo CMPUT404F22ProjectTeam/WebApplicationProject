@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from socialdistribution.models import *
 from socialdistribution.serializers import PostSerializer, AuthorSerializer
 from . import urlhandler
+
+from rest_framework import permissions
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
 
@@ -37,12 +39,14 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 class PostViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
     quaryset = Post.objects.all()
     serializer_class = PostSerializer
 
     # POST create a new post
     # URL: ://service/authors/{AUTHOR_ID}/posts/
     def create(self, request, *args, **kwargs):
+
         RequestData = request.data.copy()
         author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
         title = RequestData.get('title', None)
