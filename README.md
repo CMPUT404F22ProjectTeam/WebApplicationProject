@@ -43,6 +43,22 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 `python manage.py runserver`
 to view api documentations after building, go to `http://127.0.0.1:8000/admin` if working on local host
 
+### Frontend
+```
+npm install
+npm start
+```
+
+#### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The page will reload when you make changes.\
+
+#### `npm run build`
+
+Builds the app for production to the `build` folder.\
+
 ## Members
 |  Member Name  | CCID |
 | ------------- | ------------- |
