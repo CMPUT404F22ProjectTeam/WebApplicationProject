@@ -62,7 +62,6 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
         if len(request_dir) == 0:
              return Response({})
 
-        
         else:
             return Response(request_dir)
 
