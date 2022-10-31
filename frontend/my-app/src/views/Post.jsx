@@ -34,6 +34,48 @@ const initState = {
 };
 let data = new FormData()
 
+class UploadImage extends React.Component {
+  state = {
+    // Initially, no file is selected
+    selectedFile: null,
+    base64URL: ""
+  };
+
+  handleFileInputChange = async e => {
+    console.log(e.target.files[0]);
+    let { file } = this.state;
+
+    file = e.target.files[0];
+  }
+
+    onFileChange(e) {
+      let files = e.target.files;
+      let fileReader = new FileReader();
+      fileReader.readAsDataURL(files[0]);
+
+      fileReader.onload = (event) => {
+          this.setState({
+              selectedImage: event.target.result,
+          })
+      }
+    }
+
+  render() {
+    return (
+      <div>
+        <div className="form-group mb-3">
+        <label className="text-white">Select File</label>
+          <input type="file" className="form-control" name="image" onChange={this.onFileChange} />
+        </div>
+    
+    <div className="d-grid">
+       <button type="submit" className="btn btn-outline-primary" onClick={()=>this.onSubmit()}>Store</button>
+    </div>
+    </div>
+    );
+  }
+}
+
 export default class Post extends Component {
   constructor(props) {
     super(props);
@@ -68,6 +110,32 @@ export default class Post extends Component {
    this.props.toggle();
   };
 
+  handleContent = () => {
+    if(this.state.contentType == "text/markdown" || this.state.contentType == "application/base64" || this.state.contentType == "text/plain" ){
+      return(
+      <div className='label'>
+        <label className='hint'>Content：</label>
+          <textarea
+            placeholder='What&apos;s happening?'
+            className='content-input'
+            name='content'
+            type="textarea"
+            value={this.state.content}
+            onChange={this.handleChange}
+      />
+       </div>)
+    }else{
+      return(
+        <div className='label'>
+        <label className='hint'>Content：</label>
+          <UploadImage
+          value={this.state.content}
+            onChange={this.handleChange}
+      />
+       </div>
+      )
+    }
+  }
 
   render() {
     const {
@@ -115,17 +183,7 @@ export default class Post extends Component {
                     onChange={this.handleChange}
                   />
               </div>
-              <div className='label'>
-                <label className='hint'>Content：</label>
-                  <textarea
-                    placeholder='What&apos;s happening?'
-                    className='content-input'
-                    name='content'
-                    type="textarea"
-                    value={content}
-                    onChange={this.handleChange}
-                  />
-              </div>
+              {this.handleContent()}
               <Box className='label' sx={{ minWidth: 120}}>
                 <FormControl sx={{ m: 1, minWidth: 200 }}>
                   <InputLabel id="simple-select-label">Content Type</InputLabel>
