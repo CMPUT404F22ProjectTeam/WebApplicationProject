@@ -13,10 +13,11 @@ export default function Profile() {
     const handleEdit = () => {
         navigate("/editProfile")
     }
-
+    
     axios
         .get(`${base_url}/authors/${AUTHOR_ID}/`)
         .then((data) => {
+            console.log(data);
             setName(data.data.displayName)
             setProfile(data.data.profileImage)
             setGithub(data.data.github)

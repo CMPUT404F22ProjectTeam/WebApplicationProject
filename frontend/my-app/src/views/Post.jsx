@@ -12,8 +12,6 @@ import FormData from 'form-data';
 
 const base_url = "http://127.0.0.1:8000";
 const userID = "1111111111";
-// const userID = localStorage.getItem('userID');
-// localStorage.getItem(userID);
 // Post
 const initState = {
   type:"post",
