@@ -3,12 +3,14 @@ from urllib import response
 from rest_framework import viewsets
 from rest_framework.response import Response 
 import uuid
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest
+from socialdistribution.serializers import FollowersSerializer
 from socialdistribution.models import *
 from socialdistribution.serializers import PostSerializer, AuthorSerializer
 from . import urlhandler
-
+from django.core import serializers
 from rest_framework import permissions
+
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
 GET [local, remote] get the public post whose id is POST_ID
@@ -232,3 +234,31 @@ class PostViewSet(viewsets.ModelViewSet):
         }
         
         return Response(response_msg)
+
+
+    #GET Method 
+    #get list of friend only posts of my friends
+    #url: http://127.0.0.1:8000/authors/1111111111/posts_friend_only/
+    def friend_only(self, request, author_id):
+
+        private_posts = []
+        author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
+        friend_queryset = FollowRequest.objects.filter(actor=author_id, relation='F')
+
+        for item in friend_queryset:
+            print(item)
+            private_posts.append(Post.objects.filter(author_id=item.object, visibility="PUBLIC"))
+
+        private_posts_list = []
+        for items in private_posts:
+            for item in items:
+                private_posts_list.append(item.id)
+
+
+        print("private_posts_list")
+        print(private_posts_list)
+        response_msg = private_posts_list
+
+        return Response(response_msg)
+
+
