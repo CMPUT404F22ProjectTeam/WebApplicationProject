@@ -20,12 +20,14 @@ export default function App() {
         <Route exact path='/world' element={< WorldPage />}></Route>
         <Route exact path='/message' element={< MessagePage />}></Route>
         <Route exact path='/friend' element={< FriendPage />}></Route>
-        <Route exact path='/Post' element={< Post />}></Route>  
+        <Route exact path='/Post' element={< Post />}></Route>
         <Route path="/authors/:author_id/posts" element={< Post />} />
-        <Route path="/authors/:author_id" element={< HomePage />}  />
+        <Route path="/authors/:author_id" element={< HomePage />} />
         <Route exact path='/editProfile' element={< EditProfile />}></Route>
         <Route exact path='/otherProfile' element={< OtherUserPage />}></Route>
         <Route exact path='/world/otherProfile' element={< OtherUserPage />}></Route>
+        <Route exact path='/message/otherProfile' element={< OtherUserPage />}></Route>
+        <Route exact path='/friend/otherProfile' element={< OtherUserPage />}></Route>
       </Routes>
     </Router>
 

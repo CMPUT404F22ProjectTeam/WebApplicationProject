@@ -58,7 +58,7 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
         request_set = FollowRequest.objects.filter(object=real_author_id, relation='R')
         for item in request_set:
             actors = Author.objects.get(id=item.actor)
-            request_list.append({'disPlayname': actors.displayName})
+            request_list.append({'displayName': actors.displayName, 'id':actors.id})
 
         if len(request_list) == 0:
              return Response({})
