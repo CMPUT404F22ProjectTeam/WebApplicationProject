@@ -22,6 +22,8 @@ urlpatterns = [
     path('authors/<str:author_id>/posts/', PostViewSet.as_view({'get': 'getlist', 'post': 'create'})),
     path('authors/<str:author_id>/posts/<str:post_id>/', PostViewSet.as_view({'get': 'get', 'put': 'put', 'post': 'update', 'delete': 'delete'})),
     path('authors/<str:author_id>/posts_all/', PostViewSet.as_view({'get': 'all_public'})),
+    path('authors/<str:author_id>/posts_friend_only/', PostViewSet.as_view({'get': 'friend_only'})),
+
     # Comment url
     path('authors/<str:author_id>/posts/<str:post_id>/comments', CommentViewSet.as_view({'post': 'create_comment', 'get': 'all_post_comments'})),
 

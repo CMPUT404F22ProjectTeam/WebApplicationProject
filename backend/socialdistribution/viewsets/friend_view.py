@@ -96,9 +96,7 @@ class FriendViewSet(viewsets.ModelViewSet):
     def remove_follower(self, request, author_id, foreign_author_id):
 
         id = f'{foreign_author_id}to{author_id}'
-        print(">>>>>>>>>>")
-        print(id)
-         
+
         try:
             follower = FollowRequest.objects.get(id=id)
             if follower.relation == 'F':
