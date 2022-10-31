@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from django.conf.urls import include
 
-# from .viewsets.friend_view import FriendViewSet
+from .viewsets.friend_view import FriendViewSet
 from .viewsets.follow_request_view import FollowRequestViewSet
 from .viewsets.author_views import AuthorViewSet
 from .viewsets.post_views import PostViewSet
@@ -45,4 +45,6 @@ urlpatterns = [
     
     # image posts request
     path('authors/<str:author_id>/posts/<str:post_id>/image', ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
+
+    path('login', AuthorViewSet.as_view({'put': 'sign_up'}))
 ]

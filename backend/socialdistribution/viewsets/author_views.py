@@ -92,6 +92,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
     # URL: ://service/login   PUT Method
     def sign_up(self, request):
         # process data for response
+        print(request)
         username = request.data.get('username')
         password = request.data.get('password')
 
