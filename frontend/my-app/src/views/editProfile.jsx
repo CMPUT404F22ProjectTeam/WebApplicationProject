@@ -5,6 +5,7 @@ import Form from '../components/Form';
 import { Link, useNavigate } from "react-router-dom";
 import FormData from 'form-data';
 import axios from 'axios';
+
 export default function EditProfile() {
     const AUTHOR_ID = "1111111111";
     const base_url = "http://127.0.0.1:8000";
@@ -42,6 +43,7 @@ export default function EditProfile() {
                 setError(e)
                 console.log(e);
             });
+        this.props.toggle();
     })
 
     return (
@@ -65,9 +67,11 @@ export default function EditProfile() {
                             action={handleGit}
                             placeholder="github name"
                         />
-                        <button class="btn" type="submit"  >
+                        <div className="field is-clearfix">
+                        <button class="btn" type="submit" >
                             Submit
                         </button>
+                        </div>
                         <p className="flash">{error}</p>
                     </form>
                 </div>

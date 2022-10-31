@@ -35,9 +35,8 @@ textarea{
     font-weight: bold;
 }
 
-button[type=submit]{
+.is-clearfix{
     padding: 12px 20px;
-    background-color: #ff6633;
     margin: 0 auto;
     display:block;
     border: none;

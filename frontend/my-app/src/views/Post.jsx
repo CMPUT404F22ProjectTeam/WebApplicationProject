@@ -49,7 +49,7 @@ export default class Post extends Component {
     // }
     // make sure every Post has a title
     if (!this.state.title) {
-      this.setState({
+      return this.setState({
         flash: { status: "is-danger", msg: "*Title cannot be blank!"},
       })}
       axios
@@ -176,9 +176,9 @@ export default class Post extends Component {
             </div>
              )}
             <div className="field is-clearfix">
-              <button class="btn" type="submit" onClick={this.save}>
+              <Link to={`./../`} class="btn" onClick={this.save}>
                 Submit
-              </button>
+              </Link>
             </div>
             </div>
             </form>
