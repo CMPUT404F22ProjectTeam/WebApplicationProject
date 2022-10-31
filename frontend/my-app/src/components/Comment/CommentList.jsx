@@ -9,7 +9,9 @@ function CommentList({ postId }) {
     axios
         .get(`${postId}/comments`)
         .then((data) => {
-            setComments(data.data.comments)
+            if (data.data.comments) {
+                setComments(data.data.comments)
+            }
         })
         .catch((e) => console.log(e));
 
