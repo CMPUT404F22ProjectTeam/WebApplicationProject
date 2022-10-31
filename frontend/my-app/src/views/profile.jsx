@@ -15,7 +15,7 @@ export default function Profile() {
     }
 
     axios
-        .get(`${base_url}/authors/${AUTHOR_ID}`)
+        .get(`${base_url}/authors/${AUTHOR_ID}/`)
         .then((data) => {
             setName(data.data.displayName)
             setProfile(data.data.profileImage)

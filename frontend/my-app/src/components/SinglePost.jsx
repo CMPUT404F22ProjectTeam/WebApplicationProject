@@ -7,22 +7,40 @@ import axios from "axios";
 import FormData from 'form-data'
 import { useNavigate } from 'react-router-dom';
 
-const SinglePost = ({ author, postId, comments, description, image, like, handleShare }) => {
+const SinglePost = ({ author, postId, comments, description, image, handleShare }) => {
     const me = "http://127.0.0.1:8000/authors/111"
-    const [count, setCount] = useState(like);
+    const [like, setLike] = useState(0);
     const [name, setName] = useState('');
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState('');
     const navigate = useNavigate();
     const AUTHOR_ID = author;
-    let is_liked = count === (like + 1);
-    let data = new FormData();
+    //let is_liked = count === (like + 1);
+    let commentData = new FormData();
+    let likeData = new FormData();
+
+    axios
+        .get(`${postId}/likes`)
+        .then((data) => {
+            setLike(Number(data.data.length))
+        })
+        .catch((e) => console.log(e));
 
     const handleLike = () => {
-        if (is_liked === false) {
-            setCount((count) => count + 1);
-        }
+        likeData.append('context', "Charlote likes your post.")
+        likeData.append('summary', "123456")
+        axios
+            .post(`${postId}/likes`, likeData)
+            .then((response) => {
+                console.log(response);
+                window.location.reload()
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+
     }
+
     axios
         .get(`${AUTHOR_ID}`)
         .then((data) => {
@@ -50,9 +68,9 @@ const SinglePost = ({ author, postId, comments, description, image, like, handle
             setCommentError("*Cannot send an empty comment!")
         }
         else {
-            data.append('content', comment)
+            commentData.append('content', comment)
             axios
-                .post(`${postId}/comments`, data)
+                .post(`${postId}/comments`, commentData)
                 .then((response) => {
                     console.log(response);
                     window.location.reload()
@@ -83,8 +101,8 @@ const SinglePost = ({ author, postId, comments, description, image, like, handle
                 <button className="eds" onClick={handleSend}>
                     <SendIcon />
                 </button>
-                <button className="like" id={is_liked ? "liked" : ""} onClick={handleLike}>
-                    Like {count}
+                <button className="like" onClick={handleLike}>
+                    Like {like}
                 </button>
             </div>
             <p className="flash">{commentError}</p>

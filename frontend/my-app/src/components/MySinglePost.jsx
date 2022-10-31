@@ -8,17 +8,33 @@ import axios from "axios";
 import FormData from 'form-data'
 import './SinglePost.css'
 
-const MySinglePost = ({ description, image, comments, like, postId }) => {
+const MySinglePost = ({ description, image, comments, postId }) => {
     const navigate = useNavigate();
-    const [count, setCount] = useState(like);
+    const [like, setLike] = useState(0);
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState('');
-    let is_liked = count === (like + 1);
-    let data = new FormData();
+    let commentData = new FormData();
+    let likeData = new FormData();
+
+    axios
+        .get(`${postId}/likes`)
+        .then((data) => {
+            setLike(Number(data.data.length))
+        })
+        .catch((e) => console.log(e));
+
     const handleLike = () => {
-        if (is_liked === false) {
-            setCount((count) => count + 1);
-        }
+        likeData.append('context', "Charlote likes your post.")
+        likeData.append('summary', "123456")
+        axios
+            .post(`${postId}/likes`, likeData)
+            .then((response) => {
+                console.log(response);
+                window.location.reload()
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
     const handleEdit = () => {
         navigate("/Post", { state: { id: postId } });
@@ -26,13 +42,14 @@ const MySinglePost = ({ description, image, comments, like, postId }) => {
 
     const handleDel = () => {
         axios
-            .delete(`${postId}`)
+            .delete(`${postId}/`)
             .then((response) => {
                 console.log(response);
                 window.location.reload()
             })
             .catch((e) => {
                 console.log(e);
+                alert(e);
             });
     }
     const handleComment = useCallback((event) => {
@@ -46,9 +63,9 @@ const MySinglePost = ({ description, image, comments, like, postId }) => {
             setCommentError("*Cannot send an empty comment!")
         }
         else {
-            data.append('content', comment)
+            commentData.append('content', comment)
             axios
-                .post(`${postId}/comments`, data)
+                .post(`${postId}/comments`, commentData)
                 .then((response) => {
                     console.log(response);
                     window.location.reload()
@@ -80,8 +97,8 @@ const MySinglePost = ({ description, image, comments, like, postId }) => {
                 <button className="eds" onClick={handleSend}>
                     <SendIcon />
                 </button>
-                <button className="like" id={is_liked ? "liked" : ""} onClick={handleLike}>
-                    Like {count}
+                <button className="like" onClick={handleLike}>
+                    Like {like}
                 </button>
             </div>
             <p className="flash">{commentError}</p>

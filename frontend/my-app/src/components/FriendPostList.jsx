@@ -19,7 +19,6 @@ function FriendPostList() {
                             author={val.author}
                             postId={val.id}
                             description={val.description}
-                            like={0}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>

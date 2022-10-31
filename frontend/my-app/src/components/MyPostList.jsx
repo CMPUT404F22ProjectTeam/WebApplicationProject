@@ -24,7 +24,6 @@ function MyPostList() {
                         <MySinglePost
                             description={val.description}
                             postId={val.id}
-                            like={0}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>
