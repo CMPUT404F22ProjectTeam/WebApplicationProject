@@ -8,7 +8,7 @@ import FormData from 'form-data'
 import { useNavigate } from 'react-router-dom';
 
 const SinglePost = ({ author, postId, comments, description, image, handleShare }) => {
-    const me = "http://127.0.0.1:8000/authors/111"
+    const me = "http://127.0.0.1:8000/authors/1111111111"
     const [like, setLike] = useState(0);
     const [name, setName] = useState('');
     const [comment, setComment] = useState('');
@@ -16,6 +16,7 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
     const navigate = useNavigate();
     const AUTHOR_ID = author;
     //let is_liked = count === (like + 1);
+    let id = String(postId).split("/").pop();
     let commentData = new FormData();
     let likeData = new FormData();
 
@@ -69,14 +70,16 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
         }
         else {
             commentData.append('content', comment)
+            alert(`${me}/posts/${id}`)
             axios
-                .post(`${postId}/comments`, commentData)
+                .post(`${me}/posts/${id}/comments`, commentData)
                 .then((response) => {
                     console.log(response);
                     window.location.reload()
                 })
                 .catch((e) => {
                     console.log(e);
+                    alert(e);
                 });
         }
     })
