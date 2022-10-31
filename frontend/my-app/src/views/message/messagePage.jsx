@@ -1,7 +1,7 @@
 import React from 'react'
-import Navbar from '../components/Navbar/Navbar'
-import './worldPage.css'
-import MessageList from '../components/MessageList';
+import Navbar from './../../components/Navbar/Navbar'
+import './../world/worldPage.css'
+import MessageList from './../../components/Message/MessageList';
 
 export default function MessagePage() {
     return (

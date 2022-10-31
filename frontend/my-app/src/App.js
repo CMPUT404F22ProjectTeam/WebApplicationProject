@@ -1,12 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './views/home/homePage';
-import WorldPage from './views/worldPage';
-import MessagePage from './views/messagePage';
-import FriendPage from './views/FriendPage';
-import Post from './views/Post'
-import EditProfile from './views/editProfile';
-import OtherUserPage from './views/otherUserPage'
+import WorldPage from './views/world/worldPage';
+import MessagePage from './views/message/messagePage';
+import FriendPage from './views/friend/FriendPage';
+import Post from './views/home/Post'
+import EditProfile from './views/home/editProfile';
+import OtherUserPage from './views/world/otherUserPage'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 

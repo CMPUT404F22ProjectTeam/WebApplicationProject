@@ -1,7 +1,7 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Post from './Post'
-import MyPostList from '../components/MyPostList';
+import MyPostList from './../../components/Post/MyPostList';
 import { Link } from "react-router-dom";
 import "./myPost.css";
 

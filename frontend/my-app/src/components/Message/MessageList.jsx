@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { ExMessageData } from './ExampleMessage'
+import { ExMessageData } from './../Example/ExampleMessage'
 import './MessageList.css'
 
 function MessageList() {
@@ -10,7 +10,7 @@ function MessageList() {
     axios
         .get(`${base_url}/authors/${AUTHOR_ID}/follow_request`)
         .then((data) => {
-            setRequestData(data.data)
+            setRequestData(Array.from(data.data))
         })
         .catch((e) => console.log(e));
 

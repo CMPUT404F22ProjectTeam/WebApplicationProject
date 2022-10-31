@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from '../components/Navbar/Navbar'
+import Navbar from '../../components/Navbar/Navbar'
 import './worldPage.css'
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';

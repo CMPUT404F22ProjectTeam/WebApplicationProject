@@ -1,8 +1,8 @@
 import React from 'react'
-import Navbar from '../components/Navbar/Navbar'
+import Navbar from './../../components/Navbar/Navbar'
 import './FriendPage.css'
-import FriendList from '../components/FriendList';
-import FriendPostList from '../components/FriendPostList';
+import FriendList from './../../components/Friend/FriendList';
+import FriendPostList from './../../components/Post/FriendPostList';
 
 export default function FriendPage() {
     return (

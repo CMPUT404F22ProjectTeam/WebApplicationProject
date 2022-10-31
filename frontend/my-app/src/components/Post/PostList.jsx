@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SinglePost from "./SinglePost";
 import axios from "axios";
-import CommentList from './CommentList'
+import CommentList from './../Comment/CommentList'
 import './PostList.css'
 
 function PostList({ handleShare }) {

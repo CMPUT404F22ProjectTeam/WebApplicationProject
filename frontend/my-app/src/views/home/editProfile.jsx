@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
-import './home/homePage.css'
-import Navbar from '../components/Navbar/Navbar';
-import Form from '../components/Form';
+import './homePage.css'
+import Navbar from '../../components/Navbar/Navbar';
+import Form from '../../components/Post/Form';
 import { Link, useNavigate } from "react-router-dom";
 import FormData from 'form-data';
 import axios from 'axios';
