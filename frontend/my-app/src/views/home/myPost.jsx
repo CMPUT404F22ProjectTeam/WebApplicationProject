@@ -23,8 +23,7 @@ export default class MyPost extends React.Component {
             <div>
                 <div>
                     {/* <button className="btn">NEW POST</button> */}
-                    <Link to={`./posts`} className="btn">NEW POST</Link>
-                    <Link to={`./Post`} className="btn">NEW IMAGE POST</Link>
+                    <Link to={`./Post`} className="btn">NEW POST</Link>
                 </div>
                 {/* {this.state.seen ? <Post toggle={this.togglePop} /> : null} */}
                 <div>
