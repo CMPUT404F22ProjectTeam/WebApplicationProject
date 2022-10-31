@@ -8,7 +8,7 @@ from .viewsets.post_views import PostViewSet
 from .viewsets.comment_views import CommentViewSet
 from .viewsets.likes_view import LikesViewSet
 from .viewsets.liked_view import LikedViewSet
-
+from .viewsets.image_post_view import ImagePostViewSet
 urlpatterns = [
     # path('login/', AuthorViewSet.as_view({'put': 'sign_up'})),
     # Author url
@@ -33,4 +33,6 @@ urlpatterns = [
     # liked request
     path('authors/<str:author_id>/liked', LikedViewSet.as_view({'get': 'list'})),
 
+    # image posts request
+    path('authors/<str:author_id>/posts/<str:post_id>/image', ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
 ]

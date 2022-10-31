@@ -102,6 +102,9 @@ class Post(models.Model):
     def __str__(self) -> str:
         return self.content
 
-
+class PostImage(models.Model):
+    type = "postImage"
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    image = models.ImageField(null=True, blank=True)
 
 

@@ -22,3 +22,7 @@ class LikesSerializer(serializers.ModelSerializer):
         model = Likes
         fields = ['context', 'summary', 'type', 'author', 'object']
 
+class ImagePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostImage
+        fields = ['post', 'image']
