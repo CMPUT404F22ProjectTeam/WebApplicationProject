@@ -50,20 +50,21 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
     # URL: ://service/authors/{AUTHOR_ID}/follow_request
     def get_follow_request(self, request, author_id):
 
-        request_dir = {}
+        request_list = []
+
         #get current id and object id
         real_author_id = HOST + f'/authors/{author_id}'
 
         request_set = FollowRequest.objects.filter(object=real_author_id, relation='R')
         for item in request_set:
             actors = Author.objects.get(id=item.actor)
-            request_dir[actors.id] = actors.displayName
-            
-        if len(request_dir) == 0:
+            request_list.append({'disPlayname': actors.displayName})
+
+        if len(request_list) == 0:
              return Response({})
 
         else:
-            return Response(request_dir)
+            return Response(request_list)
 
     
 
