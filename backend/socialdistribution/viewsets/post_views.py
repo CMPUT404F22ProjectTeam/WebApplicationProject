@@ -49,7 +49,7 @@ class PostViewSet(viewsets.ModelViewSet):
         # source = RequestData.get('source', None)
         origin = RequestData.get('origin', author_id)
         description = RequestData.get('description', None)
-        contentType = RequestData.get('content_type', "text/plain")
+        contentType = RequestData.get('contentType', "text/plain")
         content = RequestData.get('content', None)
         categories = RequestData.get('categories', None)
         count = RequestData.get('count', 0)
@@ -194,7 +194,6 @@ class PostViewSet(viewsets.ModelViewSet):
         querypost.content = content
         querypost.author = author
         querypost.categories = categories
-        querypost.content = content
         querypost.comments = comments
         querypost.published = published
         querypost.visibility = visibility
