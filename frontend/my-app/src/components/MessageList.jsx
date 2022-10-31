@@ -5,7 +5,7 @@ import './MessageList.css'
 
 function MessageList() {
     const [requestData, setRequestData] = useState([])
-    const AUTHOR_ID = "111";
+    const AUTHOR_ID = "1111111111";
     const base_url = "http://127.0.0.1:8000";
     axios
         .get(`${base_url}/authors/${AUTHOR_ID}/follow_request`)
