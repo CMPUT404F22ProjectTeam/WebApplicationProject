@@ -10,7 +10,7 @@ function MessageList() {
     axios
         .get(`${base_url}/authors/${AUTHOR_ID}/follow_request`)
         .then((data) => {
-            setRequestData(data.data)
+            setRequestData(Array.from(data.data))
         })
         .catch((e) => console.log(e));
 
