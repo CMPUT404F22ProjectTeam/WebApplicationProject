@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 const SingleComment = ({ authorId, comment }) => {
-    const me = "http://127.0.0.1:8000/authors/111"
+    const me = "http://127.0.0.1:8000/authors/1111111111"
     const [name, setName] = useState('');
     const AUTHOR_ID = authorId;
     const navigate = useNavigate();

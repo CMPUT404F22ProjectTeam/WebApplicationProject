@@ -3,7 +3,8 @@ import './Navbar.css'
 import { SidebarData } from './NavbarData'
 
 function Sidebar() {
-  return (<div className="Sidebar">
+  return (
+  <div className="Sidebar">
     <ul className="SidebarList">
       {SidebarData.map((val, key) => {
         return (

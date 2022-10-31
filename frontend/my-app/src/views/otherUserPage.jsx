@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 export default function OtherUserPage() {
-    const me = "111";
+    const me = "1111111111";
     const base_url = "http://127.0.0.1:8000";
     const [objectName, setObjectName] = useState('');
     const [response, setResponse] = useState('');

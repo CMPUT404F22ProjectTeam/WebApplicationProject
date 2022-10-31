@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from django.conf.urls import include
 
-from .viewsets.friend_view import FriendViewSet
+# from .viewsets.friend_view import FriendViewSet
 from .viewsets.follow_request_view import FollowRequestViewSet
 from .viewsets.author_views import AuthorViewSet
 from .viewsets.post_views import PostViewSet
@@ -25,7 +25,7 @@ urlpatterns = [
     path('authors/<str:author_id>/posts/<str:post_id>/comments', CommentViewSet.as_view({'post': 'create_comment', 'get': 'all_post_comments'})),
 
     # follow request
-    path('authors/<str:author_id>/follow_request/<str:object_author_id>/', FollowRequestViewSet.as_view({'post': 'sent_follow_request'})),
+    # path('authors/<str:author_id>/follow_request/<str:object_author_id>/', FollowRequestViewSet.as_view({'post': 'sent_follow_request'})),
 
     # likes request
     path('authors/<str:author_id>/posts/<str:post_id>/likes', LikesViewSet.as_view({'get': 'getlist', 'post': 'postlist'})),
@@ -37,4 +37,5 @@ urlpatterns = [
 
     # follow/friend
     path('authors/<str:author_id>/followers', FriendViewSet.as_view({'get': 'get_followers'}))
+
 ]
