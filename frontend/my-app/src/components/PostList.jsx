@@ -12,7 +12,6 @@ function PostList({ handleComment, handleLike, handleShare, handleEdit }) {
         .get(`${base_url}/authors/${AUTHOR_ID}/posts_all`)
         .then((data) => {
             setPostData(data.data.items)
-
         })
         .catch((e) => console.log(e));
 
