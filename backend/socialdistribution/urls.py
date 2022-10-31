@@ -10,6 +10,7 @@ from .viewsets.comment_views import CommentViewSet
 from .viewsets.friend_view import FriendViewSet
 from .viewsets.liked_view import LikedViewSet
 from .viewsets.likes_view import LikesViewSet
+from .viewsets.image_post_view import ImagePostViewSet
 
 urlpatterns = [
     # path('login/', AuthorViewSet.as_view({'put': 'sign_up'})),
@@ -38,5 +39,8 @@ urlpatterns = [
 
     # follow/friend
     path('authors/<str:author_id>/followers', FriendViewSet.as_view({'get': 'get_followers'})),
-    path('authors/<str:author_id>/followers/<str:foreign_author_id>', FriendViewSet.as_view({'get': 'is_follower', 'put': 'accept_follow_request', 'delete': 'remove_follower'}))
+    path('authors/<str:author_id>/followers/<str:foreign_author_id>', FriendViewSet.as_view({'get': 'is_follower', 'put': 'accept_follow_request', 'delete': 'remove_follower'})),
+    
+    # image posts request
+    path('authors/<str:author_id>/posts/<str:post_id>/image', ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
 ]
