@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
-import django_heroku
+import django_on_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,10 +93,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'d9vf71ecj532f3',
-        'USER':'bxcjbfoqiaefgn',
-        'PASSWORD':'b9976001b7740660c9805b2718a549263b6440a4bca5c42ac051a2833a5df004',
-        'HOST': 'ec2-52-1-17-228.compute-1.amazonaws.com',
+        'NAME':'d61t5m59r5hh02',
+        'USER':'tsumkmeykfefgj',
+        'PASSWORD':'da16de73f71592ccbd769ee2145883a0141e5ed73bdbf9f96efb0cb4ac2f60de',
+        'HOST': 'ec2-44-209-24-62.compute-1.amazonaws.com',
         'PORT': 5432
         }
 }
@@ -146,9 +146,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static/'),
+# ]
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -186,4 +187,4 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 
-django_heroku.settings(locals())
+django_on_heroku.settings(locals())
