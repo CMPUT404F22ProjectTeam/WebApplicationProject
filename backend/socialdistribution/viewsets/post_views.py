@@ -10,6 +10,8 @@ from socialdistribution.serializers import PostSerializer, AuthorSerializer
 from . import urlhandler
 from django.core import serializers
 from rest_framework import permissions
+from socialdistribution.viewsets import inbox_view
+
 
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
@@ -90,6 +92,10 @@ class PostViewSet(viewsets.ModelViewSet):
         Post.objects.create(title= title, id= post_id,  origin = origin, description = description, contentType = contentType,
         content = content, author=author, categories = categories, count= count, comments = comments, published = published, visibility= visibility,
         unlisted= unlisted, uuid = post_uuid)
+
+        # print("POST UPDATE TO INBOX")
+        inbox_view.InboxViewSet.creat_post_rec(self, author_id, post_data)
+
         # serializer = self.serializer_class(data = post_data)
         # print(serializer)
         # if serializer.is_valid():

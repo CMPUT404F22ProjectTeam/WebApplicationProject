@@ -11,6 +11,7 @@ from .viewsets.friend_view import FriendViewSet
 from .viewsets.liked_view import LikedViewSet
 from .viewsets.likes_view import LikesViewSet
 from .viewsets.image_post_view import ImagePostViewSet
+from .viewsets.inbox_view import InboxViewSet
 
 urlpatterns = [
 
@@ -48,3 +49,7 @@ urlpatterns = [
     # image posts request
     path('authors/<str:author_id>/posts/<str:post_id>/image', ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
 
+    # get inbox post
+    path('author/<str:author_id>/inbox', InboxViewSet.as_view({'get': 'get_posts'})),
+    
+]

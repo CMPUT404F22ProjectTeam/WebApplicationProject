@@ -8,6 +8,7 @@ from socialdistribution.models import *
 import uuid
 import datetime
 from django.core.paginator import Paginator
+from socialdistribution.viewsets import inbox_view
 
 
 '''
@@ -72,6 +73,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         "contentType": comment_type,
         "published": publish_time,
         "id": comment_id}
+
+        print("UPDATE COMMENT TO INBOX")
+        inbox_view.InboxViewSet.creat_comment_rec(self, author_id, post_data)
 
         return JsonResponse(response_msg)
 
