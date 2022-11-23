@@ -52,7 +52,7 @@ class PostViewSet(viewsets.ModelViewSet):
         origin = RequestData.get('origin', author_id)
         description = RequestData.get('description', None)
         contentType = RequestData.get('contentType', "text/plain")
-        content = RequestData.get('content', None)
+        content = RequestData.get('content', "")
         categories = RequestData.get('categories', None)
         count = RequestData.get('count', 0)
         visibility = RequestData.get('visibility', "PUBLIC")

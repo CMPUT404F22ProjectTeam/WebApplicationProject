@@ -9,20 +9,19 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.pagination import PageNumberPagination
 from django.core.paginator import Paginator
+from django.http import HttpResponseNotFound, HttpResponse
 
-
-
-#https://stackoverflow.com/questions/534839/how-to-create-a-guid-uuid-in-python
-#https://docs.djangoproject.com/en/4.1/ref/request-response/
-#https://stackoverflow.com/questions/58862330/what-parameter-in-username-request-data-getusername-0
-#https://www.django-rest-framework.org/tutorial/2-requests-and-responses/
 
 # Create your views here.
-HOST = "http://127.0.0.1:8000/"
+HOST = "https://fallprojback.herokuapp.com/"
 
 class AuthorViewSet(viewsets.ModelViewSet):
+    def get_serializer_class(self):
+        return AuthorSerializer
 
-    # URL: ://service/authors OR  GET ://service/authors?page=10&size=5    GET Method DONE
+
+    # GET Method
+    # URL: ://service/authors OR  GET ://service/authors?page=10&size=5    
     def list_all(self, request):
 
         #check url have to pagenation
@@ -32,9 +31,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
         if is_pagination:
             size = request.build_absolute_uri()[-1]
             author_queryset = Author.objects.all()
+            
             # set up pagination
-            # print(">>>>>>>>>>>>>>>>>>>>>")
-            # print(author_queryset):<QuerySet [<Author: test1>, <Author: test000>, <Author: 404hhh>, <Author: 404t05>]>
             pagination = Paginator(author_queryset, size)
             page = request.GET.get('page')
             authors = pagination.get_page(page)
@@ -48,28 +46,22 @@ class AuthorViewSet(viewsets.ModelViewSet):
         return Response(authors_response)
 
 
-
-          
-    
-    # URL://service/authors/{AUTHOR_ID}/ GET METHOD
+    # GET METHOD
+    # URL://service/authors/{AUTHOR_ID}/ 
     def find_author(self, request, author_id):
 
         # get the id from request and delete the "/"
         id = request.build_absolute_uri()[:-1]
-        # id = HOST + f'authors/{author_id}'
-        # print("ID>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ id)
 
-        author = Author.objects.get(id=id)
-        # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ author)
-        #find id in database
         try:
             author = Author.objects.get(id=id)
             author_info = AuthorSerializer(author)
             return Response(author_info.data)
         except:
-            return Response(None)
+            return HttpResponseNotFound('<h1>Page not found</h1>')
     
-    # URL://service/authors/{AUTHOR_ID}/ POST METHOD
+    # POST METHOD
+    # URL://service/authors/{AUTHOR_ID}/ 
     def update_profile(self, request, author_id):
         
         username = request.data.get('username', None)
@@ -109,7 +101,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
             return Response({"msg": "Please input your username or password"}, 500)
 
         #save in database
-        Author.objects.create(id=id, host=host, username=username, url=url, github=github, profileImage =profileImage, admin_permission=admin_permission)
+        Author.objects.create(id=id, host=host, username=username, url=url, github=github, profileImage =profileImage, admin_permission=admin_permission, password=password)
 
         # Response 
         response_msg = {'id': id, 
@@ -120,7 +112,29 @@ class AuthorViewSet(viewsets.ModelViewSet):
         'profileImage': profileImage}
         
         return JsonResponse(response_msg)
+
+    # GET
+    # URL://service/login
+    def login(self, request):
         
+        # get username and password
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        try:
+            author = Author.objects.get(displayName=username)
+            if password == author.password:
+                if not author.admin_permission:
+                    serializer = AuthorSerializer(author)
+                    return Response(serializer.data)
+                else:
+                    return Response(False)
+            else:
+                return HttpResponse('<p>Wrong password</p>')
+
+        except:
+            return HttpResponse('<p>User dose not exist</p>')
+
 
     
 

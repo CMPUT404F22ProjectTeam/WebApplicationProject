@@ -1,12 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './views/home/homePage';
-import WorldPage from './views/worldPage';
-import MessagePage from './views/messagePage';
-import FriendPage from './views/FriendPage';
-import Post from './views/Post'
-import EditProfile from './views/editProfile';
-import OtherUserPage from './views/otherUserPage'
+import WorldPage from './views/world/worldPage';
+import MessagePage from './views/message/messagePage';
+import FriendPage from './views/friend/FriendPage';
+import Post from './views/home/Post'
+import EditProfile from './views/home/editProfile';
+import OtherUserPage from './views/world/otherUserPage'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
@@ -20,12 +20,14 @@ export default function App() {
         <Route exact path='/world' element={< WorldPage />}></Route>
         <Route exact path='/message' element={< MessagePage />}></Route>
         <Route exact path='/friend' element={< FriendPage />}></Route>
-        <Route exact path='/Post' element={< Post />}></Route>  
+        <Route exact path='/Post' element={< Post />}></Route>
         <Route path="/authors/:author_id/posts" element={< Post />} />
-        <Route path="/authors/:author_id" element={< HomePage />}  />
+        <Route path="/authors/:author_id" element={< HomePage />} />
         <Route exact path='/editProfile' element={< EditProfile />}></Route>
         <Route exact path='/otherProfile' element={< OtherUserPage />}></Route>
         <Route exact path='/world/otherProfile' element={< OtherUserPage />}></Route>
+        <Route exact path='/message/otherProfile' element={< OtherUserPage />}></Route>
+        <Route exact path='/friend/otherProfile' element={< OtherUserPage />}></Route>
       </Routes>
     </Router>
 
