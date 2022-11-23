@@ -13,7 +13,9 @@ from .viewsets.likes_view import LikesViewSet
 from .viewsets.image_post_view import ImagePostViewSet
 
 urlpatterns = [
-    # path('login/', AuthorViewSet.as_view({'put': 'sign_up'})),
+
+    path('signup/', AuthorViewSet.as_view({'put': 'sign_up'})),
+    path('login/', AuthorViewSet.as_view({'get': 'login'})),
     # Author url
     path('authors/', AuthorViewSet.as_view({'get': 'list_all'})),
     path('authors/<str:author_id>/', AuthorViewSet.as_view({'get': 'find_author', 'post': 'update_profile'})),
@@ -45,4 +47,5 @@ urlpatterns = [
     
     # image posts request
     path('authors/<str:author_id>/posts/<str:post_id>/image', ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
+
 ]

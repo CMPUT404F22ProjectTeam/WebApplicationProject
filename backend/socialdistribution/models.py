@@ -20,6 +20,7 @@ class Author(AbstractUser):
     github = models.URLField(null=True, blank=True)
     profileImage = models.ImageField(null=True, blank=True)
     admin_permission = models.BooleanField(default="False")
+    password=models.CharField(max_length=255, default = '')
 
 
 class FollowRequest(models.Model):
