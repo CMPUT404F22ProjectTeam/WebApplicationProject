@@ -1,0 +1,31 @@
+.btn {
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #ff6633;
+  margin: 0 auto;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  display: inline-flex;
+  font-weight: 600;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: #cc7000;
+  color: #ffffff;
+}
+
+.btn:active {
+  background: #09223b;
+  color: rgb(255, 255, 255, .7);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, .08);
+  color: rgba(0, 0, 0, .3);
+}
