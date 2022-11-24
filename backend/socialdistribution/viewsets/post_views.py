@@ -26,8 +26,8 @@ Be aware that Posts can be images that need base64 decoding.
 posts can also hyperlink to images that are public
 '''
 
-HOST = 'http://127.0.0.1:8000'
-#HOST='https://fallprojback.herokuapp.com'
+#HOST = 'http://127.0.0.1:8000'
+HOST='https://fallprojback.herokuapp.com'
 
 
 def getPostIDFromRequestURL(id):
@@ -119,13 +119,14 @@ class PostViewSet(viewsets.ModelViewSet):
     # GET get a specific post using POST_ID
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
     def get(self, request, *args, **kwargs):
-        author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
+        # author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
         post_id = HOST + request.get_full_path()[:-1]
-        print(")))))))))))))))))))))))")
-        print(post_id)
-        querypost = Post.objects.get(id=post_id)
-        post_serializer = PostSerializer(querypost)
-        return Response(post_serializer.data)
+        try:
+            querypost = Post.objects.get(id=post_id)
+            post_serializer = PostSerializer(querypost)
+            return Response(post_serializer.data)
+        except:
+            return HttpResponseNotFound('<p>No post record</p>')
 
     # POST update the post whose id is POST_ID (must be authenticated) 
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
@@ -181,8 +182,6 @@ class PostViewSet(viewsets.ModelViewSet):
         # author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
 
         author_id = HOST + '/authors/'+ self.kwargs["author_id"]
-        print(">>>>>>>>>>>>>>>>")
-        print(author_id)
         post_id = HOST + request.get_full_path()[:-1]
         querypost = Post.objects.get(id = post_id)
 
