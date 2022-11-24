@@ -9,6 +9,7 @@ import uuid
 import datetime
 from django.core.paginator import Paginator
 from socialdistribution.viewsets import inbox_view
+from . import urlhandler
 
 
 '''
@@ -28,7 +29,9 @@ def real_post_id(request):
 def current_id(request):
     url = request.build_absolute_uri()[:-1]
     author_id = url.split('/')[4]
-    current_author_id = HOST + f'/authors/{author_id}'
+    # new add from damian
+    host = urlhandler.get_Safe_url(request.build_absolute_uri())
+    current_author_id = host + f'/authors/{author_id}'
     return current_author_id
 
 

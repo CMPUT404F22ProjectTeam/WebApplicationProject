@@ -19,11 +19,11 @@ URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments/{COMMENT_ID}/likes
 GET [local, remote] a list of likes from other authors on AUTHOR_ID’s post POST_ID comment COMMENT_ID
 '''
 
-HOST = 'http://127.0.0.1:8000'
+
 
 def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
-    author_id = f"{HOST}/authors/{id}/"
+    author_id = f"{host}/authors/{id}"
     return author_id
 
 class LikesViewSet(viewsets.ModelViewSet):
@@ -37,10 +37,10 @@ class LikesViewSet(viewsets.ModelViewSet):
         object_id = request.build_absolute_uri()[:-6]
         queryset = Likes.objects.filter(object = object_id)
         queryset = list(queryset.values())
-        # print("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>",object_id)
         return Response(LikesSerializer(queryset, many=True).data)
 
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/likes
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments/{COMMENT_ID}/likes
     # POST [local, remote] a list of likes from other authors on AUTHOR_ID’s post POST_ID
     def postlist(self, request, *args, **kwargs):
         RequestData = request.data.copy()
@@ -49,12 +49,24 @@ class LikesViewSet(viewsets.ModelViewSet):
         context = RequestData.get('context', None)
         summary = RequestData.get('summary', None)
 
-        # create in database
-        Likes.objects.create(context = context, summary = summary, author = author_id, object = object_id)
+
+        # liked = Liked.objects.filter(author = author_id)
+        # Author_instance = Author.objects.get(id = author_id)
+        if 'comments' in object_id:
+            # create in database
+            Likes.objects.create(context = context, summary = summary, author = author_id, comment = object_id)
+            like_data = {'type': 'like','context':context,'summary': summary, 'author':author_id, 'comment':object_id}
+        else:
+            # create in database
+            Likes.objects.create(context = context, summary = summary, author = author_id, object = object_id)
+            like_data = {'type': 'like','context':context,'summary': summary, 'author':author_id, 'post':object_id}
+
+        # liked.items.append(like_data)
+        # liked.save()
 
         queryset = Likes.objects.filter(object = object_id)
         queryset = list(queryset.values())
-        # print("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>",object_id)
+
         return Response(LikesSerializer(queryset, many=True).data)
     
     # URL: ://service/authors/{AUTHOR_ID}/inbox/
