@@ -37,7 +37,7 @@ urlpatterns = [
     # likes request
     path('authors/<str:author_id>/posts/<str:post_id>/likes', LikesViewSet.as_view({'get': 'getlist', 'post': 'postlist'})),
     path('authors/<str:author_id>/posts/<str:post_id>/inbox/', LikesViewSet.as_view({'post': 'create'})),
-    path('authors/<str:author_id>/posts/<str:post_id>/comments/<str:comment_id>/likes', LikesViewSet.as_view({'get': 'getcomments','post': 'postlist'})),
+    path('authors/<str:author_id>/posts/<str:post_id>/comments/<str:comment_id>/likes', LikesViewSet.as_view({'get': 'getcomments'})),
 
     # liked request
     path('authors/<str:author_id>/liked', LikedViewSet.as_view({'get': 'list'})),
