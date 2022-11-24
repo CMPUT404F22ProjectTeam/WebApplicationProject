@@ -49,7 +49,7 @@ class Liked(models.Model):
 
     type = "liked"
 
-    author = models.URLField(max_length=255, default="")
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     items = models.JSONField(default=default_list)
 
 
@@ -76,7 +76,7 @@ class Comment(models.Model):
 
     type = "comment"
 
-    author = models.CharField(max_length=60)
+    author = models.URLField(max_length=255, default="")
     comment = models.TextField(default="")
     contentType = models.CharField(max_length=60)
     published = models.DateTimeField(default=timezone.now)

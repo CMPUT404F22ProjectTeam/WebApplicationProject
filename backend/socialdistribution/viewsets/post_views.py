@@ -120,7 +120,7 @@ class PostViewSet(viewsets.ModelViewSet):
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
     def get(self, request, *args, **kwargs):
         # author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
-        post_id = HOST + request.get_full_path()[:-1]
+        post_id = HOST + request.get_full_path()
         try:
             querypost = Post.objects.get(id=post_id)
             post_serializer = PostSerializer(querypost)
