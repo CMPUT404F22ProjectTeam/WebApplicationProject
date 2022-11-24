@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SingleComment from "./SingleComment";
 import axios from "axios";
 import './CommentList.css'
@@ -6,14 +6,17 @@ import './CommentList.css'
 function CommentList({ postId }) {
     const [comments, setComments] = useState([]);
 
-    axios
-        .get(`${postId}/comments`)
-        .then((data) => {
-            if (data.data.comments) {
-                setComments(data.data.comments)
-            }
-        })
-        .catch((e) => console.log(e));
+    useEffect(() => {
+        axios
+            .get(`${postId}/comments`)
+            .then((data) => {
+                if (data.data.comments) {
+                    setComments(data.data.comments)
+                }
+            })
+            .catch((e) => console.log(e));
+    }, [comments])
+
 
     return (<div>
         <ul className="CommentList">

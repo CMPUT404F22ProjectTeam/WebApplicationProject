@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Form from "./Form";
 import SendIcon from '@mui/icons-material/Send';
 import './SinglePost.css'
@@ -18,33 +18,40 @@ const FriendSinglePost = ({ postId, comments }) => {
     let commentData = new FormData();
     let likeData = new FormData();
 
-    axios
-        .get(`${postId}/`)
-        .then((data) => {
-            setAuthorId(data.data.author)
-            setDescription(data.data.description)
-        })
-        .catch((e) => console.log(e));
-    axios
-        .get(`${postId}/likes`)
-        .then((data) => {
-            setLike(Number(data.data.length))
-        })
-        .catch((e) => console.log(e));
-
-    const handleLike = () => {
-        likeData.append('context', "Charlote likes your post.")
-        likeData.append('summary', "123456")
+    useEffect(() => {
         axios
-            .post(`${postId}/likes`, likeData)
-            .then((response) => {
-                console.log(response);
-                window.location.reload()
+            .get(`${postId}/`)
+            .then((data) => {
+                setAuthorId(data.data.author)
+                setDescription(data.data.description)
             })
-            .catch((e) => {
-                console.log(e);
-            });
-    }
+            .catch((e) => console.log(e));
+        axios
+            .get(`${postId}/likes`)
+            .then((data) => {
+                setLike(Number(data.data.length))
+            })
+            .catch((e) => console.log(e));
+    }, [authorId, description, like])
+
+
+    const handleLike = useCallback(
+        async (e) => {
+            e.preventDefault()
+            likeData.append('context', "Charlote likes your post.")
+            likeData.append('summary', authorId)
+            axios
+                .post(`${postId}/likes`, likeData)
+                .then((response) => {
+                    console.log(response);
+                    window.location.reload()
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+        [authorId]
+    )
 
     axios
         .get(`${authorId}`)

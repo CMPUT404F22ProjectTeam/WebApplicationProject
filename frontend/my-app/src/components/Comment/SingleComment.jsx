@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './CommentList.css'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 const SingleComment = ({ authorId, comment }) => {
-    const me = "http://127.0.0.1:8000/authors/1111111111"
+    const me = "http://fallprojback.herokuapp.com/authors/1111111111"
     const [name, setName] = useState('');
     const AUTHOR_ID = authorId;
     const navigate = useNavigate();
 
-    axios
-        .get(`${AUTHOR_ID}`)
-        .then((data) => {
-            setName(data.data.displayName)
-        })
-        .catch((e) => console.log(e));
+    useEffect(() => {
+        axios
+            .get(`${AUTHOR_ID}`)
+            .then((data) => {
+                setName(data.data.displayName)
+            })
+            .catch((e) => console.log(e));
+    }, [name])
 
     const toOtherUser = () => {
         if (AUTHOR_ID === me) {

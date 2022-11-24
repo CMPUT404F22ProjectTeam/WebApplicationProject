@@ -8,7 +8,7 @@ import axios from 'axios';
 
 export default function EditProfile() {
     const AUTHOR_ID = "1111111111";
-    const base_url = "http://127.0.0.1:8000";
+    const base_url = "https://fallprojback.herokuapp.com";
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [github, setGithub] = useState('');
@@ -44,7 +44,8 @@ export default function EditProfile() {
                 console.log(e);
             });
         this.props.toggle();
-    })
+    }, [name, github]
+    )
 
     return (
         <div className='homePage'>
@@ -68,9 +69,9 @@ export default function EditProfile() {
                             placeholder="github name"
                         />
                         <div className="field is-clearfix">
-                        <button class="btn" type="submit" >
-                            Submit
-                        </button>
+                            <button class="btn" type="submit" >
+                                Submit
+                            </button>
                         </div>
                         <p className="flash">{error}</p>
                     </form>

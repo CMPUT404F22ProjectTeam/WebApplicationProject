@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import './homePage.css'
 import axios from "axios";
 
 export default function Profile() {
     const AUTHOR_ID = "1111111111";
-    const base_url = "http://127.0.0.1:8000";
+    const base_url = "https://fallprojback.herokuapp.com";
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [profile, setProfile] = useState('');
@@ -14,14 +14,16 @@ export default function Profile() {
         navigate("/editProfile")
     }
 
-    axios
-        .get(`${base_url}/authors/${AUTHOR_ID}/`)
-        .then((data) => {
-            setName(data.data.displayName)
-            setProfile(data.data.profileImage)
-            setGithub(data.data.github)
-        })
-        .catch((e) => console.log(e));
+    useEffect(() => {
+        axios
+            .get(`${base_url}/authors/${AUTHOR_ID}/`)
+            .then((data) => {
+                setName(data.data.displayName)
+                setProfile(data.data.profileImage)
+                setGithub(data.data.github)
+            })
+            .catch((e) => console.log(e));
+    }, [name, profile, github])
 
     return (
         <div>

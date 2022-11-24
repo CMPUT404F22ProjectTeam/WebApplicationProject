@@ -1,18 +1,20 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ExMessageData } from './../Example/ExampleMessage'
 import './MessageList.css'
 
 function MessageList() {
     const [requestData, setRequestData] = useState([])
     const AUTHOR_ID = "1111111111";
-    const base_url = "http://127.0.0.1:8000";
-    axios
-        .get(`${base_url}/authors/${AUTHOR_ID}/follow_request`)
-        .then((data) => {
-            setRequestData(Array.from(data.data))
-        })
-        .catch((e) => console.log(e));
+    const base_url = "https://fallprojback.herokuapp.com";
+    useEffect(() => {
+        axios
+            .get(`${base_url}/authors/${AUTHOR_ID}/follow_request`)
+            .then((data) => {
+                setRequestData(Array.from(data.data))
+            })
+            .catch((e) => console.log(e));
+    }, [requestData])
 
     /*
     const handleAccept = (id) => {

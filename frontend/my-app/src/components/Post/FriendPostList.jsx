@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FriendSinglePost from "./FriendSinglePost";
 import CommentList from './../Comment/CommentList';
 import axios from "axios";
@@ -6,14 +6,16 @@ import './PostList.css'
 
 function FriendPostList() {
     const AUTHOR_ID = "1111111111";
-    const base_url = "http://127.0.0.1:8000";
+    const base_url = "https://fallprojback.herokuapp.com";
     const [postData, setPostData] = useState([]);
-    axios
-        .get(`${base_url}/authors/${AUTHOR_ID}/posts_friend_only/`)
-        .then((data) => {
-            setPostData(data.data)
-        })
-        .catch((e) => console.log(e));
+    useEffect(() => {
+        axios
+            .get(`${base_url}/authors/${AUTHOR_ID}/posts_friend_only/`)
+            .then((data) => {
+                setPostData(data.data)
+            })
+            .catch((e) => console.log(e));
+    }, [postData])
 
     return (<div>
         <ul className="PostList">

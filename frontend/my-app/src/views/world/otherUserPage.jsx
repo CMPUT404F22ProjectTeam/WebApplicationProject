@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import './worldPage.css'
 import axios from 'axios';
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function OtherUserPage() {
     const me = "1111111111";
-    const base_url = "http://127.0.0.1:8000";
+    const base_url = "https://fallprojback.herokuapp.com";
     const [objectName, setObjectName] = useState('');
     const [response, setResponse] = useState('');
     const location = useLocation();
@@ -15,12 +15,14 @@ export default function OtherUserPage() {
     const navigate = useNavigate();
     var authorId = String(AUTHOR_ID).split("/").pop();
 
-    axios
-        .get(`${AUTHOR_ID}`)
-        .then((data) => {
-            setObjectName(data.data.displayName)
-        })
-        .catch((e) => console.log(e));
+    useEffect(() => {
+        axios
+            .get(`${AUTHOR_ID}`)
+            .then((data) => {
+                setObjectName(data.data.displayName)
+            })
+            .catch((e) => console.log(e));
+    }, [objectName, AUTHOR_ID])
 
     const handleBack = () => {
         navigate(-1)

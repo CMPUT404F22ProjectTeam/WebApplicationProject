@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "./Form";
 import axios from "axios";
@@ -16,12 +16,14 @@ const MySinglePost = ({ description, image, comments, postId }) => {
     let commentData = new FormData();
     let likeData = new FormData();
 
-    axios
-        .get(`${postId}/likes`)
-        .then((data) => {
-            setLike(Number(data.data.length))
-        })
-        .catch((e) => console.log(e));
+    useEffect(() => {
+        axios
+            .get(`${postId}/likes`)
+            .then((data) => {
+                setLike(Number(data.data.length))
+            })
+            .catch((e) => console.log(e));
+    }, [like])
 
     const handleLike = () => {
         likeData.append('context', "Charlote likes your post.")
@@ -40,18 +42,22 @@ const MySinglePost = ({ description, image, comments, postId }) => {
         navigate("/Post", { state: { id: postId } });
     }
 
-    const handleDel = () => {
-        alert("Delete Successfully!")
-        axios
-            .delete(`${postId}/`)
-            .then((response) => {
-                console.log(response);
-                window.location.reload()
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    }
+    const handleDel = useCallback(
+        async (e) => {
+            e.preventDefault()
+            axios
+                .delete(`${postId}/`)
+                .then((response) => {
+                    console.log(response);
+                    alert("Delete Successfully!")
+                    window.location.reload()
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+        [postId]
+    )
 
     const handleComment = useCallback((event) => {
         setComment(event.target.value)
@@ -75,7 +81,8 @@ const MySinglePost = ({ description, image, comments, postId }) => {
                     console.log(e);
                 });
         }
-    })
+    }, [comment, postId]
+    )
     return (
         <div className="singlePost">
             <p className="singleDes">{description}</p>

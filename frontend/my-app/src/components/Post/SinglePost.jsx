@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Form from "./Form";
 import ShareIcon from '@mui/icons-material/Share';
 import SendIcon from '@mui/icons-material/Send';
@@ -8,7 +8,7 @@ import FormData from 'form-data'
 import { useNavigate } from 'react-router-dom';
 
 const SinglePost = ({ author, postId, comments, description, image, handleShare }) => {
-    const me = "http://127.0.0.1:8000/authors/1111111111"
+    const me = "http://fallprojback.herokuapp.com/authors/1111111111"
     const [like, setLike] = useState(0);
     const [name, setName] = useState('');
     const [comment, setComment] = useState('');
@@ -20,34 +20,39 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
     let commentData = new FormData();
     let likeData = new FormData();
 
-    axios
-        .get(`${postId}/likes`)
-        .then((data) => {
-            setLike(Number(data.data.length))
-        })
-        .catch((e) => console.log(e));
-
-    const handleLike = () => {
-        likeData.append('context', "Charlote likes your post.")
-        likeData.append('summary', "123456")
+    useEffect(() => {
         axios
-            .post(`${postId}/likes`, likeData)
-            .then((response) => {
-                console.log(response);
-                window.location.reload()
+            .get(`${postId}/likes`)
+            .then((data) => {
+                setLike(Number(data.data.length))
             })
-            .catch((e) => {
-                console.log(e);
-            });
+            .catch((e) => console.log(e));
+        axios
+            .get(`${AUTHOR_ID}`)
+            .then((data) => {
+                setName(data.data.displayName)
+            })
+            .catch((e) => console.log(e));
 
-    }
+    }, [like, name])
 
-    axios
-        .get(`${AUTHOR_ID}`)
-        .then((data) => {
-            setName(data.data.displayName)
-        })
-        .catch((e) => console.log(e));
+    const handleLike = useCallback(
+        async (e) => {
+            likeData.append('context', "Charlote likes your post.")
+            likeData.append('summary', AUTHOR_ID)
+            axios
+                .post(`${postId}/likes`, likeData)
+                .then((response) => {
+                    console.log(response);
+                    window.location.reload()
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+
+        },
+        [postId, AUTHOR_ID]
+    )
 
     const toOtherUser = () => {
         if (AUTHOR_ID === me) {
@@ -81,7 +86,8 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
                     console.log(e);
                 });
         }
-    })
+    }, [comment]
+    )
 
     return (
         <div className="singlePost">
