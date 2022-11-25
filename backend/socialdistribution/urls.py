@@ -67,6 +67,7 @@ urlpatterns = [
     path('authors/<str:author_id>/posts/<str:post_id>/image',
          ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
 
+
     #     # get inbox post
     #     path('author/<str:author_id>/inbox',
     #          InboxViewSet.as_view({'get': 'get_posts'})),
@@ -76,5 +77,6 @@ urlpatterns = [
 
     path('current_user/', current_user),
     path('users/', UserList.as_view())
+
 
 ]

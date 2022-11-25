@@ -18,10 +18,12 @@ from django.urls import path
 from django.conf.urls import include
 
 from drf_yasg import openapi
+
 from drf_yasg.views import get_schema_view as swagger_get_schema_view
 
 from rest_framework_jwt.views import obtain_jwt_token as obtainJwtToken
 # from rest_framework_jwt.views import refresh_jwt_token
+
 
 schema_view = swagger_get_schema_view(
     openapi.Info(
@@ -35,6 +37,7 @@ schema_view = swagger_get_schema_view(
 urlpatterns = [
     path('', include('socialdistribution.urls')),
     path('admin/', admin.site.urls),
+
     path('api/v1/',
          include([
              path('swagger/schema/', schema_view.with_ui('swagger',
@@ -42,6 +45,7 @@ urlpatterns = [
          ])
          ),
     path('token-auth/', obtainJwtToken),
+
 ]
 
 

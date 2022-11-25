@@ -80,7 +80,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
         author_info = AuthorSerializer(author)
         return Response(author_info.data)
 
-    # URL: ://service/login   PUT Method
+    # URL: ://service/sign_up/   PUT Method
     def sign_up(self, request):
         # process data for response
         print(request)

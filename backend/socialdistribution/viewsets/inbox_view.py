@@ -12,16 +12,19 @@ from . import urlhandler
 # HOST = 'http://127.0.0.1:8000'
 
 
+
 def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
     author_id = f"{host}/authors/{id}"
     return author_id
 
 
+
 class InboxViewSet(viewsets.ModelViewSet):
     serializer_class = InboxSerializer
     # The inbox is all the new posts from who you follow
     # URL: : // service/authors/{AUTHOR_ID}/inbox
+
 
     # URL: : // service/authors/{AUTHOR_ID}/inbox
     # GET[local]: if authenticated get a list of posts sent to AUTHOR_ID(paginated)
@@ -48,6 +51,7 @@ class InboxViewSet(viewsets.ModelViewSet):
         # for content in inbox:
         #     inbox_info.append(content.get('message'))
 
+
         inbox_data = {
             'type': 'inbox',
             'author': author_id,
@@ -68,6 +72,7 @@ class InboxViewSet(viewsets.ModelViewSet):
         # message = RequestData.get('type', None)
         # inbox = Inbox.objects.filter(author=author_id)
         # if inbox.exists():
+
         #     inbox = Inbox.objects.get(author=author_id)
         # else:
         #     Inbox.objects.create(author=author_id)
@@ -82,7 +87,9 @@ class InboxViewSet(viewsets.ModelViewSet):
         # elif type == "comment":
         #     pass
 
+
         Inbox.objects.create(author=author_id, message=RequestData)
+
 
         return Response(RequestData)
 
@@ -97,6 +104,7 @@ class InboxViewSet(viewsets.ModelViewSet):
         #     inbox.message.clear()
         #     inbox.save()
 
+
         # inbox_data = {
         #     'type': 'inbox',
         #     'author': author_id,
@@ -104,9 +112,11 @@ class InboxViewSet(viewsets.ModelViewSet):
         # }
         return Response("Inbox has deleted with author id: {0}".format(author_id))
 
+
     # # if authenticated get a list of posts sent to AUTHOR_ID (paginated)
     # # POST [local]: if authenticated get a list of posts sent to AUTHOR_ID (paginated)
     # # URL: ://service/authors/{AUTHOR_ID}/inbox
+
 
     # def creat_post_rec(self, author_id, item):
     #     # type POST
@@ -118,6 +128,7 @@ class InboxViewSet(viewsets.ModelViewSet):
     #     items.append(item)
     #     inbox.message = items
     #     inbox.save()
+
 
     #     # try:
     #     #     print("GO TRY___________")
@@ -132,6 +143,7 @@ class InboxViewSet(viewsets.ModelViewSet):
     #     #     items_list=[]
     #     #     items_list.append(item)
     #     #     Inbox.objects.create(author=author_id, message=items_list)
+
 
     #     return
 

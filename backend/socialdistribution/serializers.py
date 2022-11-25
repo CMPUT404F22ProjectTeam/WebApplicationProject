@@ -55,6 +55,7 @@ class InboxSerializer(serializers.ModelSerializer):
         fields = ['type', 'author', 'message']
 
 
+
 # https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a
 
 class UserSerializer(serializers.ModelSerializer):
@@ -88,3 +89,9 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('token', 'username', 'password')
+
+class FriendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Friend
+        fields = ['actor', 'object']
+
