@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import './homePage.css'
 import axios from "axios";
 
+const base_url = process.env.REACT_APP_CURRENT_URL;
+
 export default function Profile() {
     const AUTHOR_ID = "1111111111";
-    const base_url = "https://fallprojback.herokuapp.com";
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [profile, setProfile] = useState('');
