@@ -5,15 +5,16 @@ import CommentList from './../Comment/CommentList'
 import './PostList.css'
 
 
-const base_url = process.env.REACT_APP_CURRENT_URL;
+const base_url = process.env.REACT_APP_API_URL;
 
 function PostList({ handleShare }) {
-    const AUTHOR_ID = "1111111111";
+    const AUTHOR_ID = "37056da9167cd8561877d431be4ecbf12444cce35556c63e217ac27dcbf827ed";
     const [postData, setPostData] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`${base_url}/authors/${AUTHOR_ID}/posts_all`)
+            // .get(`${process.env.REACT_APP_CURRENT_URL}/authors/${AUTHOR_ID}/posts_all`)
+            .get(`${base_url}/authors/${AUTHOR_ID}/posts/`, {auth: { username: 'Leila123', password: '12345678' }})
             .then((data) => {
                 setPostData(data.data.items)
             })
