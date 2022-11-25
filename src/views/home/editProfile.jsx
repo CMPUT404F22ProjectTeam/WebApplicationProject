@@ -6,9 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import FormData from 'form-data';
 import axios from 'axios';
 
+
+const base_url = process.env.REACT_APP_CURRENT_URL;
+
 export default function EditProfile() {
     const AUTHOR_ID = "1111111111";
-    const base_url = "https://fallprojback.herokuapp.com";
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [github, setGithub] = useState('');
