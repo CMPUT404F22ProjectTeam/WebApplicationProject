@@ -13,6 +13,9 @@ from .viewsets.likes_view import LikesViewSet
 from .viewsets.image_post_view import ImagePostViewSet
 from .viewsets.inbox_view import InboxViewSet
 
+from django.urls import path
+from .views import current_user, UserList
+
 urlpatterns = [
 
     path('signup/', AuthorViewSet.as_view({'put': 'sign_up'})),
@@ -70,5 +73,8 @@ urlpatterns = [
     # get inbox post
     path('authors/<str:author_id>/inbox',
          InboxViewSet.as_view({'get': 'getInbox', 'post': 'postInbox', 'delete': 'deleteInbox'})),
+
+    path('current_user/', current_user),
+    path('users/', UserList.as_view())
 
 ]
