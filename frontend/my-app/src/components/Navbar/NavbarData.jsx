@@ -7,7 +7,7 @@ import GroupIcon from '@mui/icons-material/Group';
 export const SidebarData = [
     {
         icon: <HomeIcon />,
-        link: "/",
+        link: "/home",
     },
     {
         icon: <PublicIcon />,

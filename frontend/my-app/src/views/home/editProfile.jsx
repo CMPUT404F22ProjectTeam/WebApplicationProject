@@ -37,7 +37,7 @@ export default function EditProfile() {
             .post(`${base_url}/authors/${AUTHOR_ID}/`, data)
             .then((response) => {
                 console.log(response);
-                navigate('/')
+                navigate('/home')
             })
             .catch((e) => {
                 setError(e)
@@ -53,7 +53,7 @@ export default function EditProfile() {
                 <Navbar />
             </div>
             <div className='split profile'>
-                <Link to={`./../`} className="back">x</Link>
+                <Link to={`./../home`} className="back">x</Link>
                 <div className='container'>
                     <form className='post_information' onSubmit={handleSubmit} >
                         <Form

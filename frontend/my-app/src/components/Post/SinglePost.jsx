@@ -75,12 +75,10 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
         }
         else {
             commentData.append('content', comment)
-            alert(`${me}/posts/${id}`)
             axios
                 .post(`${me}/posts/${id}/comments`, commentData)
                 .then((response) => {
                     console.log(response);
-                    window.location.reload()
                 })
                 .catch((e) => {
                     console.log(e);

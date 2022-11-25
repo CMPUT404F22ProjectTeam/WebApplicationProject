@@ -80,7 +80,6 @@ const FriendSinglePost = ({ postId, comments }) => {
                 .post(`${postId}/comments`, commentData)
                 .then((response) => {
                     console.log(response);
-                    window.location.reload()
                 })
                 .catch((e) => {
                     console.log(e);
