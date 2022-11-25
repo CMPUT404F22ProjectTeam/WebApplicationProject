@@ -64,8 +64,11 @@ urlpatterns = [
     path('authors/<str:author_id>/posts/<str:post_id>/image',
          ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
 
+    #     # get inbox post
+    #     path('author/<str:author_id>/inbox',
+    #          InboxViewSet.as_view({'get': 'get_posts'})),
     # get inbox post
-    path('author/<str:author_id>/inbox',
-         InboxViewSet.as_view({'get': 'get_posts'})),
+    path('authors/<str:author_id>/inbox',
+         InboxViewSet.as_view({'get': 'getInbox', 'post': 'postInbox', 'delete': 'deleteInbox'})),
 
 ]

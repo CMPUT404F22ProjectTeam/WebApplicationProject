@@ -9,6 +9,7 @@ import uuid
 import datetime
 from django.core.paginator import Paginator
 from socialdistribution.viewsets import inbox_view
+from . import urlhandler
 
 
 '''
@@ -19,95 +20,99 @@ POST [local] if you post an object of “type”:”comment”, it will add your
 '''
 
 #HOST = 'http://127.0.0.1:8000'
-HOST='https://fallprojback.herokuapp.com'
+HOST = 'https://fallprojback.herokuapp.com'
+
 
 def real_post_id(request):
     url = request.build_absolute_uri()[:-1]
     post_id = url.split('/')[6]
     return post_id
 
+
 def current_id(request):
     url = request.build_absolute_uri()[:-1]
     author_id = url.split('/')[4]
-    current_author_id = HOST + f'/authors/{author_id}'
+    host = urlhandler.get_Safe_url(request.build_absolute_uri())
+    current_author_id = host + f'/authors/{author_id}'
     return current_author_id
 
 
-
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset=Comment.objects.all()
+    queryset = Comment.objects.all()
     #permission_classes = [permissions.AllowAny]
     serializer_class = CommentSerializer
 
     # POST Method create a new comment
-    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments 
+    # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
     def create_comment(self, request, author_id, post_id):
         # print(author_id) #404hhh
         # print(post_id) #edb04567-c77f-4886-b87d-797bc5ce3ad1
 
         # get data from request
-        current_author_id = current_id(request) # http://localhost:8000/authors/404hhh
+        # http://localhost:8000/authors/404hhh
+        current_author_id = current_id(request)
         comment_content = request.data.get('content')
 
         # create the data for comment
-        publish_time = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
+        publish_time = datetime.datetime.utcnow().replace(
+            tzinfo=datetime.timezone.utc).isoformat()
         comment_uuid = str(uuid.uuid4().hex)
         comment_type = "text/markdown"
 
         #get post origin author
         post = Post.objects.get(uuid=post_id)
-        comment_id = post.id + f'/comments/{comment_uuid}' # http://127.0.0.1:8000/authors/1111111111/posts/e164864f-1bf3-458c-bf50-a9627f275395/comments/960fb760b84342c7b14f88eadf83a408
-        current_author = Author.objects.get(id = current_author_id)
+        # http://127.0.0.1:8000/authors/1111111111/posts/e164864f-1bf3-458c-bf50-a9627f275395/comments/960fb760b84342c7b14f88eadf83a408
+        comment_id = post.id + f'/comments/{comment_uuid}'
+        current_author = Author.objects.get(id=current_author_id)
         author_info = AuthorSerializer(current_author)
         author_json = author_info.data
 
         #save in database and response message
         Comment.objects.create(id=comment_id, author=current_author_id, comment=comment_content,
-        contentType=comment_type, published=publish_time)
+                               contentType=comment_type, published=publish_time)
 
         # add comment in post taoble
-        post.comments = str(comment_id) + '/n'+ str(post.comments)
+        post.comments = str(comment_id) + '/n' + str(post.comments)
         post.count += 1
-        
+
         # print(post.count)
         post.save()
 
-        response_msg = {"type":"comment",
-        "author": author_json,
-        "comment": post.comments,
-        "contentType": comment_type,
-        "published": publish_time,
-        "id": comment_id}
+        response_msg = {"type": "comment",
+                        "author": author_json,
+                        "comment": post.comments,
+                        "contentType": comment_type,
+                        "published": publish_time,
+                        "id": comment_id}
 
+        Inbox.objects.create(author=current_author_id, message=response_msg)
         # print("UPDATE COMMENT TO INBOX")
         # inbox_view.InboxViewSet.creat_comment_rec(self, author_id, post_data)
 
         return JsonResponse(response_msg)
 
     # URL://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
-    # http://service/authors/{authors_id}/posts/{post_id}/comments?page=4&size=40 
+    # http://service/authors/{authors_id}/posts/{post_id}/comments?page=4&size=40
     # GET Method list all comments pagination
     def all_post_comments(self, request, author_id, post_id):
-
 
         real_author_id = HOST + f'/authors/{author_id}'
         #check url have to pagenation
         url = request.build_absolute_uri()
         is_pagination = True if 'page' in url else False
-        
+
         # use post uuid get all comment correspond to this post and save in a list
         comments = []
         post = Post.objects.get(uuid=post_id)
         author = Author.objects.get(id=real_author_id)
         username = author.displayName
-        
+
         if post.comments == None:
             return Response({})
-            
+
         else:
 
             comment_list = post.comments.split("/n")
-
 
             # parse all comments to dictionary
 
@@ -117,17 +122,17 @@ class CommentViewSet(viewsets.ModelViewSet):
                     comments.append(comments_queryset)
                 except:
                     pass
-       
+
             if is_pagination:
                 # set up pagination
                 size = request.build_absolute_uri()[-1]
                 pagination = Paginator(comments, size)
                 page = request.GET.get('page')
                 comments = pagination.get_page(page)
-            
+
             else:
-                size=len(comment_list)
-                page = 1 
+                size = len(comment_list)
+                page = 1
 
             all_comments = CommentSerializer(comments, many=True)
             real_post_id = HOST + f'/authors/{author_id}/posts/{post_id}'
@@ -137,21 +142,8 @@ class CommentViewSet(viewsets.ModelViewSet):
                 "page": page,
                 "size": size,
                 "post": real_post_id,
-                "id":real_comment_id,
+                "id": real_comment_id,
                 "comments": all_comments.data
-                }
+            }
 
             return Response(comments_response)
-
-
-
-
-
-
-        
-
-
-    
-
-
-        
