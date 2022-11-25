@@ -43,6 +43,13 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 `python manage.py runserver`
 to view api documentations after building, go to `http://127.0.0.1:8000/admin` if working on local host
 
+#### When working:
+
+- If adding new dependency always add to requirements.txt file
+  - `pip freeze > requirements.txt`
+- To update your installation after a pull, simply run pip install again
+  - `pip install -r requirements.txt`
+  
 ### Frontend
 ```
 npm install
