@@ -67,8 +67,9 @@ class Likes(models.Model):
 class Inbox(models.Model):
 
     type = "Inbox"
+    
     author = models.CharField(max_length=256, default="")
-    message = models.JSONField(null=True)
+    message = models.JSONField(default=default_list)
 
 
 # Damian

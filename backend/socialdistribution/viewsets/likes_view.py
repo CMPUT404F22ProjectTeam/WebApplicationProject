@@ -57,13 +57,15 @@ class LikesViewSet(viewsets.ModelViewSet):
                 context=context, summary=summary, author=author_id, comment=object_id)
             like_data = {'type': 'like', 'context': context,
                          'summary': summary, 'author': author_id, 'comment': object_id}
+            Inbox.objects.create(author=author_id, message=like_data)
         else:
             # create in database
             Likes.objects.create(
                 context=context, summary=summary, author=author_id, object=object_id)
             like_data = {'type': 'like', 'context': context,
                          'summary': summary, 'author': author_id, 'post': object_id}
-
+            Inbox.objects.create(author=author_id, message=like_data)
+            
         # liked.items.append(like_data)
         # liked.save()
 

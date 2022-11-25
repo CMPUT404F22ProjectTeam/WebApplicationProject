@@ -9,6 +9,7 @@ import uuid
 import datetime
 from django.core.paginator import Paginator
 from socialdistribution.viewsets import inbox_view
+from . import urlhandler
 
 
 '''
@@ -29,7 +30,8 @@ def real_post_id(request):
 def current_id(request):
     url = request.build_absolute_uri()[:-1]
     author_id = url.split('/')[4]
-    current_author_id = HOST + f'/authors/{author_id}'
+    host = urlhandler.get_Safe_url(request.build_absolute_uri())
+    current_author_id = host + f'/authors/{author_id}'
     return current_author_id
 
 
@@ -79,6 +81,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         "published": publish_time,
         "id": comment_id}
 
+        Inbox.objects.create(author=current_author_id, message=response_msg)
         # print("UPDATE COMMENT TO INBOX")
         # inbox_view.InboxViewSet.creat_comment_rec(self, author_id, post_data)
 

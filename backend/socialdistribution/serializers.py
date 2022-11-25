@@ -32,3 +32,9 @@ class ImagePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostImage
         fields = ['post', 'image']
+
+
+class InboxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inbox
+        fields = ['type', 'author', 'message']
