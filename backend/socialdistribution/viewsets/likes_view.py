@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from socialdistribution.models import *
 from socialdistribution.serializers import PostSerializer, AuthorSerializer, LikesSerializer
 from . import urlhandler
-
+from rest_framework import permissions
 '''
 You can like posts and comments
 Send them to the inbox of the author of the post or comment
@@ -29,6 +29,7 @@ def getAuthorIDFromRequestURL(request, id):
 class LikesViewSet(viewsets.ModelViewSet):
     serializer_class = LikesSerializer
     queryset = Likes.objects.all()
+    permission_classes = (permissions.AllowAny,)
 
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/likes
     # GET [local, remote] a list of likes from other authors on AUTHOR_ID’s post POST_ID
@@ -65,7 +66,7 @@ class LikesViewSet(viewsets.ModelViewSet):
             like_data = {'type': 'like', 'context': context,
                          'summary': summary, 'author': author_id, 'post': object_id}
             Inbox.objects.create(author=author_id, message=like_data)
-            
+
         # liked.items.append(like_data)
         # liked.save()
 

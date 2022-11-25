@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from socialdistribution.models import *
 from socialdistribution.serializers import *
 from . import urlhandler
-
+from rest_framework import permissions
 '''
 URL: ://service/authors/{AUTHOR_ID}/liked
 GET [local, remote] list what public things AUTHOR_ID liked.
@@ -24,9 +24,10 @@ def getAuthorIDFromRequestURL(request, id):
 
 class LikedViewSet(viewsets.ModelViewSet):
     queryset = Likes.objects.all()
-
+    permission_classes = (permissions.AllowAny,)
     # URL: ://service/authors/{AUTHOR_ID}/liked
     # GET [local, remote] list what public things AUTHOR_ID liked
+
     def list(self, request, *args, **kwargs):
         author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
         liked = Likes.objects.filter(author=author_id)

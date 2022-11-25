@@ -18,7 +18,12 @@ from django.urls import path
 from django.conf.urls import include
 
 from drf_yasg import openapi
-from drf_yasg.views import get_schema_view  as swagger_get_schema_view 
+
+from drf_yasg.views import get_schema_view as swagger_get_schema_view
+
+from rest_framework_jwt.views import obtain_jwt_token as obtainJwtToken
+# from rest_framework_jwt.views import refresh_jwt_token
+from rest_framework_simplejwt import views as jwt_views
 
 schema_view = swagger_get_schema_view(
     openapi.Info(
@@ -32,9 +37,26 @@ schema_view = swagger_get_schema_view(
 urlpatterns = [
     path('', include('socialdistribution.urls')),
     path('admin/', admin.site.urls),
-    path('api/v1/', 
-        include([
-            path('swagger/schema/', schema_view.with_ui('swagger', cache_timeout=0), name="swagger-schema"),
-        ])
-    ),
+
+    path('api/v1/',
+         include([
+             path('swagger/schema/', schema_view.with_ui('swagger',
+                                                         cache_timeout=0), name="swagger-schema"),
+         ])
+         ),
+    path('token-auth/', obtainJwtToken),
+    # path('docs/', schema_view.with_ui('redoc',
+    #                                   cache_timeout=0), name='schema-redoc'),
+    # path('swagger/', schema_view.with_ui('swagger',
+    #                                      cache_timeout=0), name='schema-swagger-ui'),
+
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(),
+         name='token_refresh'),
+
 ]
+
+
+# path(r'^api-token-refresh/', refresh_jwt_token),
