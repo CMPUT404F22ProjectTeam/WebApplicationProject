@@ -5,9 +5,10 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+const base_url = process.env.REACT_APP_CURRENT_URL;
+
 export default function OtherUserPage() {
     const me = "1111111111";
-    const base_url = "https://fallprojback.herokuapp.com";
     const [objectName, setObjectName] = useState('');
     const [response, setResponse] = useState('');
     const location = useLocation();

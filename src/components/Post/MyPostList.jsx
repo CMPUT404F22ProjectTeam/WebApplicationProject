@@ -4,9 +4,11 @@ import MySinglePost from "./../Post/MySinglePost";
 import CommentList from './../Comment/CommentList'
 import './PostList.css'
 
+
+const base_url = process.env.REACT_APP_CURRENT_URL;
+
 function MyPostList() {
     const AUTHOR_ID = "1111111111";
-    const base_url = "https://fallprojback.herokuapp.com";
     const [postData, setPostData] = useState([]);
 
     useEffect(() => {

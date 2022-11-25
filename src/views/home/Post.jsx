@@ -10,7 +10,7 @@ import axios from "axios";
 
 import FormData from 'form-data';
 
-const base_url = "https://fallprojback.herokuapp.com";
+const base_url = process.env.REACT_APP_CURRENT_URL;
 const userID = "1111111111";
 // Post
 const initState = {
