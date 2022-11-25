@@ -7,12 +7,14 @@ from socialdistribution.models import *
 from . import urlhandler
 
 HOST = 'http://127.0.0.1:8000'
+
 #HOST='https://fallprojback.herokuapp.com'
 
 def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
     author_id = f"{host}/authors/{id}"
     return author_id
+
 
 class FollowRequestViewSet(viewsets.ModelViewSet):
     queryset=FollowRequest.objects.all()
@@ -35,8 +37,10 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
         object = Author.objects.get(id=real_object_id)
         object_username = object.displayName
         summary = f'{actor_username} wants to follow {object_username}'
+
         request_status = "R" # R :sending requirement 
         id=f"{kwargs['author_id']}to{kwargs['object_author_id']}"
+
 
         
         # check if already exist request
@@ -47,14 +51,14 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
                 response_msg = "request has been sent"
             else:
                 response_msg = "Friend"
-        except:    
+        except:
             FollowRequest.objects.create(
-            summary = summary, actor=real_author_id, object=real_object_id, relation=request_status, id=id)
+                summary=summary, actor=real_author_id, object=real_object_id, relation=request_status, id=id)
             response_msg = "Sending"
-            
+
 
         return Response(response_msg)
-        
+
     # GET Method
     # author get all follow request from object
     # URL: ://service/authors/{AUTHOR_ID}/follow_request
@@ -65,22 +69,15 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
         #get current id and object id
         real_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
 
-        request_set = FollowRequest.objects.filter(object=real_author_id, relation='R')
+        request_set = FollowRequest.objects.filter(
+            object=real_author_id, relation='R')
         for item in request_set:
             actors = Author.objects.get(id=item.actor)
-            request_list.append({'displayName': actors.displayName, 'id':actors.id})
+            request_list.append(
+                {'displayName': actors.displayName, 'id': actors.id})
 
         if len(request_list) == 0:
-             return Response({})
+            return Response({})
 
         else:
             return Response(request_list)
-
-    
-
-
-
-       
-
-
-
