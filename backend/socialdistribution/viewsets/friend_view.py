@@ -5,7 +5,9 @@ from socialdistribution.models import Author, FollowRequest
 from rest_framework.response import Response
 from socialdistribution.serializers import FollowersSerializer
 
-HOST = 'http://127.0.0.1:8000'
+# HOST = 'http://127.0.0.1:8000'
+HOST='https://fallprojback.herokuapp.com'
+
 class FriendViewSet(viewsets.ModelViewSet):
 
     #GET Method
@@ -90,6 +92,8 @@ class FriendViewSet(viewsets.ModelViewSet):
 
         return Response(response_msg)
 
+    
+    
     # DELETE
     # remove FOREIGN_AUTHOR_ID as a follower of AUTHOR_ID
     # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}

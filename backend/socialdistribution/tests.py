@@ -27,6 +27,7 @@
 #         ryan_user = Author.objects.get(displayName="Ryan")
 #         self.assertFalse(ryan_user.user.is_active)
     
+    
 from django.test import TestCase, override_settings
 from rest_framework.authtoken.models import Token, TokenProxy
 from rest_framework.test import APIClient, APITestCase 
@@ -75,4 +76,5 @@ class AuthorAndAuthenticationTestCase(APITestCase):
             "Password": [str(self.author1.password)]
         }
         response = self.client.get("/api/authors/" + str(self.author1.id), request_body)
+
         self.assertEqual(self.response_code, status.HTTP_200_OK)

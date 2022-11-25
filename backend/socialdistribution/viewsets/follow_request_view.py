@@ -5,7 +5,10 @@ from socialdistribution.models import Author
 from rest_framework.response import Response
 from socialdistribution.models import *
 
-HOST = 'http://127.0.0.1:8000'
+# HOST = 'http://127.0.0.1:8000'
+HOST='https://fallprojback.herokuapp.com'
+
+
 class FollowRequestViewSet(viewsets.ModelViewSet):
 
     # POST Method
@@ -40,8 +43,6 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
             summary = summary, actor=real_author_id, object=real_object_id, relation=request_status, id=id)
             response_msg = "Sending"
             
-        # TODO: sendtoinbox???
-
 
         return Response(response_msg)
         
