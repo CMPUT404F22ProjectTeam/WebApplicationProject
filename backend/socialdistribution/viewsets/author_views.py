@@ -84,6 +84,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
     # URL: ://service/login   PUT Method
     def sign_up(self, request):
         # process data for response
+        print(request)
         username = request.data.get('username')
         password = request.data.get('password')
 
@@ -100,7 +101,10 @@ class AuthorViewSet(viewsets.ModelViewSet):
             return Response({"msg": "Please input your username or password"}, 500)
 
         #save in database
+
         Author.objects.create(id=id, host=host, username=username, url=url, github=github, profileImage =profileImage, admin_permission=admin_permission, password=password)
+
+        Inbox.objects.create(id=id, message=[])
 
         # Response 
         response_msg = {'id': id, 

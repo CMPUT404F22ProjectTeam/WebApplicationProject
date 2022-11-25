@@ -8,6 +8,8 @@ from socialdistribution.models import *
 import uuid
 import datetime
 from django.core.paginator import Paginator
+from socialdistribution.viewsets import inbox_view
+from . import urlhandler
 
 
 '''
@@ -17,7 +19,8 @@ GET [local, remote] get the list of comments of the post whose id is POST_ID (pa
 POST [local] if you post an object of “type”:”comment”, it will add your comment to the post whose id is POST_ID
 '''
 
-HOST = 'http://127.0.0.1:8000'
+#HOST = 'http://127.0.0.1:8000'
+HOST='https://fallprojback.herokuapp.com'
 
 def real_post_id(request):
     url = request.build_absolute_uri()[:-1]
@@ -27,12 +30,17 @@ def real_post_id(request):
 def current_id(request):
     url = request.build_absolute_uri()[:-1]
     author_id = url.split('/')[4]
-    current_author_id = HOST + f'/authors/{author_id}'
+    host = urlhandler.get_Safe_url(request.build_absolute_uri())
+    current_author_id = host + f'/authors/{author_id}'
     return current_author_id
 
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    queryset=Comment.objects.all()
+    #permission_classes = [permissions.AllowAny]
+    serializer_class = CommentSerializer
+
     # POST Method create a new comment
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments 
     def create_comment(self, request, author_id, post_id):
@@ -73,18 +81,23 @@ class CommentViewSet(viewsets.ModelViewSet):
         "published": publish_time,
         "id": comment_id}
 
+        Inbox.objects.create(author=current_author_id, message=response_msg)
+        # print("UPDATE COMMENT TO INBOX")
+        # inbox_view.InboxViewSet.creat_comment_rec(self, author_id, post_data)
+
         return JsonResponse(response_msg)
 
     # URL://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
     # http://service/authors/{authors_id}/posts/{post_id}/comments?page=4&size=40 
     # GET Method list all comments pagination
     def all_post_comments(self, request, author_id, post_id):
+
+
         real_author_id = HOST + f'/authors/{author_id}'
         #check url have to pagenation
         url = request.build_absolute_uri()
         is_pagination = True if 'page' in url else False
         
-
         # use post uuid get all comment correspond to this post and save in a list
         comments = []
         post = Post.objects.get(uuid=post_id)
@@ -95,15 +108,19 @@ class CommentViewSet(viewsets.ModelViewSet):
             return Response({})
             
         else:
-            comment_list = post.comments.split("/n")[:-1]
 
-        
+            comment_list = post.comments.split("/n")
+
+
             # parse all comments to dictionary
+
             for item in comment_list:
-                comments_queryset = Comment.objects.get(id=item)
-                comments.append(comments_queryset)
-
-
+                try:
+                    comments_queryset = Comment.objects.get(id=item)
+                    comments.append(comments_queryset)
+                except:
+                    pass
+       
             if is_pagination:
                 # set up pagination
                 size = request.build_absolute_uri()[-1]
@@ -115,7 +132,6 @@ class CommentViewSet(viewsets.ModelViewSet):
                 size=len(comment_list)
                 page = 1 
 
-            
             all_comments = CommentSerializer(comments, many=True)
             real_post_id = HOST + f'/authors/{author_id}/posts/{post_id}'
             real_comment_id = real_post_id + f'/comments'
@@ -128,7 +144,7 @@ class CommentViewSet(viewsets.ModelViewSet):
                 "comments": all_comments.data
                 }
 
-            return JsonResponse(comments_response)
+            return Response(comments_response)
 
 
 
