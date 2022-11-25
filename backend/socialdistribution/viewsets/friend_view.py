@@ -4,28 +4,35 @@ from socialdistribution.serializers import AuthorSerializer
 from socialdistribution.models import Author, FollowRequest
 from rest_framework.response import Response
 from socialdistribution.serializers import FollowersSerializer
+from . import urlhandler
 
-# HOST = 'http://127.0.0.1:8000'
+#HOST = 'http://127.0.0.1:8000'
 HOST='https://fallprojback.herokuapp.com'
+
+
+def getAuthorIDFromRequestURL(request, id):
+    host = urlhandler.get_Safe_url(request.build_absolute_uri())
+    author_id = f"{host}/authors/{id}"
+    return author_id
 
 class FriendViewSet(viewsets.ModelViewSet):
 
     #GET Method
     #get all follows of given author_id
     #URL: ://service/authors/{AUTHOR_ID}/followers
-    def get_followers(self, request, author_id):
+    def get_followers(self, request, *args, **kwargs):
 
         followers_list = []
         # get real aurhor id
-        real_author_id = HOST + f'/authors/{author_id}'
+        real_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
         check = {'object':real_author_id,'relation':'F'}
-        followers_queryset = FollowRequest.objects.filter(**check)
+        followers_queryset = FollowRequest.objects.filter(object=real_author_id)
         for item in followers_queryset:
             # follower_list.append(item.actor)
             follower = Author.objects.get(id=item.actor)
             followers_list.append(follower)
 
-        # print(followers_list)
+        #print(followers_list)
 
         if len(followers_list) == 0 :
             response_msg = {
@@ -34,13 +41,6 @@ class FriendViewSet(viewsets.ModelViewSet):
 
             }
 
-        elif len(followers_list) == 1 :
-            author_info = AuthorSerializer(followers_list).data
-            response_msg = {
-            "type": "followers",
-            "items": author_info               
-
-            }
         else:
             author_info = AuthorSerializer(followers_list, many=True).data
 
@@ -55,10 +55,10 @@ class FriendViewSet(viewsets.ModelViewSet):
     # GET
     # check if FOREIGN_AUTHOR_ID is a follower of AUTHOR_ID
     # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
-    def is_follower(self, request, author_id, foreign_author_id):
-        real_author_id = HOST + f'/authors/{author_id}'
-        real_object_id = HOST + f'/authors/{foreign_author_id}'
-        id = f'{foreign_author_id}to{author_id}'
+    def is_follower(self, request, *args, **kwargs):
+        real_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
+        real_object_id = getAuthorIDFromRequestURL(request, kwargs['foreign_author_id'])
+        id = {kwargs['foreign_author_id']}+'to'+{kwargs['author_id']}
         # print(">>>>>>>>>>>>>>>>>>>>>")
         # print(id)
         try:
@@ -78,10 +78,9 @@ class FriendViewSet(viewsets.ModelViewSet):
     # PUT  
     # Add FOREIGN_AUTHOR_ID as a follower of AUTHOR_ID (must be authenticated)
     # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
-    def accept_follow_request(self, request, author_id, foreign_author_id):
+    def accept_follow_request(self, request, *args, **kwargs):
 
-        id = f'{foreign_author_id}to{author_id}'
-
+        id = {kwargs['foreign_author_id']}+'to'+{kwargs['author_id']}
         try:
             follow_request = FollowRequest.objects.get(id=id)
             follow_request.relation = 'F'
@@ -97,10 +96,9 @@ class FriendViewSet(viewsets.ModelViewSet):
     # DELETE
     # remove FOREIGN_AUTHOR_ID as a follower of AUTHOR_ID
     # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
-    def remove_follower(self, request, author_id, foreign_author_id):
+    def remove_follower(self, request, *args, **kwargs):
 
-        id = f'{foreign_author_id}to{author_id}'
-
+        id = {kwargs['foreign_author_id']}+'to'+{kwargs['author_id']}
         try:
             follower = FollowRequest.objects.get(id=id)
             if follower.relation == 'F':
@@ -112,6 +110,7 @@ class FriendViewSet(viewsets.ModelViewSet):
             response_msg = 'Not your follower'
 
         return Response(response_msg)
+    
 
     
 
