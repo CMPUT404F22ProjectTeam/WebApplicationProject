@@ -5,7 +5,6 @@ import FormData from 'form-data'
 import CommentList from './../Comment/CommentList'
 import './PostList.css'
 import { get } from '../Api'
-import { sizeHeight } from "@mui/system";
 
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
@@ -21,7 +20,7 @@ function PostList({ handleShare }) {
     const [authors, setAuthors] = useState([]);
     const [authors6, setAuthors6] = useState([]);
     const [authors7, setAuthors7] = useState([]);
-
+    /*
     useEffect(() => {
         axios.get(`${base_url}/authors/${AUTHOR_ID}/posts_all/`)
             .then((res) => {
@@ -29,7 +28,7 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [postData])
-
+    */
     useEffect(() => {
         get(`${t06_url}/authors/`)
             .then((res) => {
@@ -49,17 +48,16 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [authors6, postData6])
-    /*
+
     useEffect(() => {
-        get(`${t07_url}/service/authors/`)
+        axios.get(`${t07_url}/service/authors/`)
             .then((res) => {
-                setAuthors7(res.items)
+                setAuthors7(res.data.items)
                 authors7.forEach((author) => {
-                    get(`${t07_url}/service/${author.id}/posts/`)
+                    axios.get(`${t07_url}/service/authors/${author.id}/posts/`)
                         .then((res) => {
-                            res.items.forEach((post) => {
+                            Object.values(res.data).forEach((post) => {
                                 var index = JSON.stringify(postData7).indexOf(JSON.stringify(post))
-                                console.log(index)
                                 if (post.visibility === "PUBLIC" && index === -1) {
                                     setPostData7(postData7 => [...postData7, post])
                                 }
@@ -70,7 +68,7 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [authors7, postData7])
-    */
+
     return (<div>
         <ul className="PostList">
             {postData.map((val, key) => {
