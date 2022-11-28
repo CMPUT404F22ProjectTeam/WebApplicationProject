@@ -20,7 +20,7 @@ function PostList({ handleShare }) {
     const [authors, setAuthors] = useState([]);
     const [authors6, setAuthors6] = useState([]);
     const [authors7, setAuthors7] = useState([]);
-    /*
+
     useEffect(() => {
         axios.get(`${base_url}/authors/${AUTHOR_ID}/posts_all/`)
             .then((res) => {
@@ -28,7 +28,7 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [postData])
-    */
+
     useEffect(() => {
         get(`${t06_url}/authors/`)
             .then((res) => {
