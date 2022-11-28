@@ -241,7 +241,7 @@ export default class Post extends Component {
                   </div>
                 )}
                 <div className="field is-clearfix">
-                  <Link to={`./../`} class="btn" onClick={this.save}>
+                  <Link to={`./../home`} class="btn" onClick={this.save}>
                     Submit
                   </Link>
                 </div>
