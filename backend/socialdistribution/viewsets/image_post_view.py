@@ -21,7 +21,7 @@ HOST = 'http://127.0.0.1:8000'
 
 def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
-    author_id = f"{HOST}/authors/{id}/"
+    author_id = f"{host}/authors/{id}/"
     return author_id
 
 class ImagePostViewSet(viewsets.ModelViewSet):
