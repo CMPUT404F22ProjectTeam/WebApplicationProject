@@ -7,13 +7,13 @@ import "./Login.css";
 export default function Login() {
 
     const navigate = useNavigate();
-    const [email, setEmail] = useState('')
+    const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
 
-    const handleEmail = useCallback((event) => {
+    const handleName = useCallback((event) => {
         setError('')
-        setEmail(event.target.value)
+        setName(event.target.value)
     }, []);
 
     const handlePassword = useCallback((event) => {
@@ -23,25 +23,25 @@ export default function Login() {
 
     const handleLogin = useCallback(async (e) => {
         e.preventDefault()
-        if (!email) {
-            setError('*Email cannot be blank!')
+        if (!name) {
+            setError('*Name cannot be blank!')
         } else if (!password) {
             setError('*Password cannot be blank!')
         } else {
             /*connect with backend*/
             navigate('/home')
         }
-    }, [email, password])
+    }, [name, password])
 
     return (
         <form className='login' onSubmit={handleLogin}>
             <h1>Login</h1>
             <div class="container">
                 <Form
-                    type="email"
-                    name="email"
-                    action={handleEmail}
-                    placeholder="Email"
+                    type="text"
+                    name="username"
+                    action={handleName}
+                    placeholder="Name"
                 ></Form>
                 <Form
                     type="password"
