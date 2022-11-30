@@ -50,11 +50,14 @@ export default function EditProfile() {
     )
 
     return (
-        <div className='homePage'>
+        <div className='editProfile'>
             <div className='bar'>
                 <Navbar />
             </div>
+            
             <div className='split profile'>
+            <hr></hr>
+            <div className='container edit'>
                 <Link to={`./../home`} className="back">x</Link>
                 <div className='container'>
                     <form className='post_information' onSubmit={handleSubmit} >
@@ -78,6 +81,7 @@ export default function EditProfile() {
                         <p className="flash">{error}</p>
                     </form>
                 </div>
+            </div>
             </div>
         </div>
     );

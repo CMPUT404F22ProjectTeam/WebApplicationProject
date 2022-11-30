@@ -1,6 +1,6 @@
 .Sidebar {
     display: flex;
-    height: 100%;
+    height: 100vh;
     width: 10%;
     left:0;
     background-color: #f7f8fa;
@@ -10,7 +10,6 @@
     display: inline-block;
     margin: 0;
     padding: 0;
-    /* zoom:1; */
     display: inline;
 } 
 
@@ -43,11 +42,11 @@
 
 .icon-button:hover,
 .icon-button:focus {
-    background-color: #cc7000;
+    background-color: #ff6633;
     color: #ffffff;
 }
 
 .row #active {
-    background-color: #cc7000;
+    background-color: #ff6633;
     color: #ffffff;
 }

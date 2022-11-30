@@ -6,14 +6,12 @@ import CommentList from './../Comment/CommentList'
 import './PostList.css'
 import { get } from '../Api'
 
-
 const base_url = process.env.REACT_APP_CURRENT_URL;
 const t06_url = process.env.REACT_APP_API_URL;
 const t07_url = process.env.REACT_APP_API2_URL;
 
-
 function PostList({ handleShare }) {
-    const AUTHOR_ID = "1111111111";
+    const AUTHOR_ID = "37056da9167cd8561877d431be4ecbf12444cce35556c63e217ac27dcbf827ed";
     const [postData, setPostData] = useState([]);
     const [postData6, setPostData6] = useState([]);
     const [postData7, setPostData7] = useState([]);

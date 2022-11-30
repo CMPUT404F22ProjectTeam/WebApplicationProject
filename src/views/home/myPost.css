@@ -1,5 +1,4 @@
 .btn {
-  align-items: center;
   padding: 12px 20px;
   background-color: #ff6633;
   margin: 0 auto;
@@ -15,7 +14,7 @@
 
 .btn:hover,
 .btn:focus {
-  background-color: #cc7000;
+  background-color: #b34f2e;
   color: #ffffff;
 }
 
