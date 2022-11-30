@@ -2,9 +2,8 @@
     display: flex;
     flex-direction: column;
     margin-top: 10px;
-    margin-right: 10px;
-    border: 2px solid rgba(211, 211, 211, .5);
-    box-shadow: 5px 10px 18px #888888;
+    background-color: #ffffff;
+    border-radius: 1ch;
 }
 
 .postImage {
@@ -33,7 +32,7 @@
     padding: 8px;
     border: 0;
     border-radius: 10px;
-    background-color: orange;
+    background-color: #ff6633;
     color: #ffffff;
     cursor: pointer;
     display: inline-flex;
@@ -41,18 +40,19 @@
 }
 
 .eds:hover {
-    background-color: #cc7000;
+    background-color: #b34f2e;
     color: #ffffff;
 }
 
 .like {
-    height: 45px;
-    width: 60px;
-    margin-left: 10px;
+    height: 40px;
+    width: 40px;
+    margin-left: 5px;
     margin-right: 10px;
+    padding: 8px;
     border: 0;
-    border-radius: 8px;
-    background-color: orange;
+    border-radius: 10px;
+    background-color: #ff6633;
     color: #ffffff;
     cursor: pointer;
     display: inline-flex;
@@ -61,7 +61,7 @@
 }
 
 .like:hover {
-    background-color: #cc7000;
+    background-color: #b34f2e;
     color: #ffffff;
 }
 

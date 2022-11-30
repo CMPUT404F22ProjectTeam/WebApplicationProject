@@ -8,11 +8,7 @@
     left: 10%;
     width: 20%;
     height: 100%;
-    border: 1px groove #d3d3d3;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-items: center;
 }
 
 .bar {

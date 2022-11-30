@@ -10,6 +10,7 @@ export default function HomePage() {
                 <HomeNavbar />
             </div>
             <div className='split Home'>
+            <hr></hr>
                 <div className='container'>
                     <MyPost />
                 </div>

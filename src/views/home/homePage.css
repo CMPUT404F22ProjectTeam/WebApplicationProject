@@ -5,6 +5,18 @@
     height: 100%;
 }
 
+.editProfile{
+    background-color: #f7f8fa;
+}
+.profile {
+    background-color: #f7f8fa;
+    padding: 0;
+    left: 10%;
+    width: 20%;
+    height: 100%;
+    display: flex;
+}
+
 .split {
     height: 100%;
     position: fixed;
@@ -19,6 +31,12 @@
     align-items: center;
 }
 
+
+.home{
+    height: 100%;
+    width: 100%;
+
+}
 .name {
     text-align: center;
     font-size: large;
@@ -30,40 +48,6 @@
     position: relative;
     margin-top: 60px;
     border-radius: 50%;
-}
-
-.editProfile {
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    align-items: center;
-    background-color: orange;
-    border: 0;
-    border-radius: 100px;
-    box-sizing: border-box;
-    color: #ffffff;
-    cursor: pointer;
-    display: inline-flex;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 20px;
-    min-height: 40px;
-    overflow: hidden;
-    padding: 0px;
-    padding-left: 20px;
-    padding-right: 20px;
-    text-align: center;
-    text-decoration: none;
-}
-
-.editProfile:hover {
-    background-color: #cc7000;
-    color: #ffffff;
-}
-
-.editProfile:disabled {
-    background-color: #cc7000;
-    color: #ffffff;
 }
 
 .profileImgDiv {

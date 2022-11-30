@@ -27,8 +27,9 @@ export default function Profile() {
     }, [name, profile, github])
 
     return (
-        <div>
-            <button className="editProfile" disabled={window.location.pathname === '/Post'} onClick={handleEdit}>Edit</button>
+        <div className="home">
+            <div className='container'>
+            <button className="btn" disabled={window.location.pathname === '/Post'} onClick={handleEdit}>Edit</button>
             <div className="profileImgDiv">
                 <img class='profileimg' src={require("./../../public/profile.jpg")} alt="profile" width="100px" height="100px" />
             </div>
@@ -36,6 +37,7 @@ export default function Profile() {
             <p className='name'>{name}</p>
             <p className='name'>Github:</p>
             <a href={github}>{github}</a>
+            </div>
         </div>
     );
 }

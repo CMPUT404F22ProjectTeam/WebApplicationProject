@@ -6,6 +6,7 @@ import './SinglePost.css'
 import axios from "axios";
 import FormData from 'form-data'
 import { useNavigate } from 'react-router-dom';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const SinglePost = ({ author, postId, comments, description, image, handleShare }) => {
     const me = "http://fallprojback.herokuapp.com/authors/1111111111"
@@ -108,7 +109,7 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
                     <SendIcon />
                 </button>
                 <button className="like" onClick={handleLike}>
-                    Like {like}
+                     <FavoriteBorderIcon /> {like}
                 </button>
             </div>
             <p className="flash">{commentError}</p>

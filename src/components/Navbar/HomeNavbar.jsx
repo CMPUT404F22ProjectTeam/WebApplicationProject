@@ -9,7 +9,9 @@ export default function HomeNavbar() {
             <div className='bar'>
                 <Navbar />
             </div>
+            
             <div className='split profile'>
+            <hr></hr>
                 <Profile />
             </div>
         </div>
