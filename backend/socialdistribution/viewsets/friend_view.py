@@ -5,6 +5,10 @@ from socialdistribution.models import Author, FollowRequest
 from rest_framework.response import Response
 from socialdistribution.serializers import FollowersSerializer
 from . import urlhandler
+from rest_framework import permissions
+
+from rest_framework.decorators import permission_classes, authentication_classes
+from rest_framework import viewsets, permissions, authentication
 
 #HOST = 'http://127.0.0.1:8000'
 HOST='https://fallprojback.herokuapp.com'
@@ -15,8 +19,12 @@ def getAuthorIDFromRequestURL(request, id):
     author_id = f"{host}/authors/{id}"
     return author_id
 
-class FriendViewSet(viewsets.ModelViewSet):
 
+@permission_classes([permissions.IsAuthenticated])
+@authentication_classes([authentication.BasicAuthentication])
+class FriendViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    
     #GET Method
     #get all follows of given author_id
     #URL: ://service/authors/{AUTHOR_ID}/followers

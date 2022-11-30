@@ -4,19 +4,36 @@ import uuid
 from socialdistribution.serializers import AuthorSerializer
 from socialdistribution.models import *
 from django.shortcuts import render
-from rest_framework import viewsets
 from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.pagination import PageNumberPagination
 from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound, HttpResponse
-
+from rest_framework.decorators import permission_classes, authentication_classes
+from rest_framework import viewsets, permissions, authentication
 
 # Create your views here.
 HOST = "https://fallprojback.herokuapp.com/"
 
+# https://github.com/encode/django-rest-framework/issues/1067
 
+class IsAuthenticatedOrCreate(permissions.BasePermission):
+    # permission override, to prevent login before registration
+    def has_permission(self, request, view):
+        if not request.user.is_authenticated:
+            if view.action == "create":
+                return True
+            else:
+                return False
+        else:
+            return True
+
+
+@permission_classes([permissions.IsAuthenticated])
+@authentication_classes([authentication.BasicAuthentication])
 class AuthorViewSet(viewsets.ModelViewSet):
+    # permission_classes = (IsAuthenticatedOrCreate,)
+    permission_classes = (permissions.AllowAny,)
     def get_serializer_class(self):
         return AuthorSerializer
 

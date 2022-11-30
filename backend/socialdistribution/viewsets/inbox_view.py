@@ -8,9 +8,9 @@ from django.http import JsonResponse
 from socialdistribution.models import *
 from socialdistribution.serializers import *
 from . import urlhandler
-
-# HOST = 'http://127.0.0.1:8000'
-
+from rest_framework import permissions
+from rest_framework.decorators import permission_classes, authentication_classes
+from rest_framework import viewsets, permissions, authentication
 
 
 def getAuthorIDFromRequestURL(request, id):
@@ -19,8 +19,10 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
-
+@permission_classes([permissions.IsAuthenticated])
+@authentication_classes([authentication.BasicAuthentication])
 class InboxViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
     serializer_class = InboxSerializer
     # The inbox is all the new posts from who you follow
     # URL: : // service/authors/{AUTHOR_ID}/inbox

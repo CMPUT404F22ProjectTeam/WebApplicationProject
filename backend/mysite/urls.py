@@ -23,7 +23,8 @@ from drf_yasg.views import get_schema_view as swagger_get_schema_view
 
 from rest_framework_jwt.views import obtain_jwt_token as obtainJwtToken
 # from rest_framework_jwt.views import refresh_jwt_token
-
+from rest_framework_simplejwt import views as jwt_views
+from rest_framework import permissions
 
 schema_view = swagger_get_schema_view(
     openapi.Info(
@@ -32,6 +33,7 @@ schema_view = swagger_get_schema_view(
         description="API documentation of APP"
     ),
     public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
@@ -44,7 +46,15 @@ urlpatterns = [
                                                          cache_timeout=0), name="swagger-schema"),
          ])
          ),
-    path('token-auth/', obtainJwtToken),
+    # path('token-auth/', obtainJwtToken),
+    # path('api/token/', jwt_views.TokenObtainPairView.as_view(),
+    #      name='token_obtain_pair'),
+    # path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(),
+    #      name='token_refresh'),
+    path('swagger/', schema_view.with_ui('swagger',
+                                         cache_timeout=0), name='schema-swagger-ui'),
+    path('docs/', schema_view.with_ui('redoc',
+                                      cache_timeout=0), name='schema-redoc'),
 
 ]
 

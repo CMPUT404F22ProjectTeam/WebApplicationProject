@@ -11,7 +11,9 @@ from . import urlhandler
 from django.core import serializers
 from rest_framework import permissions
 from socialdistribution.viewsets import inbox_view
-
+from rest_framework import permissions
+from rest_framework.decorators import permission_classes, authentication_classes
+from rest_framework import viewsets, permissions, authentication
 
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
@@ -41,11 +43,13 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
+@permission_classes([permissions.IsAuthenticated])
+@authentication_classes([authentication.BasicAuthentication])
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = PostSerializer
-
+    
     # POST create a new post
     # URL: ://service/authors/{AUTHOR_ID}/posts/
 
