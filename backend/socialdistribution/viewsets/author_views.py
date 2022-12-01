@@ -29,8 +29,8 @@ class IsAuthenticatedOrCreate(permissions.BasePermission):
             return True
 
 
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.BasicAuthentication])
 class AuthorViewSet(viewsets.ModelViewSet):
     # permission_classes = (IsAuthenticatedOrCreate,)
     permission_classes = (permissions.AllowAny,)
