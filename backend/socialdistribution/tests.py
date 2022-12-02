@@ -78,3 +78,5 @@ class AuthorAndAuthenticationTestCase(APITestCase):
         response = self.client.get("/api/authors/" + str(self.author1.id), request_body)
 
         self.assertEqual(self.response_code, status.HTTP_200_OK)
+
+# test update
