@@ -427,7 +427,7 @@ class InboxTests(APITestCase):
                 "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1"+'/comments/comment_test_1'
             }
         }
-        response = self.client.get(author_data1["id"]+'/inbox/', inbox_msg)
+        response = self.client.post(author_data1["id"]+'/inbox/', inbox_msg)
         self.assertEqual(self.response_code, status.HTTP_200_OK)
 
 
