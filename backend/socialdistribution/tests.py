@@ -446,41 +446,119 @@ class InboxTests(APITestCase):
 
 
 class FriendTests(APITestCase):
+    response_code = 200
+
     def get_followers_test(self):
         #GET Method
         #get all follows of given author_id
         #URL: ://service/authors/{AUTHOR_ID}/followers
-        pass
+        
+        # author
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        response = self.client.get(author_data1["id"]+'/followers/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
 
     def is_follower_test(self):
         # GET
         # check if FOREIGN_AUTHOR_ID is a follower of AUTHOR_ID
         # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
-        pass
+        response_msg = 'Not your follower'
+        # author
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        response = self.client.get(author_data1["id"]+'/followers/fakeAuthor')
+        self.assertEqual(response_msg, response)
 
     def accept_follow_request_test(self):
         # PUT  
         # Add FOREIGN_AUTHOR_ID as a follower of AUTHOR_ID (must be authenticated)
         # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
-        pass
+
+        # author
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        put_msg = {
+            "author_id" : "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "foreign_author_id": "https://fallprojback.herokuapp.com/authors/unitest_author_2"
+        }
+        response = self.client.put(author_data1["id"]+'/followers/unitest_author_2', put_msg)
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
 
     def remove_follower_test(self):
         # DELETE
         # remove FOREIGN_AUTHOR_ID as a follower of AUTHOR_ID
         # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
-        pass
+        
+        # author
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        response = self.client.delete(author_data1["id"]+'/followers/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
 
 
 class FollowRequestTests(APITestCase):
+    response_code = 200
+
     def sent_follow_request_tests(self):
         # POST Method
         # author sent a follow request to object
         # URL: ://service/authors/{AUTHOR_ID}/follow_request/<str:object_author_id>/
-        pass
+        # author
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        put_msg = {
+            "author_id" : "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "foreign_author_id": "https://fallprojback.herokuapp.com/authors/unitest_author_2"
+        }
+        response = self.client.post(author_data1["id"]+'/follow_request/unitest_author_2', put_msg)
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
+
 
     def get_follow_request_tests(self):
         # GET Method
         # author get all follow request from object
         # URL: ://service/authors/{AUTHOR_ID}/follow_request
-        pass
+        # author
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        response = self.client.get(author_data1["id"]+'/follow_request')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
+
 
