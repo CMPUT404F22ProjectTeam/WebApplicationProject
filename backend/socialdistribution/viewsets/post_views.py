@@ -32,19 +32,19 @@ posts can also hyperlink to images that are public
 HOST = 'https://fallprojback.herokuapp.com'
 
 
-def getPostIDFromRequestURL(id):
-    post_id = f"/posts/{id}"
+def getPostIDFromRequestURL(author_id,id):
+    post_id = f"{author_id}/posts/{id}"
     return post_id
 
 
 def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
-    author_id = f"{HOST}/authors/{id}"
+    author_id = f"{host}/authors/{id}"
     return author_id
 
 
 @permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
+@authentication_classes([authentication.BasicAuthentication, authentication.TokenAuthentication])
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     permission_classes = [permissions.AllowAny]
@@ -128,8 +128,8 @@ class PostViewSet(viewsets.ModelViewSet):
     # GET get a specific post using POST_ID
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
     def get(self, request, *args, **kwargs):
-        # author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
-        post_id = HOST + request.get_full_path()
+        author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
+        post_id = getPostIDFromRequestURL( author_id,kwargs['post_id'] )
         try:
             querypost = Post.objects.get(id=post_id)
             post_serializer = PostSerializer(querypost)
@@ -254,12 +254,40 @@ class PostViewSet(viewsets.ModelViewSet):
     #GET Method
     #list all public post
     #url: http://127.0.0.1:8000/authors/1111111111/posts_all/
-    def all_public(self, request, author_id):
+    def all_public(self, request, *args, **kwargs):
+
         all_public_queryset = Post.objects.filter(visibility="PUBLIC")
-        author_info = PostSerializer(all_public_queryset, many=True)
+        # post_info = PostSerializer(all_public_queryset, many=True)
+        item =[]
+        for post in all_public_queryset:
+            author = post.author
+            author_info = AuthorSerializer(author)
+            author_json = author_info.data
+            post_data = {
+
+            "type": "post",
+            "title": post.title,
+            "id": post.id,
+            "source": post.source,
+            "origin": post.origin,
+            "description": post.description,
+            "contentType": post.contentType,
+            "content": post.content,
+            "author": author_json,
+            "categories": post.categories,
+            "count": post.count,
+            "comments": post.id+'/comments',
+            "published":  post.published,
+            "visibility":  post.visibility,
+            "unlisted":  post.unlisted                
+            }
+            item.append(post_data)
+
+
+ 
         response_msg = {
             "type": "Posts",
-            "items": author_info.data
+            "items": item
         }
 
         return Response(response_msg)

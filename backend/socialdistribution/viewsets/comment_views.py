@@ -25,37 +25,48 @@ POST [local] if you post an object of “type”:”comment”, it will add your
 HOST = 'https://fallprojback.herokuapp.com'
 
 
-def real_post_id(request):
-    url = request.build_absolute_uri()[:-1]
-    post_id = url.split('/')[6]
+# def real_post_id(request):
+#     url = request.build_absolute_uri()[:-1]
+#     post_id = url.split('/')[6]
+#     return post_id
+
+
+# def current_id(request):
+#     url = request.build_absolute_uri()[:-1]
+#     author_id = url.split('/')[4]
+#     host = urlhandler.get_Safe_url(request.build_absolute_uri())
+#     current_author_id = host + f'/authors/{author_id}'
+#     return current_author_id
+
+def getPostIDFromRequestURL(author_id,id):
+    post_id = f"{author_id}/posts/{id}"
     return post_id
 
 
-def current_id(request):
-    url = request.build_absolute_uri()[:-1]
-    author_id = url.split('/')[4]
+def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
-    current_author_id = host + f'/authors/{author_id}'
-    return current_author_id
+    author_id = f"{host}/authors/{id}"
+    return author_id
 
-
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.BasicAuthentication])
 class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     queryset = Comment.objects.all()
     #permission_classes = [permissions.AllowAny]
     serializer_class = CommentSerializer
 
+
+    
     # POST Method create a new comment
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
-    def create_comment(self, request, author_id, post_id):
+    def create_comment(self, request,  *args, **kwargs):
         # print(author_id) #404hhh
         # print(post_id) #edb04567-c77f-4886-b87d-797bc5ce3ad1
 
         # get data from request
         # http://localhost:8000/authors/404hhh
-        current_author_id = current_id(request)
+        current_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
         comment_content = request.data.get('content')
 
         # create the data for comment
@@ -65,9 +76,10 @@ class CommentViewSet(viewsets.ModelViewSet):
         comment_type = "text/markdown"
 
         #get post origin author
-        post = Post.objects.get(uuid=post_id)
+        post_id = getPostIDFromRequestURL(current_author_id, kwargs['post_id'])
+        post = Post.objects.get(id=post_id)
         # http://127.0.0.1:8000/authors/1111111111/posts/e164864f-1bf3-458c-bf50-a9627f275395/comments/960fb760b84342c7b14f88eadf83a408
-        comment_id = post.id + f'/comments/{comment_uuid}'
+        comment_id = post_id + f'/comments/{comment_uuid}'
         current_author = Author.objects.get(id=current_author_id)
         author_info = AuthorSerializer(current_author)
         author_json = author_info.data
@@ -77,7 +89,7 @@ class CommentViewSet(viewsets.ModelViewSet):
                                contentType=comment_type, published=publish_time)
 
         # add comment in post taoble
-        post.comments = str(comment_id) + '/n' + str(post.comments)
+        post.comments = comment_id
         post.count += 1
 
         # print(post.count)
@@ -99,17 +111,18 @@ class CommentViewSet(viewsets.ModelViewSet):
     # URL://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
     # http://service/authors/{authors_id}/posts/{post_id}/comments?page=4&size=40
     # GET Method list all comments pagination
-    def all_post_comments(self, request, author_id, post_id):
+    def all_post_comments(self, request, *args, **kwargs):
 
-        real_author_id = HOST + f'/authors/{author_id}'
+        current_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
+        post_id = getPostIDFromRequestURL(current_author_id, kwargs['post_id'])
         #check url have to pagenation
         url = request.build_absolute_uri()
         is_pagination = True if 'page' in url else False
 
         # use post uuid get all comment correspond to this post and save in a list
         comments = []
-        post = Post.objects.get(uuid=post_id)
-        author = Author.objects.get(id=real_author_id)
+        post = Post.objects.get(id=post_id)
+        author = Author.objects.get(id=current_author_id)
         username = author.displayName
 
         if post.comments == None:
@@ -140,13 +153,12 @@ class CommentViewSet(viewsets.ModelViewSet):
                 page = 1
 
             all_comments = CommentSerializer(comments, many=True)
-            real_post_id = HOST + f'/authors/{author_id}/posts/{post_id}'
-            real_comment_id = real_post_id + f'/comments'
+            real_comment_id = post_id + f'/comments'
             comments_response = {
                 "type": "comments",
                 "page": page,
                 "size": size,
-                "post": real_post_id,
+                "post": post_id,
                 "id": real_comment_id,
                 "comments": all_comments.data
             }

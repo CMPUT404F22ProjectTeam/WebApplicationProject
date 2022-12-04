@@ -20,8 +20,8 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.BasicAuthentication], authentication.TokenAuthentication])
 class FollowRequestViewSet(viewsets.ModelViewSet):
     queryset=FollowRequest.objects.all()
     #permission_classes = [permissions.AllowAny]
