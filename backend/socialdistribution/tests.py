@@ -446,8 +446,41 @@ class InboxTests(APITestCase):
 
 
 class FriendTests(APITestCase):
-    pass
+    def get_followers_test(self):
+        #GET Method
+        #get all follows of given author_id
+        #URL: ://service/authors/{AUTHOR_ID}/followers
+        pass
+
+    def is_follower_test(self):
+        # GET
+        # check if FOREIGN_AUTHOR_ID is a follower of AUTHOR_ID
+        # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
+        pass
+
+    def accept_follow_request_test(self):
+        # PUT  
+        # Add FOREIGN_AUTHOR_ID as a follower of AUTHOR_ID (must be authenticated)
+        # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
+        pass
+
+    def remove_follower_test(self):
+        # DELETE
+        # remove FOREIGN_AUTHOR_ID as a follower of AUTHOR_ID
+        # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
+        pass
+
 
 class FollowRequestTests(APITestCase):
-    pass
+    def sent_follow_request_tests(self):
+        # POST Method
+        # author sent a follow request to object
+        # URL: ://service/authors/{AUTHOR_ID}/follow_request/<str:object_author_id>/
+        pass
+
+    def get_follow_request_tests(self):
+        # GET Method
+        # author get all follow request from object
+        # URL: ://service/authors/{AUTHOR_ID}/follow_request
+        pass
 
