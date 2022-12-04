@@ -44,6 +44,7 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
         object_username = object.displayName
         summary = f'{actor_username} wants to follow {object_username}'
 
+
         request_status = "R" # R :sending requirement 
         id=f"{kwargs['author_id']}to{kwargs['object_author_id']}"
 
@@ -61,6 +62,17 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
             FollowRequest.objects.create(
                 summary=summary, actor=real_author_id, object=real_object_id, relation=request_status, id=id)
             response_msg = "Sending"
+
+            # inbox handle
+            msg = {
+                "type": "Follow",
+                "summary": summary,
+                "actor": real_author_id,
+                "object": real_object_id,
+                "relation": request_status,
+                "id": id
+            }
+            Inbox.objects.create(author=real_object_id, message=msg)
 
 
         return Response(response_msg)

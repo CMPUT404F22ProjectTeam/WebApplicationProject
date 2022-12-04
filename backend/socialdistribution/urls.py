@@ -14,7 +14,7 @@ from .viewsets.image_post_view import ImagePostViewSet
 from .viewsets.inbox_view import InboxViewSet
 
 from django.urls import path
-from .views import current_user, UserList
+# from .views import current_user, UserList
 
 urlpatterns = [
 
