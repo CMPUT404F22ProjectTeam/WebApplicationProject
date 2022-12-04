@@ -356,7 +356,7 @@ class LikesTests(APITestCase):
             "author": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
             "object": "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1"
         }
-        response = self.client.post(post_like_data["object"]+'/likes/')
+        response = self.client.post(post_like_data["object"]+'/likes/', post_like_data)
         self.assertEqual(self.response_code, status.HTTP_200_OK)
 
 
@@ -382,7 +382,7 @@ class LikesTests(APITestCase):
             "author": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
             "object": "https://fallprojback.herokuapp.com/authors/unitest_author_1/comments/comment_test_1"
         }
-        response = self.client.post(post_like_data["object"]+'/likes/')
+        response = self.client.post(post_like_data["object"]+'/likes/', post_like_data)
         self.assertEqual(self.response_code, status.HTTP_200_OK)
 
 
@@ -408,7 +408,71 @@ class LikesTests(APITestCase):
 
 
 class LikedTests(APITestCase):
-    pass
+    response_code = 200
+
+    def get_liked_list_test(self):
+        # author
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        response = self.client.get(author_data1["id"]+'/liked/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
+
+class InboxTests(APITestCase):
+    response_code = 200
+
+    def get_inbox_list_test(self):
+        # author
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        response = self.client.get(author_data1["id"]+'/inbox/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
+
+    def post_inbox_test(self):
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        inbox_msg = {
+            "author": author_data1["id"],
+            "message": {
+                "author": author_data1["id"],
+                "comment": "This is a comment test",
+                "contentType": "plain/text",
+                "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1"+'/comments/comment_test_1'
+            }
+        }
+        response = self.client.get(author_data1["id"]+'/inbox/', inbox_msg)
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
+
+
+    def delete_inbox_test(self):
+        # author
+        author_data1 = {
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "host": "https://fallprojback.herokuapp.com",
+            "displayName": "unitest_author_1",
+            "url": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "github": "test1@github.com",
+            "password": "123456"
+        }
+        response = self.client.delete(author_data1["id"]+'/inbox/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
 
 
 class FriendTests(APITestCase):
@@ -417,5 +481,3 @@ class FriendTests(APITestCase):
 class FollowRequestTests(APITestCase):
     pass
 
-class InboxTests(APITestCase):
-    pass
