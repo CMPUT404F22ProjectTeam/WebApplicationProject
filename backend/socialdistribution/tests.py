@@ -189,6 +189,30 @@ class PostTests(APITestCase):
         self.assertEqual(post.origin, "https://roadmap.sh/backend")
         self.assertEqual(post.content, "This is a Post test")
 
+    def test_update_post_1(self):
+        update_post_test_data1 = {
+            "title": "post test 1",
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1",
+            "source": "https://roadmap.sh/backend",
+            "origin": "https://roadmap.sh/backend",
+            "description": "Update Post test 1",
+            "content": "This is a update Post test",
+        }
+        response = self.client.post("https://fallprojback.herokuapp.com/authors/unitest_author_1"+'/posts/', update_post_test_data1)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # assert
+        post = Post.objects.get(id=update_post_test_data1['id'])
+        self.assertEqual(post.title, "post test 1")
+        self.assertEqual(
+            post.id, "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1")
+        self.assertEqual(post.source, "https://roadmap.sh/backend")
+        self.assertEqual(post.origin, "https://roadmap.sh/backend")
+        self.assertEqual(post.content, "This is a Post test")
+
+    def test_get_post_1(self):
+        response = self.client.get("https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1")
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
+
 
 
 
