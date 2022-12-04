@@ -89,6 +89,8 @@ class AuthorAndAuthenticationTestCase(APITestCase):
 
 
 class PostTests(APITestCase):
+    response_code = 200
+
     def test_post_1(self):
         author_data1 = {
             "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
@@ -217,6 +219,8 @@ class PostTests(APITestCase):
 
 
 class CommentTests(APITestCase):
+    response_code = 200
+
     def test_comment_1(self):
         # author
         author_data1 = {
@@ -319,20 +323,88 @@ class CommentTests(APITestCase):
         self.assertEqual(comment.author, comment_test_data1["author"])
         self.assertEqual(comment.contentType,
                          comment_test_data1["contentType"])
-
-
-
-
-class FollowRequestTests(APITestCase):
-    pass
-
-
-class InboxTests(APITestCase):
-    pass
+    
+    def test_get_comment_1(self):
+        post_test_data1 = {
+            "title": "post test 1",
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1",
+            "source": "https://roadmap.sh/backend",
+            "origin": "https://roadmap.sh/backend",
+            "description": "Post test 1",
+            "content": "This is a Post test",
+        }
+        response = self.client.get(post_test_data1["id"]+'/comments/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
 
 
 class LikesTests(APITestCase):
-    pass
+    response_code = 200
+
+    def test_post_like_post(self):
+        # public post
+        post_test_data1 = {
+            "title": "post test 1",
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1",
+            "source": "https://roadmap.sh/backend",
+            "origin": "https://roadmap.sh/backend",
+            "description": "Post test 1",
+            "content": "This is a Post test",
+        }
+        post_like_data = {
+            "context": "This is a Post like test",
+            "summary": "Summary of a like for post",
+            "author": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "object": "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1"
+        }
+        response = self.client.post(post_like_data["object"]+'/likes/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
+
+
+    def test_post_like_comment(self):
+        # public post
+        post_test_data1 = {
+            "title": "post test 1",
+            "id": "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1",
+            "source": "https://roadmap.sh/backend",
+            "origin": "https://roadmap.sh/backend",
+            "description": "Post test 1",
+            "content": "This is a Post test",
+        }
+        comment_test_data1 = {
+            "author": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "comment": "This is a comment test 1",
+            "contentType": "plain/text",
+            "id": post_test_data1["id"]+'/comments/comment_test_1'
+        }
+        post_like_data = {
+            "context": "This is a Post like test",
+            "summary": "Summary of a like for post",
+            "author": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "object": "https://fallprojback.herokuapp.com/authors/unitest_author_1/comments/comment_test_1"
+        }
+        response = self.client.post(post_like_data["object"]+'/likes/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
+
+
+    def test_get_post_likes_list(self):
+        post_like_data = {
+            "context": "This is a Post like test",
+            "summary": "Summary of a like for post",
+            "author": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "object": "https://fallprojback.herokuapp.com/authors/unitest_author_1/posts/post_test_1"
+        }
+        response = self.client.get(post_like_data["object"]+'/likes/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
+
+    def test_get_comment_likes_list(self):
+        post_like_data = {
+            "context": "This is a Post like test",
+            "summary": "Summary of a like for post",
+            "author": "https://fallprojback.herokuapp.com/authors/unitest_author_1",
+            "object": "https://fallprojback.herokuapp.com/authors/unitest_author_1/comments/comment_test_1"
+        }
+        response = self.client.get(post_like_data["object"]+'/likes/')
+        self.assertEqual(self.response_code, status.HTTP_200_OK)
 
 
 class LikedTests(APITestCase):
@@ -340,4 +412,10 @@ class LikedTests(APITestCase):
 
 
 class FriendTests(APITestCase):
+    pass
+
+class FollowRequestTests(APITestCase):
+    pass
+
+class InboxTests(APITestCase):
     pass
