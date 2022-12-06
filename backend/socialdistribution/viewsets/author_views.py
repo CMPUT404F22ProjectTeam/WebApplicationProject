@@ -16,7 +16,6 @@ from django.http import HttpResponseNotFound, HttpResponse
 HOST = "https://fallprojback.herokuapp.com/"
 
 
-
 class AuthorViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         return AuthorSerializer
