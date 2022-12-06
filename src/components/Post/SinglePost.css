@@ -60,6 +60,10 @@
     font-size: 15px;
 }
 
+.FavoriteBorderIcon{
+    background-color: #ff6633;
+}
+
 .like:hover {
     background-color: #b34f2e;
     color: #ffffff;
@@ -87,6 +91,6 @@
 }
 
 .postBar #liked {
-    background-color: #cc7000;
+    background-color: #b34f2e;
     color: #ffffff;
 }
