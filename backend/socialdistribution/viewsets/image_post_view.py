@@ -7,9 +7,6 @@ from django.http import JsonResponse
 from socialdistribution.models import *
 from socialdistribution.serializers import ImagePostSerializer
 from . import urlhandler
-from rest_framework import permissions
-from rest_framework.decorators import permission_classes, authentication_classes
-from rest_framework import viewsets, permissions, authentication
 '''
 Image Posts are just posts that are images. But they are encoded as base64 data. You can inline an image post using a data url or you can use this shortcut to get the image if authenticated to see it.
 
@@ -27,13 +24,10 @@ def getAuthorIDFromRequestURL(request, id):
     author_id = f"{host}/authors/{id}/"
     return author_id
 
-
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
 class ImagePostViewSet(viewsets.ModelViewSet):
     model = PostImage
     serializer_class = ImagePostSerializer
-    permission_classes = (permissions.AllowAny,)
+    
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/image
     def getimage(self, request, *args, **kwargs):
         

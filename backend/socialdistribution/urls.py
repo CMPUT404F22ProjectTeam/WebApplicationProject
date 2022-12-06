@@ -75,8 +75,8 @@ urlpatterns = [
     path('authors/<str:author_id>/inbox',
          InboxViewSet.as_view({'get': 'getInbox', 'post': 'postInbox', 'delete': 'deleteInbox'})),
 
-#     path('current_user/', current_user),
-#     path('users/', UserList.as_view())
+    path('current_user/', current_user),
+    path('users/', UserList.as_view())
 
 
 ]

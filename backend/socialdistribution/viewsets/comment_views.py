@@ -10,9 +10,7 @@ import datetime
 from django.core.paginator import Paginator
 from socialdistribution.viewsets import inbox_view
 from . import urlhandler
-from rest_framework import permissions
-from rest_framework.decorators import permission_classes, authentication_classes
-from rest_framework import viewsets, permissions, authentication
+
 
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
@@ -39,10 +37,7 @@ def current_id(request):
     return current_author_id
 
 
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
 class CommentViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.AllowAny,)
     queryset = Comment.objects.all()
     #permission_classes = [permissions.AllowAny]
     serializer_class = CommentSerializer
