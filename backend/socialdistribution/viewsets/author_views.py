@@ -16,20 +16,7 @@ from django.http import HttpResponseNotFound, HttpResponse
 HOST = "https://fallprojback.herokuapp.com/"
 
 
-class IsAuthenticatedOrCreate(permissions.BasePermission):
-    # permission override, to prevent login before registration
-    def has_permission(self, request, view):
-        if not request.user.is_authenticated:
-            if view.action == "create":
-                return True
-            else:
-                return False
-        else:
-            return True
 
-
-# @permission_classes([permissions.IsAuthenticated])
-# @authentication_classes([authentication.BasicAuthentication])
 class AuthorViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         return AuthorSerializer
