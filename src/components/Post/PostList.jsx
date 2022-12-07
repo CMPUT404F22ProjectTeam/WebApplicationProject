@@ -20,7 +20,7 @@ function PostList({ handleShare }) {
     const [authors7, setAuthors7] = useState([]);
 
     useEffect(() => {
-        axios.get(`${base_url}/authors/${AUTHOR_ID}/posts_all/`)
+        axios.get(`${base_url}/authors/posts_all`)
             .then((res) => {
                 setPostData(res.data.items)
             })
