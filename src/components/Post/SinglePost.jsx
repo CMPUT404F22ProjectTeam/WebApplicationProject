@@ -8,28 +8,38 @@ import FormData from 'form-data'
 import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const SinglePost = ({ author, postId, comments, description, image, handleShare }) => {
+const SinglePost = ({ author, displayName, postId, comments, description, image, handleShare }) => {
     const me = "http://fallprojback.herokuapp.com/authors/1111111111"
     const [like, setLike] = useState(0);
-    const [name, setName] = useState('');
+    const [name, setName] = useState(displayName);
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState('');
     const navigate = useNavigate();
-    const AUTHOR_ID = author;
     //let is_liked = count === (like + 1);
     let id = String(postId).split("/").pop();
     let commentData = new FormData();
     let likeData = new FormData();
+    let auth = {};
+    let auth5 = { username: 'admin', password: 'admin' };
+    let auth67 = { username: 'charlotte', password: '12345678' };
+    let auth18 = { username: 't18user1', password: 'Password123!' };
+    if (author.includes('fallprojback') === true) {
+        auth = auth5
+    } else if (author.includes('cmput404team18-backend') === true) {
+        auth = auth18
+    } else {
+        auth = auth67
+    }
 
     useEffect(() => {
         axios
-            .get(`${postId}/likes`)
+            .get(`${postId}/likes`, { auth: auth })
             .then((data) => {
                 setLike(Number(data.data.length))
             })
             .catch((e) => console.log(e));
         axios
-            .get(`${AUTHOR_ID}`)
+            .get(`${author}`, { auth: auth })
             .then((data) => {
                 setName(data.data.displayName)
             })
@@ -40,9 +50,9 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
     const handleLike = useCallback(
         async (e) => {
             likeData.append('context', "Charlote likes your post.")
-            likeData.append('summary', AUTHOR_ID)
+            likeData.append('summary', author)
             axios
-                .post(`${postId}/likes`, likeData)
+                .post(`${postId}/likes`, likeData, { auth: auth })
                 .then((response) => {
                     console.log(response);
                     window.location.reload()
@@ -52,15 +62,16 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
                 });
 
         },
-        [postId, AUTHOR_ID]
+        [postId, author]
     )
 
     const toOtherUser = () => {
-        if (AUTHOR_ID === me) {
+        if (author === me) {
             alert("This is yourself!")
         }
         else {
-            navigate('./otherProfile', { state: { id: AUTHOR_ID } });
+            navigate('./otherProfile', { state: { id: author, name: name } });
+
         }
     }
 
@@ -77,7 +88,7 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
         else {
             commentData.append('content', comment)
             axios
-                .post(`${me}/posts/${id}/comments`, commentData)
+                .post(`${me}/posts/${id}/comments`, commentData, { auth: auth })
                 .then((response) => {
                     console.log(response);
                 })
@@ -109,7 +120,7 @@ const SinglePost = ({ author, postId, comments, description, image, handleShare 
                     <SendIcon />
                 </button>
                 <button className="like" onClick={handleLike}>
-                     <FavoriteBorderIcon /> {like}
+                    <FavoriteBorderIcon /> {like}
                 </button>
             </div>
             <p className="flash">{commentError}</p>
