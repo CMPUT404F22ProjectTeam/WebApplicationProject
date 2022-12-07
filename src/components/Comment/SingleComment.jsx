@@ -23,7 +23,7 @@ const SingleComment = ({ authorId, comment }) => {
             alert("This is yourself!")
         }
         else {
-            navigate('./otherProfile', { state: { id: AUTHOR_ID } });
+            navigate('/otherProfile', { state: { id: AUTHOR_ID } });
         }
     }
     return (

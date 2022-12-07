@@ -61,7 +61,7 @@ const FriendSinglePost = ({ postId, comments }) => {
         .catch((e) => console.log(e));
 
     const toOtherUser = () => {
-        navigate('./otherProfile', { state: { id: authorId } });
+        navigate('/otherProfile', { state: { id: authorId } });
     }
 
     const handleComment = useCallback((event) => {
