@@ -9,14 +9,16 @@ import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const SinglePost = ({ author, displayName, postId, comments, description, image, handleShare }) => {
-    const me = "http://fallprojback.herokuapp.com/authors/1111111111"
+    let me = '';
     const [like, setLike] = useState(0);
     const [name, setName] = useState(displayName);
+    const [myName, setMyName] = useState('');
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState('');
     const navigate = useNavigate();
     //let is_liked = count === (like + 1);
     let id = String(postId).split("/").pop();
+    let myId = String(postId).split("/").pop();
     let commentData = new FormData();
     let likeData = new FormData();
     let auth = {};
@@ -25,8 +27,10 @@ const SinglePost = ({ author, displayName, postId, comments, description, image,
     let auth18 = { username: 't18user1', password: 'Password123!' };
     if (author.includes('fallprojback') === true) {
         auth = auth5
+        me = "http://fallprojback.herokuapp.com/authors/1111111111"
     } else if (author.includes('cmput404team18-backend') === true) {
         auth = auth18
+        me = "https://cmput404team18-backend.herokuapp.com/backendapi/authors/91cd9299-6c70-4ec9-8dbc-2afb985fd4f0"
     } else {
         auth = auth67
     }
@@ -45,21 +49,44 @@ const SinglePost = ({ author, displayName, postId, comments, description, image,
             })
             .catch((e) => console.log(e));
 
+        axios
+            .get(`${me}`, { auth: auth })
+            .then((data) => {
+                setMyName(data.data.displayName)
+            })
+            .catch((e) => console.log(e));
+
+
     }, [like, name])
 
     const handleLike = useCallback(
         async (e) => {
-            likeData.append('context', "Charlote likes your post.")
-            likeData.append('summary', author)
-            axios
-                .post(`${postId}/likes`, likeData, { auth: auth })
-                .then((response) => {
-                    console.log(response);
-                    window.location.reload()
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
+            likeData.append('context', { myName } + " likes your post.")
+            likeData.append('summary', { myName } + " likes your post.")
+            likeData.append('author', myId)
+            likeData.append('post', id)
+            likeData.append('object', "/authors/" + { myId } + "/posts/" + { id })
+            if (author.includes('cmput404team18-backend') === true) {
+                axios
+                    .post(`${me}/inbox/like`, likeData, { auth: auth })
+                    .then((response) => {
+                        console.log(response);
+                        window.location.reload()
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            } else {
+                axios
+                    .post(`${postId}/likes`, likeData, { auth: auth })
+                    .then((response) => {
+                        console.log(response);
+                        window.location.reload()
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            }
 
         },
         [postId, author]

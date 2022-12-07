@@ -14,25 +14,27 @@ function MessageList() {
     //const [requestData, setRequestData] = useState([]);
     const [message, setMessage] = useState([]);
     const navigate = useNavigate();
-    const AUTHOR_ID = "1111111111";
+    const AUTHOR_ID = "6a51cf3bcd9e4996ab061dc658c0c8a9";
     const auth = { username: 'admin', password: 'admin' };
     useEffect(() => {
         axios
             .get(`${base_url}/authors/${AUTHOR_ID}/inbox`, { auth: auth })
             .then((res) => {
-                res.data.items.forEach((item) => {
-                    if (item.type === 'like') {
-                        setMessage(message => [...message, { "type": item.type, "message": item.content }])
-                    } else if (item.type === 'comment') {
+                let temp = []
+                res.data.message.forEach((item) => {
+                    if (item.message.type === 'like') {
+                        temp.push({ "type": item.message.type, "message": item.message.context })
+                    } else if (item.message.type === 'comment') {
 
-                    } else if (item.type === 'post') {
-                        let name = item.author.displayName
-                        let content = { name } + " shares a post to you!"
-                        setMessage(message => [...message, { "type": item.type, "message": content }])
+                    } else if (item.message.type === 'post') {
+                        let name = item.message.author.displayName
+                        let content = name + " shares a post to you!"
+                        temp.push({ "type": item.type, "message": content })
                     } else {
 
                     }
                 })
+                setMessage(temp)
             })
             .catch((e) => console.log(e));
     }, [message])
