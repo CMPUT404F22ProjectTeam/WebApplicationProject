@@ -10,11 +10,13 @@ export default function FriendPage() {
             <div className='bar'>
                 <Navbar />
             </div>
-            <div className='split'>
-                <div className='split friend'>
+            <div className='split friend'>
+                <hr></hr>
+                <div className='container'>
                     <h1 className='friendHeader'>True Friends</h1>
                     <FriendList />
                 </div>
+                
                 <div className='split Home'>
                     <div className='container'>
                         <FriendPostList />
