@@ -305,7 +305,7 @@ class PostViewSet(viewsets.ModelViewSet):
         for item in friend_queryset:
             print(item)
             private_posts.append(Post.objects.filter(
-                author_id=item.object, visibility="PUBLIC"))
+                author=item.object, visibility="PUBLIC"))
 
         private_posts_list = []
         for items in private_posts:

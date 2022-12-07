@@ -11,11 +11,16 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound, HttpResponse
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework import viewsets, permissions, authentication
+from . import urlhandler
 
 # Create your views here.
-HOST = "https://fallprojback.herokuapp.com/"
-
+# HOST = "https://fallprojback.herokuapp.com/"
 # https://github.com/encode/django-rest-framework/issues/1067
+
+def getAuthorIDFromRequestURL(request, id):
+    host = urlhandler.get_Safe_url(request.build_absolute_uri())
+    author_id = f"{host}/authors/{id}"
+    return author_id
 
 class IsAuthenticatedOrCreate(permissions.BasePermission):
     # permission override, to prevent login before registration
@@ -80,6 +85,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
     # URL://service/authors/{AUTHOR_ID}/
     def update_profile(self, request, author_id):
 
+        host = urlhandler.get_Safe_url(request.build_absolute_uri())
         username = request.data.get('username', None)
         github = request.data.get('github', None)
         profileImage = request.data.get('profileImage', None)
@@ -90,24 +96,25 @@ class AuthorViewSet(viewsets.ModelViewSet):
             author.displayName = username
         if github:
             author.github = f'https://github.com/{github}'
-        # if profileImage:
-        #     author.profileImage = profileImage
+        if profileImage:
+            author.profileImage = profileImage
 
         author.save()
         author_info = AuthorSerializer(author)
         return Response(author_info.data)
 
     # URL: ://service/sign_up/   PUT Method
-    def sign_up(self, request):
+    def sign_up(self, request, *args, **kwargs):
         # process data for response
-        print(request)
         username = request.data.get('username')
         password = request.data.get('password')
 
         author_id = str(uuid.uuid4().hex)
-        id = HOST + f'authors/{author_id}'
-        host = HOST
-        url = HOST + f'authors/{author_id}'
+        host = urlhandler.get_Safe_url(request.build_absolute_uri())
+        id =  f'{host}/authors/{author_id}'
+        url = id 
+        print("+++++++++++")
+        print(id)
         admin_permission = request.data.get('admin_permission', 'False')
         github = request.data.get('github')
         profileImage = request.data.get('profileImage')
@@ -121,7 +128,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
         Author.objects.create(id=id, host=host, username=username, url=url, github=github,
                               profileImage=profileImage, admin_permission=admin_permission, password=password)
 
-        Inbox.objects.create(id=id, message=[])
+        Inbox.objects.create(author=id, message=[])
 
         # Response
         response_msg = {'id': id,
@@ -130,7 +137,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
                         'url': url,
                         'github': github,
                         'profileImage': profileImage}
-
+        print(response_msg)
         return JsonResponse(response_msg)
 
     # GET

@@ -209,4 +209,6 @@ JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False,
 }
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media') 
+MEDIA_URL = '/IMG/'
 django_on_heroku.settings(locals())
