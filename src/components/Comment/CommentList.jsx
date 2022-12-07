@@ -43,7 +43,7 @@ function CommentList({ postId }) {
                 } else {
                     return (
                         <li key={key}>
-                            <SingleComment authorId={val.author} comment={val.comment} />
+                            <SingleComment authorId={val.author.id} comment={val.comment} />
                         </li>
                     )
                 }
