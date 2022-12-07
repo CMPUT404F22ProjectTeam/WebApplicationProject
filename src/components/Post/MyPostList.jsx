@@ -13,7 +13,7 @@ function MyPostList() {
 
     useEffect(() => {
         axios
-            .get(`${base_url}/authors/${AUTHOR_ID}/posts`)
+            .get(`${base_url}/authors/${AUTHOR_ID}/posts`, { auth: { username: 'admin', password: 'admin' } })
             .then((data) => {
                 setPostData(data.data)
             })
