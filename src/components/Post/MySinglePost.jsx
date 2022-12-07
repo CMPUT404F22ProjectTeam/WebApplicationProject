@@ -8,13 +8,25 @@ import axios from "axios";
 import FormData from 'form-data'
 import './SinglePost.css'
 
-const MySinglePost = ({ description, image, comments, postId }) => {
+const MySinglePost = ({ author, postId, comments, description, image }) => {
+    const me = "http://fallprojback.herokuapp.com/authors/1111111111"
     const navigate = useNavigate();
     const [like, setLike] = useState(0);
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState('');
     let commentData = new FormData();
     let likeData = new FormData();
+    let auth = {};
+    let auth5 = { username: 'admin', password: 'admin' };
+    let auth67 = { username: 'charlotte', password: '12345678' };
+    let auth18 = { username: 't18user1', password: 'Password123!' };
+    if (author.includes('fallprojback') === true) {
+        auth = auth5
+    } else if (author.includes('cmput404team18-backend') === true) {
+        auth = auth18
+    } else {
+        auth = auth67
+    }
 
     useEffect(() => {
         axios
@@ -39,14 +51,14 @@ const MySinglePost = ({ description, image, comments, postId }) => {
             });
     }
     const handleEdit = () => {
-        navigate("/Post", { state: { id: postId } });
+        navigate("/post", { state: { id: postId } });
     }
 
     const handleDel = useCallback(
         async (e) => {
             e.preventDefault()
             axios
-                .delete(`${postId}/`)
+                .delete(`${me}/posts/${postId}`, { auth: auth })
                 .then((response) => {
                     console.log(response);
                     alert("Delete Successfully!")

@@ -176,7 +176,7 @@ export default class Post extends Component {
           <HomeNavbar />
         </div>
         <div className='split Home'>
-          <Link to={`./../`} className="back">x</Link>
+          <Link to={`./`} className="back">x</Link>
           <div className='container'>
             <form className='post_information' onSubmit={this.save}>
               <div className='user_input'>

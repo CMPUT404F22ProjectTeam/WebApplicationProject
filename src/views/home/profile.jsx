@@ -53,8 +53,10 @@ export default function Profile() {
 
     return (
         <div className="home">
-            <div className='container'>
-            <button className="btn" disabled={window.location.pathname === '/Post'} onClick={handleEdit}>Edit</button>
+          <div className='container'>
+          <button className="btn" disabled={window.location.pathname === '/Post'} onClick={handleEdit}>Edit</button>
+            <div className='container1'>
+            
             <div className="profileImgDiv">
                 <img class='profileimg' src={require("./../../public/profile.jpg")} alt="profile" width="100px" height="100px" />
             </div>
@@ -88,6 +90,7 @@ export default function Profile() {
                 )}
               </Grid>
 
+            </div>
             </div>
         </div>
     );
