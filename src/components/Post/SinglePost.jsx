@@ -19,25 +19,31 @@ const SinglePost = ({ author, displayName, postId, comments, description, image,
     let id = String(postId).split("/").pop();
     let commentData = new FormData();
     let likeData = new FormData();
-    let auth = { username: 'admin', password: 'admin' };
+    let auth = {};
+    let auth5 = { username: 'admin', password: 'admin' };
     let auth67 = { username: 'charlotte', password: '12345678' };
     let auth18 = { username: 't18user1', password: 'Password123!' };
+    if (author.includes('fallprojback') === true) {
+        auth = auth5
+    } else if (author.includes('cmput404team18-backend') === true) {
+        auth = auth18
+    } else {
+        auth = auth67
+    }
 
     useEffect(() => {
         axios
-            .get(`${postId}/likes`)
+            .get(`${postId}/likes`, { auth: auth })
             .then((data) => {
                 setLike(Number(data.data.length))
             })
             .catch((e) => console.log(e));
-        if (author.includes('cmput404-social.herokuapp') === true) {
-            axios
-                .get(`${author}`, { auth: auth67 })
-                .then((data) => {
-                    setName(data.data.displayName)
-                })
-                .catch((e) => console.log(e));
-        }
+        axios
+            .get(`${author}`, { auth: auth })
+            .then((data) => {
+                setName(data.data.displayName)
+            })
+            .catch((e) => console.log(e));
 
     }, [like, name])
 
@@ -46,7 +52,7 @@ const SinglePost = ({ author, displayName, postId, comments, description, image,
             likeData.append('context', "Charlote likes your post.")
             likeData.append('summary', author)
             axios
-                .post(`${postId}/likes`, likeData)
+                .post(`${postId}/likes`, likeData, { auth: auth })
                 .then((response) => {
                     console.log(response);
                     window.location.reload()
@@ -81,7 +87,7 @@ const SinglePost = ({ author, displayName, postId, comments, description, image,
         else {
             commentData.append('content', comment)
             axios
-                .post(`${me}/posts/${id}/comments`, commentData)
+                .post(`${me}/posts/${id}/comments`, commentData, { auth: auth })
                 .then((response) => {
                     console.log(response);
                 })

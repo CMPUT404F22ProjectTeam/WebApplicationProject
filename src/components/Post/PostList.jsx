@@ -22,13 +22,13 @@ function PostList({ handleShare }) {
 
     /*
     useEffect(() => {
-        axios.get(`${base_url}/authors/posts_all/, { auth: { username: 'admin', password: 'admin' } }`)
+        axios.get(`${base_url}/authors/posts_all`, { auth: { username: 'admin', password: 'admin' } })
             .then((res) => {
                 setPostData(res.data.items)
             })
             .catch((e) => console.error(e.message));
     }, [postData])
-
+    
     useEffect(() => {
         axios.get(`${t06_url}/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
