@@ -23,12 +23,12 @@ def checkTrueFriend(obj_id, act_id):
     id_1 = f"{obj_id}to{act_id}"
     id_2 = f"{act_id}to{obj_id}"
     try:
-        follow_req_obj1= FollowRequest.objects.get(id=id_1)
-        follow_req_obj2= FollowRequest.objects.get(id=id_2)
+        follow_req_obj1 = FollowRequest.objects.get(id=id_1)
+        follow_req_obj2 = FollowRequest.objects.get(id=id_2)
         if follow_req_obj1.relation =='F' and follow_req_obj2.relation =='F':
             follow_req_obj1.relation = 'T'
-            follow_req_obj2.relation ='T'
             follow_req_obj1.save()
+            follow_req_obj2.relation ='T'
             follow_req_obj2.save()
             Friend.objects.create(actor=act_id, object=obj_id)
             return True
@@ -85,15 +85,15 @@ class FriendViewSet(viewsets.ModelViewSet):
     def is_follower(self, request, *args, **kwargs):
         real_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
         real_object_id = getAuthorIDFromRequestURL(request, kwargs['foreign_author_id'])
-        id = {kwargs['foreign_author_id']}+'to'+{kwargs['author_id']}
+        id = f"{kwargs['foreign_author_id']}to{kwargs['author_id']}"
         # print(">>>>>>>>>>>>>>>>>>>>>")
         # print(id)
         try:
             exist = FollowRequest.objects.get(id=id)
             if exist.relation == 'F':
-                response_msg = True
+                response_msg = 'Friend'
             elif exist.relation == 'T':
-                response_msg = True # can change to friend
+                response_msg = 'True Friend' # can change to friend
             else:
                 response_msg = False
         except:
@@ -109,7 +109,6 @@ class FriendViewSet(viewsets.ModelViewSet):
         actor_id = kwargs['foreign_author_id']
         obj_id = kwargs['author_id']
         id = f'{actor_id}to{obj_id}'
-        print("reachhere")
         try:
             follow_request = FollowRequest.objects.get(id=id)
             follow_request.relation = 'F'
@@ -119,7 +118,7 @@ class FriendViewSet(viewsets.ModelViewSet):
             response_msg = 'No follow request'
 
         is_true_friend = checkTrueFriend(actor_id, obj_id)
-        print("是不是真朋友！！！！！！" + str(is_true_friend))
+        # print("是不是真朋友！！！！！！" + str(is_true_friend))
 
         return Response(response_msg)
 
