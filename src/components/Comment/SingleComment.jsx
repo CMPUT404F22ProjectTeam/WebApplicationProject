@@ -3,15 +3,25 @@ import './CommentList.css'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-const SingleComment = ({ authorId, comment }) => {
+const SingleComment = ({ authorId, displayName, comment }) => {
     const me = "http://fallprojback.herokuapp.com/authors/1111111111"
-    const [name, setName] = useState('');
-    const AUTHOR_ID = authorId;
+    const [name, setName] = useState(displayName);
     const navigate = useNavigate();
+    let auth = {};
+    let auth5 = { username: 'admin', password: 'admin' };
+    let auth67 = { username: 'charlotte', password: '12345678' };
+    let auth18 = { username: 't18user1', password: 'Password123!' };
+    if (authorId.includes('fallprojback') === true) {
+        auth = auth5
+    } else if (authorId.includes('cmput404team18-backend') === true) {
+        auth = auth18
+    } else {
+        auth = auth67
+    }
 
     useEffect(() => {
         axios
-            .get(`${AUTHOR_ID}`)
+            .get(`${authorId}`, { auth: auth })
             .then((data) => {
                 setName(data.data.displayName)
             })
@@ -19,11 +29,12 @@ const SingleComment = ({ authorId, comment }) => {
     }, [name])
 
     const toOtherUser = () => {
-        if (AUTHOR_ID === me) {
+        if (authorId === me) {
             alert("This is yourself!")
         }
         else {
-            navigate('/otherProfile', { state: { id: AUTHOR_ID } });
+            navigate('/otherProfile', { state: { id: authorId } });
+
         }
     }
     return (
