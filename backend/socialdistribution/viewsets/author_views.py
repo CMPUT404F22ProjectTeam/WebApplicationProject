@@ -97,6 +97,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
         author = Author.objects.get(id=id)
 
         if username:
+            author.username = username
             author.displayName = username
         if github:
             github_link = f'https://github.com/{github}'
@@ -149,14 +150,14 @@ class AuthorViewSet(viewsets.ModelViewSet):
 
         
         #save in database
-        Author.objects.create(id=id, host=host, username=username, url=url, github=github,
+        Author.objects.create(id=id, host=host, username=username, url=url, github=github, displayName=username, 
                               profileImage=profileImage, admin_permission=admin_permission, password=password)
 
 
         # Response
         response_msg = {'id': id,
                         "host": host,
-                        "username": username,
+                        "displayName": username,
                         'url': url,
                         'github': github_link,
                         'profileImage': profileImage}

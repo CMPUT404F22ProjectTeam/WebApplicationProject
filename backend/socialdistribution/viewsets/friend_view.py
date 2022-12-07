@@ -1,7 +1,7 @@
 from urllib import response
 from rest_framework import viewsets
 from socialdistribution.serializers import AuthorSerializer
-from socialdistribution.models import Author, FollowRequest
+from socialdistribution.models import Author, FollowRequest, Friend
 from rest_framework.response import Response
 from socialdistribution.serializers import FollowersSerializer
 from . import urlhandler
@@ -19,6 +19,24 @@ def getAuthorIDFromRequestURL(request, id):
     author_id = f"{host}/authors/{id}"
     return author_id
 
+def checkTrueFriend(obj_id, act_id):
+    id_1 = f"{obj_id}to{act_id}"
+    id_2 = f"{act_id}to{obj_id}"
+    try:
+        follow_req_obj1= FollowRequest.objects.get(id=id_1)
+        follow_req_obj2= FollowRequest.objects.get(id=id_2)
+        if follow_req_obj1.relation =='F' and follow_req_obj2.relation =='F':
+            follow_req_obj1.relation = 'T'
+            follow_req_obj2.relation ='T'
+            follow_req_obj1.save()
+            follow_req_obj2.save()
+            Friend.objects.create(actor=act_id, object=obj_id)
+            return True
+
+    except:
+        return False
+
+
 
 @permission_classes([permissions.IsAuthenticated])
 @authentication_classes([authentication.BasicAuthentication])
@@ -33,12 +51,13 @@ class FriendViewSet(viewsets.ModelViewSet):
         followers_list = []
         # get real aurhor id
         real_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
-        check = {'object':real_author_id,'relation':'F'}
+        # check = {'object':real_author_id,'relation':'F'}
         followers_queryset = FollowRequest.objects.filter(object=real_author_id)
         for item in followers_queryset:
             # follower_list.append(item.actor)
-            follower = Author.objects.get(id=item.actor)
-            followers_list.append(follower)
+            if item.relation == 'F' or item.relation == 'R':
+                follower = Author.objects.get(id=item.actor)
+                followers_list.append(follower)
 
         #print(followers_list)
 
@@ -87,8 +106,10 @@ class FriendViewSet(viewsets.ModelViewSet):
     # Add FOREIGN_AUTHOR_ID as a follower of AUTHOR_ID (must be authenticated)
     # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
     def accept_follow_request(self, request, *args, **kwargs):
-
-        id = {kwargs['foreign_author_id']}+'to'+{kwargs['author_id']}
+        actor_id = kwargs['foreign_author_id']
+        obj_id = kwargs['author_id']
+        id = f'{actor_id}to{obj_id}'
+        print("reachhere")
         try:
             follow_request = FollowRequest.objects.get(id=id)
             follow_request.relation = 'F'
@@ -96,6 +117,9 @@ class FriendViewSet(viewsets.ModelViewSet):
             response_msg = 'Successfully added'
         except:
             response_msg = 'No follow request'
+
+        is_true_friend = checkTrueFriend(actor_id, obj_id)
+        print("是不是真朋友！！！！！！" + str(is_true_friend))
 
         return Response(response_msg)
 
