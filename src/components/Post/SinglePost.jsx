@@ -98,6 +98,7 @@ const SinglePost = ({ author, displayName, postId, comments, description, image,
         }
         else {
             navigate('./otherProfile', { state: { id: author, name: name } });
+
         }
     }
 

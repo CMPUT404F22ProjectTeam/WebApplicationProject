@@ -39,7 +39,7 @@ const MySinglePost = ({ description, image, comments, postId }) => {
             });
     }
     const handleEdit = () => {
-        navigate("/Post", { state: { id: postId } });
+        navigate("/post", { state: { id: postId } });
     }
 
     const handleDel = useCallback(

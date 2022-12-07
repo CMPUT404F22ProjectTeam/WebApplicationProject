@@ -4,7 +4,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { MenuItem, InputLabel, Checkbox, FormControlLabel } from '@mui/material';
 import HomeNavbar from './../../components/Navbar/HomeNavbar'
-import { Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import "./Post.css";
 import axios from "axios";
 
@@ -34,64 +34,34 @@ const initState = {
 };
 let data = new FormData()
 
-class UploadImage extends React.Component {
-  state = {
-    // Initially, no file is selected
-    myFile: "",
-  };
-
-  convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      let file;
-      let fileReader = new FileReader();
-
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        console.log(fileReader);
-        console.log(fileReader.reult);
-        resolve(fileReader.result);
-      };
-      console.log(file);
-    });
-  };
-
-  handleFileUpload = async (e) => {
-    console.log(e.target.files[0]);
-    let { file } = this.state;
-    file = e.target.files[0];
-
-    this.convertToBase64(file)
-      .then(result => {
-        file["base64"] = result;
-        this.setState({
-          base64URL: result,
-          file
-        });
-        console.log(this.state)
-        this.props.handleUpload(this.state.base64URL);
-      })
-    this.setState({
-      file: e.target.files[0]
-    });
-
-
-  };
-
-  render() {
-    return (
-      <div className="form-group mb-3">
-        <input type="file" className="form-control" name="image" onChange={this.onFileChange} />
-      </div>
-    );
-  }
-}
-
 export default class Post extends Component {
   constructor(props) {
     super(props);
     this.state = initState;
   }
 
+  onChange = (file) => {
+    var reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        var Base64 = reader.result;
+        this.setState({ content: Base64 });
+      };
+      reader.onerror = (error) => {
+        console.log("error: ", error);
+      };
+    }
+  };
+
+  // _handleReaderLoaded = e => {
+  //   console.log("file uploaded 2: ", e);
+  //   let binaryString = e.target.result;
+  //   this.setState({
+  //     content: btoa(binaryString)
+  //   });
+  // };
+  
   save = async (e) => {
     e.preventDefault();
     if (!this.state.title) {
@@ -101,6 +71,9 @@ export default class Post extends Component {
     }
     axios
       .post(base_url + '/authors/' + userID + '/posts/', data)
+      .then((response)=>{
+        console.log(response)
+    })
   };
 
   /*error message handler*/
@@ -112,7 +85,7 @@ export default class Post extends Component {
     this.setState({ [e.target.name]: e.target.checked, error: "" });
 
   handleUpload = (value) => {
-    this.setState((prevState) => {
+    this.setState((prevState, props) => {
       prevState.content = value;
       console.log(this.state.content)
       return prevState;
@@ -134,14 +107,28 @@ export default class Post extends Component {
           />
         </div>)
     } else {
+      // const { this.state.content } = this.state;
+      // console.log("base64", this.state);
       return (
+        
         <div className='label'>
           <label className='hint'>Content：</label>
-          <UploadImage
-            value={this.state.content}
-            onChange={this.handleFileUpload}
-          />
+        
+      <div>
+        <input
+          type="file"
+          name="image"
+          id="file"
+          accept=".jpg, .jpeg, .png"
+
+          onChange={e => this.onChange(e.target.files[0])}
+        />
+
+        <p>base64 string: {this.state.content}</p>
+        <br />
+        {this.state.content != null && <img src={`data:image;base64,${this.state.content}`} />}
         </div>
+      </div>
       )
     }
   }
@@ -241,9 +228,9 @@ export default class Post extends Component {
                   </div>
                 )}
                 <div className="field is-clearfix">
-                  <Link to={`./../home`} class="btn" onClick={this.save}>
+                  <button className="btn" onClick={this.save}>
                     Submit
-                  </Link>
+                  </button>
                 </div>
               </div>
             </form>

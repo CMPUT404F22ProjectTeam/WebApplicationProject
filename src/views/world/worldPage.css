@@ -16,7 +16,7 @@
 }
 
 .messageHeader {
-    color: orange;
+    color: #ff6633;
     font-size: x-large;
     font-weight: bold;
     text-align: center;
@@ -47,7 +47,7 @@ hr{
 }
 
 .followButton {
-    background-color: orange;
+    background-color: #ff6633;
     border: none;
     border-radius: 8px;
     color: white;
@@ -64,7 +64,7 @@ hr{
     left: 10px;
     top: 10px;
     align-items: center;
-    background-color: orange;
+    background-color: #ff6633;
     border: 0;
     border-radius: 100px;
     box-sizing: border-box;

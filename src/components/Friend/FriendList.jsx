@@ -26,6 +26,7 @@ function FriendList() {
                         <div className="SingleFriend">
                             <a className="userName">@{val.displayName}</a>
                         </div>
+                        
                     </li>
                 );
             })}</ul>
