@@ -9,19 +9,20 @@ import { get } from '../Api'
 const base_url = process.env.REACT_APP_CURRENT_URL;
 const t06_url = process.env.REACT_APP_API_URL;
 const t07_url = process.env.REACT_APP_API2_URL;
+const t18_url = process.env.REACT_APP_API3_URL;
 
 function PostList({ handleShare }) {
     const AUTHOR_ID = "37056da9167cd8561877d431be4ecbf12444cce35556c63e217ac27dcbf827ed";
     const [postData, setPostData] = useState([]);
     const [postData6, setPostData6] = useState([]);
     const [postData7, setPostData7] = useState([]);
-    const [authors, setAuthors] = useState([]);
+    const [postData18, setPostData18] = useState([]);
     const [authors6, setAuthors6] = useState([]);
     const [authors7, setAuthors7] = useState([]);
 
     /*
     useEffect(() => {
-        axios.get(`${base_url}/authors/${AUTHOR_ID}/posts_all/`)
+        axios.get(`${base_url}/authors/posts_all/, { auth: { username: 'admin', password: 'admin' } }`)
             .then((res) => {
                 setPostData(res.data.items)
             })
@@ -47,7 +48,7 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [authors6, postData6])
-    */
+    
     useEffect(() => {
         axios.get(`${t07_url}/service/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
@@ -67,6 +68,14 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [authors7, postData7])
+    */
+    useEffect(() => {
+        axios.get(`${t18_url}/authors/posts/`, { auth: { username: 't18user1', password: 'Password123!' } })
+            .then((res) => {
+                setPostData18(res.data.items)
+            })
+            .catch((e) => console.error(e.message));
+    }, [postData18])
 
     return (<div>
         <ul className="PostList">
@@ -75,6 +84,7 @@ function PostList({ handleShare }) {
                     <li key={key} id="onePost">
                         <SinglePost
                             author={val.author.id}
+                            displayName={val.author.displayName}
                             postId={val.id}
                             description={val.description}
                             comments={<CommentList postId={val.id} />}
@@ -106,6 +116,21 @@ function PostList({ handleShare }) {
                             postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id}
                             description={val.description}
                             comments={<CommentList postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id} />}
+                            handleShare={handleShare}
+                        />
+                    </li>
+                );
+            })}</ul>
+        <ul className="PostList">
+            {postData18.map((val, key) => {
+                return (
+                    <li key={key} id="onePost">
+                        <SinglePost
+                            author={val.author.id}
+                            displayName={val.author.displayName}
+                            postId={val.id}
+                            description={val.description}
+                            comments={<CommentList postId={val.id} />}
                             handleShare={handleShare}
                         />
                     </li>

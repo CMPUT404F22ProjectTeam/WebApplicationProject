@@ -9,20 +9,23 @@ const base_url = process.env.REACT_APP_CURRENT_URL;
 
 export default function OtherUserPage() {
     const me = "1111111111";
-    const [objectName, setObjectName] = useState('');
-    const [response, setResponse] = useState('');
     const location = useLocation();
+    const [objectName, setObjectName] = useState(location.state.name);
+    const [response, setResponse] = useState('');
     const AUTHOR_ID = location.state.id;
     const navigate = useNavigate();
     var authorId = String(AUTHOR_ID).split("/").pop();
+    let auth67 = { username: 'charlotte', password: '12345678' };
 
     useEffect(() => {
-        axios
-            .get(`${AUTHOR_ID}`)
-            .then((data) => {
-                setObjectName(data.data.displayName)
-            })
-            .catch((e) => console.log(e));
+        if (AUTHOR_ID.includes('cmput404-social.herokuapp') === true) {
+            axios
+                .get(`${AUTHOR_ID}`, { auth: auth67 })
+                .then((data) => {
+                    setObjectName(data.data.displayName)
+                })
+                .catch((e) => console.log(e));
+        }
     }, [objectName, AUTHOR_ID])
 
     const handleBack = () => {
