@@ -27,7 +27,7 @@ const SinglePost = ({ author, displayName, postId, comments, description, image,
     let auth18 = { username: 't18user1', password: 'Password123!' };
     if (author.includes('fallprojback') === true) {
         auth = auth5
-        me = "http://fallprojback.herokuapp.com/authors/1111111111"
+        me = "https://fallprojback.herokuapp.com/authors/1111111111"
     } else if (author.includes('cmput404team18-backend') === true) {
         auth = auth18
         me = "https://cmput404team18-backend.herokuapp.com/backendapi/authors/91cd9299-6c70-4ec9-8dbc-2afb985fd4f0"

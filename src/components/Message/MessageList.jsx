@@ -31,7 +31,9 @@ function MessageList() {
                         let content = name + " shares a post to you!"
                         temp.push({ "type": item.type, "message": content })
                     } else {
-
+                        let name = item.message.actor
+                        let content = name + " wants to follow you!"
+                        temp.push({ "type": item.message.type, "message": content, "id": item.message.actor })
                     }
                 })
                 setMessage(temp)
@@ -48,22 +50,22 @@ function MessageList() {
         }
     }
 
-    /*
+
     const handleAccept = (id) => {
         axios
-            .put(`${base_url}/authors/${AUTHOR_ID}/followers/${id.split("/").pop()}`)
+            .put(`${base_url}/authors/${AUTHOR_ID}/followers/${id.split("/").pop()}`, { auth: auth })
             .then((response) => {
                 console.log(response);
             })
             .catch((e) => {
                 console.log(e);
             });
-    }·
-    */
+    }
+
     return (<div>
         <ul className="MessageList">
             {message.map((val, key) => {
-                if (val.type === "request") {
+                if (val.type === "Follow") {
                     return (
                         <li key={key}>
                             <div className="SingleMessage">
@@ -72,7 +74,7 @@ function MessageList() {
                                     <p className="message">{" want to follow you."}</p>
                                 </div>
                                 <div className="acceptButton">
-                                    <button className="accept">Accept</button>
+                                    <button className="accept" onClick={() => { handleAccept(val.id) }}>Accept</button>
                                 </div>
                             </div>
                         </li>

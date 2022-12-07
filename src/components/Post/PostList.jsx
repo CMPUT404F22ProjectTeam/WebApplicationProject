@@ -20,7 +20,7 @@ function PostList({ handleShare }) {
     const [authors6, setAuthors6] = useState([]);
     const [authors7, setAuthors7] = useState([]);
 
-    /*
+
     useEffect(() => {
         axios.get(`${base_url}/authors/posts_all`, { auth: { username: 'admin', password: 'admin' } })
             .then((res) => {
@@ -28,7 +28,7 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [postData])
-    
+    /*
     useEffect(() => {
         axios.get(`${t06_url}/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
