@@ -19,6 +19,7 @@ function PostList({ handleShare }) {
     const [authors6, setAuthors6] = useState([]);
     const [authors7, setAuthors7] = useState([]);
 
+    /*
     useEffect(() => {
         axios.get(`${base_url}/authors/${AUTHOR_ID}/posts_all/`)
             .then((res) => {
@@ -28,11 +29,11 @@ function PostList({ handleShare }) {
     }, [postData])
 
     useEffect(() => {
-        get(`${t06_url}/authors/`)
+        axios.get(`${t06_url}/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
                 setAuthors6(res.items)
                 authors6.forEach((author) => {
-                    get(`${author.id}/posts/`)
+                    axios.get(`${author.id}/posts/`, { auth: { username: 'charlotte', password: '12345678' } })
                         .then((res) => {
                             res.items.forEach((post) => {
                                 var index = JSON.stringify(postData6).indexOf(JSON.stringify(post))
@@ -46,13 +47,13 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [authors6, postData6])
-
+    */
     useEffect(() => {
-        axios.get(`${t07_url}/service/authors/`)
+        axios.get(`${t07_url}/service/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
                 setAuthors7(res.data.items)
                 authors7.forEach((author) => {
-                    axios.get(`${t07_url}/service/authors/${author.id}/posts/`)
+                    axios.get(`${t07_url}/service/authors/${author.id}/posts/`, { auth: { username: 'charlotte', password: '12345678' } })
                         .then((res) => {
                             Object.values(res.data).forEach((post) => {
                                 var index = JSON.stringify(postData7).indexOf(JSON.stringify(post))
@@ -101,10 +102,10 @@ function PostList({ handleShare }) {
                 return (
                     <li key={key} id="onePost">
                         <SinglePost
-                            author={t07_url + '/service/' + val.author.id}
-                            postId={t07_url + '/service/' + val.author.id + '/' + val._id}
+                            author={t07_url + '/service/authors/' + val.author.id}
+                            postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id}
                             description={val.description}
-                            comments={<CommentList postId={t07_url + '/service/' + val.author.id + '/' + val._id} />}
+                            comments={<CommentList postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id} />}
                             handleShare={handleShare}
                         />
                     </li>
