@@ -20,7 +20,7 @@ def getAuthorIDFromRequestURL(request, id):
 
 
 @permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
+@authentication_classes([authentication.BasicAuthentication, authentication.TokenAuthentication])
 class InboxViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     serializer_class = InboxSerializer
@@ -57,7 +57,7 @@ class InboxViewSet(viewsets.ModelViewSet):
         inbox_data = {
             'type': 'inbox',
             'author': author_id,
-            'message': inbox_info.data
+            'items': inbox_info.data
         }
         return Response(InboxSerializer(inbox_data).data)
 

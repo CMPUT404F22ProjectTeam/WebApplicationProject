@@ -12,6 +12,7 @@ from django.http import HttpResponseNotFound, HttpResponse
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework import viewsets, permissions, authentication
 from . import urlhandler
+import requests
 
 # Create your views here.
 # HOST = "https://fallprojback.herokuapp.com/"
@@ -33,6 +34,9 @@ class IsAuthenticatedOrCreate(permissions.BasePermission):
         else:
             return True
 
+def validate_url(url):
+    statuscode=requests.get(url).status_code
+    return statuscode
 
 # @permission_classes([permissions.IsAuthenticated])
 # @authentication_classes([authentication.BasicAuthentication])
@@ -69,7 +73,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 
     # GET METHOD
     # URL://service/authors/{AUTHOR_ID}/
-    def find_author(self, request, author_id):
+    def find_author(self, request, *args, **kwargs):
 
         # get the id from request and delete the "/"
         id = request.build_absolute_uri()[:-1]
@@ -79,11 +83,11 @@ class AuthorViewSet(viewsets.ModelViewSet):
             author_info = AuthorSerializer(author)
             return Response(author_info.data)
         except:
-            return HttpResponseNotFound('<h1>Page not found</h1>')
+            return HttpResponseNotFound('<h1>Author does not exist</h1>')
 
     # POST METHOD
     # URL://service/authors/{AUTHOR_ID}/
-    def update_profile(self, request, author_id):
+    def update_profile(self, request, *args, **kwargs):
 
         host = urlhandler.get_Safe_url(request.build_absolute_uri())
         username = request.data.get('username', None)
@@ -95,7 +99,14 @@ class AuthorViewSet(viewsets.ModelViewSet):
         if username:
             author.displayName = username
         if github:
-            author.github = f'https://github.com/{github}'
+            github_link = f'https://github.com/{github}'
+            is_valid = validate_url(github_link)
+            if is_valid == 404:
+                github_link = None
+                return Response({"msg": "Sorry this github account is invalid"}, 200)
+            else:
+                author.github = github
+
         if profileImage:
             author.profileImage = profileImage
 
@@ -113,43 +124,55 @@ class AuthorViewSet(viewsets.ModelViewSet):
         host = urlhandler.get_Safe_url(request.build_absolute_uri())
         id =  f'{host}/authors/{author_id}'
         url = id 
-        print("+++++++++++")
-        print(id)
         admin_permission = request.data.get('admin_permission', 'False')
-        github = request.data.get('github')
+        github = request.data.get('github','False')
         profileImage = request.data.get('profileImage')
 
+        try:
+            author_obj = Author.objects.get(username=username)
+            if author_obj:
+                return Response({"msg": "Username has already been used, please re-enter"}, 200)
+        except:
+            pass
         # handle errors
         if username == None or password == None:
-            return Response({"msg": "Please input your username or password"}, 500)
+            return Response({"msg": "Please input your username or password"}, 200)
 
+        if github:
+            github_link = f'https://github.com/{github}'
+            is_valid = validate_url(github_link)
+            print(is_valid)
+            if is_valid == 404:
+                github_link = None
+                return Response({"msg": "Sorry this github account is invalid"}, 200)
+
+
+        
         #save in database
-
         Author.objects.create(id=id, host=host, username=username, url=url, github=github,
                               profileImage=profileImage, admin_permission=admin_permission, password=password)
 
-        Inbox.objects.create(author=id, message=[])
 
         # Response
         response_msg = {'id': id,
                         "host": host,
                         "username": username,
                         'url': url,
-                        'github': github,
+                        'github': github_link,
                         'profileImage': profileImage}
         print(response_msg)
         return JsonResponse(response_msg)
 
     # GET
     # URL://service/login
-    def login(self, request):
+    def login(self, request, *args, **kwargs):
 
         # get username and password
         username = request.data.get('username')
         password = request.data.get('password')
 
         try:
-            author = Author.objects.get(displayName=username)
+            author = Author.objects.get(username=username)
             if password == author.password:
                 if not author.admin_permission:
                     serializer = AuthorSerializer(author)
