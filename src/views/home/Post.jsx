@@ -34,72 +34,33 @@ const initState = {
 };
 let data = new FormData()
 
-class UploadImage extends React.Component {
-  state = {
-    file: null,
-    base64URL: ""
-  };
-
-  getBase64 = file => {
-    return new Promise(resolve => {
-      let fileInfo;
-      let baseURL = "";
-      let reader = new FileReader();
-
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        console.log("Called", reader);
-        baseURL = reader.result;
-        console.log(baseURL);
-        resolve(baseURL);
-      };
-      console.log(fileInfo);
-    });
-  };
-
-  handleFileInput = async e => {
-    console.log(e.target.files[0]);
-    let { file } = this.state;
-
-    file = e.target.files[0];
-
-    this.getBase64(file)
-      .then(result => {
-        file["base64"] = result;
-        console.log(file);
-        this.setState({
-          base64URL: result,
-          file
-        });
-        console.log(this.state)
-        this.props.handleUpload(this.state.base64URL);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    this.setState({
-      file: e.target.files[0]
-    });
-
-  };
-
-  render() {
-    return (
-      <div>
-        <input type="file" name="file" onChange={this.handleFileInput} />
-      </div>
-    );
-  }
-}
-
 export default class Post extends Component {
   constructor(props) {
     super(props);
     this.state = initState;
   }
-  
+
+  onChange = (file) => {
+    var reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        var Base64 = reader.result;
+        this.setState({ content: Base64 });
+      };
+      reader.onerror = (error) => {
+        console.log("error: ", error);
+      };
+    }
+  };
+
+  // _handleReaderLoaded = e => {
+  //   console.log("file uploaded 2: ", e);
+  //   let binaryString = e.target.result;
+  //   this.setState({
+  //     content: btoa(binaryString)
+  //   });
+  // };
   
   save = async (e) => {
     e.preventDefault();
@@ -146,13 +107,28 @@ export default class Post extends Component {
           />
         </div>)
     } else {
+      // const { this.state.content } = this.state;
+      // console.log("base64", this.state);
       return (
+        
         <div className='label'>
           <label className='hint'>Content：</label>
-          <UploadImage
-            onChange={this.handleFileUpload}
-          />
+        
+      <div>
+        <input
+          type="file"
+          name="image"
+          id="file"
+          accept=".jpg, .jpeg, .png"
+
+          onChange={e => this.onChange(e.target.files[0])}
+        />
+
+        <p>base64 string: {this.state.content}</p>
+        <br />
+        {this.state.content != null && <img src={`data:image;base64,${this.state.content}`} />}
         </div>
+      </div>
       )
     }
   }
@@ -176,7 +152,7 @@ export default class Post extends Component {
           <HomeNavbar />
         </div>
         <div className='split Home'>
-          <Link to={`./`} className="back">x</Link>
+          <Link to={`./../`} className="back">x</Link>
           <div className='container'>
             <form className='post_information' onSubmit={this.save}>
               <div className='user_input'>
