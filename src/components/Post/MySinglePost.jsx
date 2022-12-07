@@ -18,7 +18,7 @@ const MySinglePost = ({ description, image, comments, postId }) => {
 
     useEffect(() => {
         axios
-            .get(`${postId}/likes`)
+            .get(`${postId}/likes`, { auth: { username: 'admin', password: 'admin' } })
             .then((data) => {
                 setLike(Number(data.data.length))
             })
@@ -29,7 +29,7 @@ const MySinglePost = ({ description, image, comments, postId }) => {
         likeData.append('context', "Charlote likes your post.")
         likeData.append('summary', "123456")
         axios
-            .post(`${postId}/likes`, likeData)
+            .post(`${postId}/likes`, likeData, { auth: { username: 'admin', password: 'admin' } })
             .then((response) => {
                 console.log(response);
                 window.location.reload()
@@ -46,7 +46,7 @@ const MySinglePost = ({ description, image, comments, postId }) => {
         async (e) => {
             e.preventDefault()
             axios
-                .delete(`${postId}`)
+                .delete(`${postId}/`, { auth: { username: 'admin', password: 'admin' } })
                 .then((response) => {
                     console.log(response);
                     alert("Delete Successfully!")
@@ -72,7 +72,7 @@ const MySinglePost = ({ description, image, comments, postId }) => {
         else {
             commentData.append('content', comment)
             axios
-                .post(`${postId}/comments`, commentData)
+                .post(`${postId}/comments`, commentData, { auth: { username: 'admin', password: 'admin' } })
                 .then((response) => {
                     console.log(response);
                 })
