@@ -65,7 +65,6 @@ class FriendViewSet(viewsets.ModelViewSet):
             response_msg = {
             "type": "followers",
             "items": []                
-
             }
 
         else:
@@ -143,6 +142,13 @@ class FriendViewSet(viewsets.ModelViewSet):
 
         return Response(response_msg)
     
+    # get all true friend
+    def is_true_friend(self, request, *args, **kwargs):
+        real_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
+        friend_list = FollowRequest.objects.filter(relation='T', actor=real_author_id)
+
+        
+
 
     
 
