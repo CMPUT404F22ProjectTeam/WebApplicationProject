@@ -6,11 +6,13 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import SinglePost from '../../components/Post/SinglePost';
 import CommentList from '../../components/Comment/CommentList';
+import FriendSinglePost from '../../components/Post/FriendSinglePost';
 
 export default function SharePost() {
     const location = useLocation();
     const [post, setPost] = useState({ author: "", id: "", description: "" });
     const POST_ID = location.state.id;
+    const type = location.state.type;
     const navigate = useNavigate();
     const auth = { username: 'admin', password: 'admin' };
 
@@ -36,6 +38,7 @@ export default function SharePost() {
                 <div className='container'>
                     <button className="BackButton" onClick={handleBack}>{"<"}</button>
                     <h1 className='userHeader'>Shared Post</h1>
+                    {type === "Post"} ? (
                     <div className="beFriendButton">
                         <SinglePost
                             author={post.author}
@@ -44,6 +47,15 @@ export default function SharePost() {
                             comments={<CommentList postId={post.id} />}
                         />
                     </div>
+                    ) : (
+                    <div className="beFriendButton">
+                        <FriendSinglePost
+                            postId={post.id}
+                            comments={<CommentList postId={post.id} />}
+                        />
+                    </div>
+                    )
+
                 </div>
             </div>
         </div>

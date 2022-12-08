@@ -4,15 +4,16 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { MenuItem, InputLabel, Checkbox, FormControlLabel } from '@mui/material';
 import HomeNavbar from './../../components/Navbar/HomeNavbar'
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Post.css";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-
+import { Cookies } from 'react-cookie';
 import FormData from 'form-data';
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
-const userID = "1111111111";
+const cookies = new Cookies();
+const userID = cookies.get('id').split("/").pop();
 // Post
 let data = new FormData()
 
@@ -47,7 +48,7 @@ export default class Post extends Component {
   //     content: btoa(binaryString)
   //   });
   // };
-  
+
   save = async (e) => {
     e.preventDefault();
     if (!this.state.title) {
@@ -57,9 +58,9 @@ export default class Post extends Component {
     }
     axios
       .post(base_url + '/authors/' + userID + '/posts/', data)
-      .then((response)=>{
+      .then((response) => {
         console.log(response)
-    })
+      })
   };
 
   /*error message handler*/
@@ -73,7 +74,7 @@ export default class Post extends Component {
 
 
   onChange = (file) => {
-    
+
     var reader = new FileReader();
     if (file) {
       reader.readAsDataURL(file);
@@ -81,13 +82,13 @@ export default class Post extends Component {
         var Base64 = reader.result;
         console.log(Base64);
         data.append('content', Base64)
-        this.setState({content: Base64 });
+        this.setState({ content: Base64 });
       };
       reader.onerror = (error) => {
         console.log("error: ", error);
       };
     }
-  
+
   };
 
   handleContent = () => {
@@ -104,41 +105,41 @@ export default class Post extends Component {
             onChange={this.handleChange}
           />
         </div>)
-    } else if (this.state.contentType == "text/markdown"){
+    } else if (this.state.contentType == "text/markdown") {
       return (
         <div className="label">
           <label className='hint'>Content：</label>
-            <textarea
-              placeholder='What&apos;s happening?'
-              className='content-input'
-              name='content'
-              type="textarea"
-              onChange={this.handleChange}
-            />
-          <ReactMarkdown>{this.state.content}</ReactMarkdown> 
+          <textarea
+            placeholder='What&apos;s happening?'
+            className='content-input'
+            name='content'
+            type="textarea"
+            onChange={this.handleChange}
+          />
+          <ReactMarkdown>{this.state.content}</ReactMarkdown>
         </div>
-  );
+      );
 
     }
-      else{
+    else {
       return (
         <div className='label'>
           <label className='hint'>Content：</label>
           <div>
-        <input
-          type="file"
-          name="image"
-          id="file"
-          accept=".jpg, .jpeg, .png"
-          onChange={e => this.onChange(e.target.files[0])}
-        />
+            <input
+              type="file"
+              name="image"
+              id="file"
+              accept=".jpg, .jpeg, .png"
+              onChange={e => this.onChange(e.target.files[0])}
+            />
 
-        {/* <p>base64 string: {this.state.content}</p> */}
-        {/* make sure the base64 with correct format */}
-        <br />
-        {this.state.content != null && <img className='upload' src={`data:image;base64,${this.state.content.split(",")[1]}`} />}
+            {/* <p>base64 string: {this.state.content}</p> */}
+            {/* make sure the base64 with correct format */}
+            <br />
+            {this.state.content != null && <img className='upload' src={`data:image;base64,${this.state.content.split(",")[1]}`} />}
+          </div>
         </div>
-      </div>
       )
     }
   }

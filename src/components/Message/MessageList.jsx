@@ -31,6 +31,9 @@ function MessageList() {
                         name = item.message.actor
                         content = " wants to follow you!"
                         temp.push({ "type": item.message.type, "message": content, "id": item.message.actor, "name": item.message.actor_username })
+                    } else if (item.message.type === 'post') {
+                        name = item.message.username
+                        content = name + " shares a friend-only post to you!"
                     }
                 })
                 setMessage(temp)
@@ -47,8 +50,8 @@ function MessageList() {
         }
     }
 
-    const toPost = (id) => {
-        navigate('../sharePost', { state: { id: id } });
+    const toPost = (id, type) => {
+        navigate('../sharePost', { state: { id: id, type: type } });
     }
 
 
@@ -82,12 +85,12 @@ function MessageList() {
                         </li>
                     );
                 }
-                else if (val.type === "Post") {
+                else if (val.type === "Post" || val.type === "post") {
                     return (
                         <li key={key}>
                             <div className="SingleMessage">
                                 <div className="messagePart">
-                                    <a className="userName" onClick={() => { toPost(val.post) }}>@{val.message}</a>
+                                    <a className="userName" onClick={() => { toPost(val.post, val.type) }}>@{val.message}</a>
                                 </div>
                             </div>
                         </li>
