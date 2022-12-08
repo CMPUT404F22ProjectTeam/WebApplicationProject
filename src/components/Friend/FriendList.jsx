@@ -14,9 +14,9 @@ function FriendList() {
     const auth = { username: 'admin', password: 'admin' };
     useEffect(() => {
         axios
-            .get(`${base_url}/authors/${AUTHOR_ID}/followers`, { auth: auth })
+            .get(`${base_url}/authors/${AUTHOR_ID}/truefriend`, { auth: auth })
             .then((res) => {
-                setFriends(res.data.items)
+                setFriends(res.data)
             })
             .catch((e) => console.log(e));
     }, [friends])
@@ -35,7 +35,7 @@ function FriendList() {
                 return (
                     <li key={key}>
                         <div className="SingleFriend">
-                            <a className="userName" onClick={() => { toOtherUser(val.id, val.displayName) }}>@{val.displayName}</a>
+                            <a className="userName" onClick={() => { toOtherUser(val.Truefriend, val.username) }}>@{val.username}</a>
                         </div>
 
                     </li>

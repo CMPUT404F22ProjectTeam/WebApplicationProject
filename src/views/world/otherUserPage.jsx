@@ -4,11 +4,13 @@ import './worldPage.css'
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 
 export default function OtherUserPage() {
-    const me = "test_heroku_01";
+    const cookies = new Cookies();
+    const me = cookies.get('id').split("/").pop();
     const location = useLocation();
     const [objectName, setObjectName] = useState(location.state.name);
     const [response, setResponse] = useState('');
@@ -34,13 +36,24 @@ export default function OtherUserPage() {
 
     const handleFollow = () => {
         axios
-            .post(`${base_url}/authors/${me}/follow_request/${authorId}/`, { auth: { username: 'charlotte', password: '12345678' } })
+            .post(`${base_url}/authors/${me}/follow_request/${authorId}/`)
             .then((response) => {
                 setResponse(response.data)
                 console.log(response)
             })
             .catch((e) => console.log(e));
     }
+
+    const handleUnFollow = () => {
+        axios
+            .delete(`${base_url}/authors/${me}/followers/${authorId}`)
+            .then((response) => {
+                setResponse(response.data)
+                console.log(response)
+            })
+            .catch((e) => console.log(e));
+    }
+
     return (
         <div className='worldPage'>
             <div className='bar'>
@@ -52,7 +65,7 @@ export default function OtherUserPage() {
                     <h1 className='userHeader'>{objectName}</h1>
                     <div className="beFriendButton">
                         <button className="followButton" onClick={handleFollow}>Follow</button>
-                        <button className="followButton">Unfollow</button>
+                        <button className="followButton" onClick={handleUnFollow}>Unfollow</button>
                     </div>
                     <p className='flash'>{response}</p>
                 </div>

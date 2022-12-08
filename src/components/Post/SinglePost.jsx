@@ -11,7 +11,7 @@ import { Cookies } from 'react-cookie';
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 
-const SinglePost = ({ author, displayName, postId, comments, description, image }) => {
+const SinglePost = ({ author, displayName, postId, comments, title, description, content, image }) => {
     const cookies = new Cookies();
     const My_ID = cookies.get('id').split("/").pop();
     const My_Name = cookies.get('username')
@@ -60,20 +60,12 @@ const SinglePost = ({ author, displayName, postId, comments, description, image 
                 setName(data.data.displayName)
             })
             .catch((e) => console.log(e));
-        axios
-            .get(`${base_url}/authors/${My_ID}`)
-            .then((data) => {
-                setMyName(data.data.displayName)
-            })
-            .catch((e) => console.log(e));
-
-
     }, [like, name])
 
     const handleLike = useCallback(
         async (e) => {
-            likeData.append('context', { myName } + " likes your post.")
-            likeData.append('summary', { myName } + " likes your post.")
+            likeData.append('context', { My_Name } + " likes your post.")
+            likeData.append('summary', { My_Name } + " likes your post.")
             likeData.append('author', me)
             likeData.append('post', id)
             likeData.append('object', "/authors/" + { My_ID } + "/posts/" + { id })
@@ -143,11 +135,11 @@ const SinglePost = ({ author, displayName, postId, comments, description, image 
             postData.append('id', postId)
             postData.append('object', My_Name)
             axios
-                .get(`${base_url}/authors/${My_ID}/followers`, { auth: auth })
+                .get(`${base_url}/authors/${My_ID}/turefriend`)
                 .then((res) => {
-                    res.data.items.forEach((friend) => {
+                    res.data.forEach((friend) => {
                         axios
-                            .post(`${friend.id}/inbox`, postData, { auth: auth })
+                            .post(`${friend.Truefriend}/inbox`, postData, { auth: auth })
                             .then((response) => {
                                 console.log(response);
                             })
