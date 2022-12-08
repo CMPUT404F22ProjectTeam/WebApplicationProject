@@ -26,14 +26,15 @@ function MessageList() {
 
                     } else if (item.message.type === 'Post') {
                         content = item.message.object + " shares a post to you!"
-                        temp.push({ "type": item.message.type, "message": content, "post": item.message.id })
+                        temp.push({ "type": item.message.type, "message": content, "post": item.message.id, "name": item.message.object })
                     } else if (item.message.type === 'Follow') {
                         name = item.message.actor
                         content = " wants to follow you!"
                         temp.push({ "type": item.message.type, "message": content, "id": item.message.actor, "name": item.message.actor_username })
                     } else if (item.message.type === 'post') {
-                        name = item.message.username
+                        name = item.message.author.displayName
                         content = name + " shares a friend-only post to you!"
+                        temp.push({ "type": item.message.type, "message": content, "post": item.message.id, "name": item.message.author.displayName })
                     }
                 })
                 setMessage(temp)
@@ -50,8 +51,9 @@ function MessageList() {
         }
     }
 
-    const toPost = (id, type) => {
-        navigate('../sharePost', { state: { id: id, type: type } });
+    const toPost = (id, type, name) => {
+        console.log(name)
+        navigate('../sharePost', { state: { id: id, type: type, name: name } });
     }
 
 
@@ -90,7 +92,7 @@ function MessageList() {
                         <li key={key}>
                             <div className="SingleMessage">
                                 <div className="messagePart">
-                                    <a className="userName" onClick={() => { toPost(val.post, val.type) }}>@{val.message}</a>
+                                    <a className="userName" onClick={() => { toPost(val.post, val.type, val.name) }}>@{val.message}</a>
                                 </div>
                             </div>
                         </li>

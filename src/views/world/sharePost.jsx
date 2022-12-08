@@ -10,9 +10,10 @@ import FriendSinglePost from '../../components/Post/FriendSinglePost';
 
 export default function SharePost() {
     const location = useLocation();
-    const [post, setPost] = useState({ author: "", id: "", description: "" });
+    const [post, setPost] = useState({ author: "", id: "", title: "", description: "", content: "" });
     const POST_ID = location.state.id;
     const type = location.state.type;
+    const name = location.state.name;
     const navigate = useNavigate();
     const auth = { username: 'admin', password: 'admin' };
 
@@ -24,7 +25,6 @@ export default function SharePost() {
             })
             .catch((e) => console.log(e));
     }, [post])
-    console.log(post)
     const handleBack = () => {
         navigate(-1)
     }
@@ -38,23 +38,31 @@ export default function SharePost() {
                 <div className='container'>
                     <button className="BackButton" onClick={handleBack}>{"<"}</button>
                     <h1 className='userHeader'>Shared Post</h1>
-                    {type === "Post"} ? (
-                    <div className="beFriendButton">
-                        <SinglePost
-                            author={post.author}
-                            postId={post.id}
-                            description={post.description}
-                            comments={<CommentList postId={post.id} />}
-                        />
-                    </div>
+                    {type === "Post" ? (
+                        <div className="beFriendButton">
+                            <SinglePost
+                                author={post.author}
+                                postId={post.id}
+                                displayName={name}
+                                title={post.title}
+                                description={post.description}
+                                content={post.content}
+                                comments={<CommentList postId={post.id} />}
+                            />
+                        </div>
                     ) : (
-                    <div className="beFriendButton">
-                        <FriendSinglePost
-                            postId={post.id}
-                            comments={<CommentList postId={post.id} />}
-                        />
-                    </div>
-                    )
+                        <div className="beFriendButton">
+                            <FriendSinglePost
+                                author={post.author}
+                                postId={post.id}
+                                displayName={name}
+                                title={post.title}
+                                description={post.description}
+                                content={post.content}
+                                comments={<CommentList postId={post.id} />}
+                            />
+                        </div>
+                    )}
 
                 </div>
             </div>
