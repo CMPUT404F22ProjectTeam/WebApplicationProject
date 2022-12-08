@@ -54,7 +54,7 @@ function MessageList() {
 
     const handleAccept = (id, name) => {
         axios
-            .put(`${base_url}/authors/${AUTHOR_ID}/followers/${id.split("/").pop()}`, { auth: { username: 'admin', password: 'admin' } })
+            .put(`${base_url}/authors/${AUTHOR_ID}/followers/${id.split("/").pop()}`)
             .then((response) => {
                 console.log(response);
                 alert(name + " follows you now!")
