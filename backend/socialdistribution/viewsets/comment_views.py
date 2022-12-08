@@ -76,10 +76,10 @@ class CommentViewSet(viewsets.ModelViewSet):
         comment_type = "text/markdown"
 
         #get post origin author
-        post_id = getPostIDFromRequestURL(current_author_id, kwargs['post_id'])
-        post = Post.objects.get(id=post_id)
+        post_id = kwargs['post_id']
+        post = Post.objects.get(uuid=post_id)
         # http://127.0.0.1:8000/authors/1111111111/posts/e164864f-1bf3-458c-bf50-a9627f275395/comments/960fb760b84342c7b14f88eadf83a408
-        comment_id = post_id + f'/comments/{comment_uuid}'
+        comment_id = f'{current_author_id}/posts/{post_id}/comments/{comment_uuid}'
         current_author = Author.objects.get(id=current_author_id)
         author_info = AuthorSerializer(current_author)
         author_json = author_info.data
@@ -89,7 +89,7 @@ class CommentViewSet(viewsets.ModelViewSet):
                                contentType=comment_type, published=publish_time)
 
         # add comment in post taoble
-        post.comments = comment_id
+        post.comments = f'{post.comments}AND{comment_id}'
         post.count += 1
 
         # print(post.count)
@@ -97,7 +97,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
         response_msg = {"type": "comment",
                         "author": author_json,
-                        "comment": post.comments,
+                        "comment": comment_content,
                         "contentType": comment_type,
                         "published": publish_time,
                         "id": comment_id}
@@ -129,12 +129,12 @@ class CommentViewSet(viewsets.ModelViewSet):
             return Response({})
 
         else:
-
-            comment_list = post.comments.split("/n")
+            comment_list = post.comments.split("AND")
 
             # parse all comments to dictionary
 
             for item in comment_list:
+                print("REACH HERE1111")
                 try:
                     comments_queryset = Comment.objects.get(id=item)
                     comments.append(comments_queryset)
@@ -151,7 +151,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             else:
                 size = len(comment_list)
                 page = 1
-
+            print("REACH HERE2222")
             all_comments = CommentSerializer(comments, many=True)
             real_comment_id = post_id + f'/comments'
             comments_response = {

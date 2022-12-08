@@ -104,7 +104,7 @@ class PostViewSet(viewsets.ModelViewSet):
                             content=content, author=author, categories=categories, count=count, comments=comments, published=published, visibility=visibility,
                             unlisted=unlisted, uuid=post_uuid)
 
-        Inbox.objects.create(author=author_id, message=post_data)
+        # Inbox.objects.create(author=author_id, message=post_data)
 
         # print("POST UPDATE TO INBOX")
         # inbox_view.InboxViewSet.creat_post_rec(self, author_id, post_data)

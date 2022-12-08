@@ -18,28 +18,32 @@ import requests
 # HOST = "https://fallprojback.herokuapp.com/"
 # https://github.com/encode/django-rest-framework/issues/1067
 
+
 def getAuthorIDFromRequestURL(request, id):
     host = urlhandler.get_Safe_url(request.build_absolute_uri())
     author_id = f"{host}/authors/{id}"
     return author_id
 
-class IsAuthenticatedOrCreate(permissions.BasePermission):
-    # permission override, to prevent login before registration
-    def has_permission(self, request, view):
-        if not request.user.is_authenticated:
-            if view.action == "create":
-                return True
-            else:
-                return False
-        else:
-            return True
+# class IsAuthenticatedOrCreate(permissions.BasePermission):
+#     # permission override, to prevent login before registration
+#     def has_permission(self, request, view):
+#         if not request.user.is_authenticated:
+#             if view.action == "create":
+#                 return True
+#             else:
+#                 return False
+#         else:
+#             return True
+
 
 def validate_url(url):
-    statuscode=requests.get(url).status_code
+    statuscode = requests.get(url).status_code
     return statuscode
 
 # @permission_classes([permissions.IsAuthenticated])
 # @authentication_classes([authentication.BasicAuthentication])
+
+
 class AuthorViewSet(viewsets.ModelViewSet):
     # permission_classes = (IsAuthenticatedOrCreate,)
     # permission_classes = (permissions.AllowAny,)
@@ -50,7 +54,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
     # URL: ://service/authors OR  GET ://service/authors?page=10&size=5
     def list_all(self, request):
 
-        #check url have to pagenation
+        # check url have to pagenation
         url = request.build_absolute_uri()
         is_pagination = True if 'page' in url else False
 
@@ -123,10 +127,10 @@ class AuthorViewSet(viewsets.ModelViewSet):
 
         author_id = str(uuid.uuid4().hex)
         host = urlhandler.get_Safe_url(request.build_absolute_uri())
-        id =  f'{host}/authors/{author_id}'
-        url = id 
+        id = f'{host}/authors/{author_id}'
+        url = id
         admin_permission = request.data.get('admin_permission', 'False')
-        github = request.data.get('github','False')
+        github = request.data.get('github', 'False')
         profileImage = request.data.get('profileImage')
 
         try:
@@ -147,12 +151,9 @@ class AuthorViewSet(viewsets.ModelViewSet):
                 github_link = None
                 return Response({"msg": "Sorry this github account is invalid"}, 200)
 
-
-        
         #save in database
-        Author.objects.create(id=id, host=host, username=username, url=url, github=github, displayName=username, 
+        Author.objects.create(id=id, host=host, username=username, url=url, github=github, displayName=username,
                               profileImage=profileImage, admin_permission=admin_permission, password=password)
-
 
         # Response
         response_msg = {'id': id,
@@ -165,23 +166,49 @@ class AuthorViewSet(viewsets.ModelViewSet):
         return JsonResponse(response_msg)
 
     # GET
-    # URL://service/login
+    # URL://service/login/username&password
     def login(self, request, *args, **kwargs):
 
         # get username and password
-        username = request.data.get('username')
-        password = request.data.get('password')
+        # username = request.data.get('username')
+        # password = request.data.get('password')
+        url = request.build_absolute_uri()[:-1]
+        info = url.split('/')[-1]
+        print(info)
+        username = info.split('AND')[0]
+        password = info.split('AND')[1]
+        print(username)
+        print(password)
 
         try:
-            author = Author.objects.get(username=username)
-            if password == author.password:
-                if not author.admin_permission:
-                    serializer = AuthorSerializer(author)
-                    return Response(serializer.data)
-                else:
-                    return Response(False)
+            author = Author.objects.get(displayName=username)
+            print(author.__str__)
+            print("huang password:", author.password)
+            authPassword = list(Author.objects.filter(
+                displayName=username).values('password'))[0].get('password')
+            print("REAL password is:", authPassword)
+            if password == authPassword:
+                # if not author.admin_permission:
+                print("hello im here")
+                serializer = AuthorSerializer(author)
+                return Response(serializer.data)
+
+                # else:
+                #     return Response(False)
             else:
-                return HttpResponse('<p>Wrong password</p>')
+                return HttpResponseNotFound()
 
         except:
-            return HttpResponse('<p>User dose not exist</p>')
+            return HttpResponseNotFound()
+
+    # GET author_id
+    # URL://service/authors/username/
+    def getAuthor_id(self, request, *args, **kwargs):
+        url = request.build_absolute_uri()[:-1]
+        username = url.split('/')[-1]
+        author_id = list(Author.objects.filter(
+            displayName=username).values('id'))[0].get('id')
+        json_id = {
+            "id": author_id
+        }
+        return JsonResponse(json_id)

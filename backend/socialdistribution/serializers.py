@@ -30,7 +30,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class FollowersSerializer(serializers.Serializer):
-    post_items = PostSerializer(serializers.Serializer)
+    #post_items = PostSerializer(serializers.Serializer)
 
     class Meta:
         model = FollowRequest

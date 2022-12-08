@@ -6,9 +6,10 @@ from rest_framework.response import Response
 from socialdistribution.serializers import FollowersSerializer
 from . import urlhandler
 from rest_framework import permissions
-
+from django.http import JsonResponse
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework import viewsets, permissions, authentication
+import json
 
 #HOST = 'http://127.0.0.1:8000'
 HOST='https://fallprojback.herokuapp.com'
@@ -65,6 +66,7 @@ class FriendViewSet(viewsets.ModelViewSet):
             response_msg = {
             "type": "followers",
             "items": []                
+
             }
 
         else:
@@ -72,7 +74,6 @@ class FriendViewSet(viewsets.ModelViewSet):
 
             response_msg = {
             "type": "followers",
-            "relation" : item.relation,
             "items": author_info
             }
         
@@ -83,9 +84,12 @@ class FriendViewSet(viewsets.ModelViewSet):
     # check if FOREIGN_AUTHOR_ID is a follower of AUTHOR_ID
     # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
     def is_follower(self, request, *args, **kwargs):
-        real_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
-        real_object_id = getAuthorIDFromRequestURL(request, kwargs['foreign_author_id'])
-        id = f"{kwargs['foreign_author_id']}to{kwargs['author_id']}"
+        real_author_id = kwargs['author_id']
+        real_object_id = kwargs['foreign_author_id']
+        print("---------------------")
+        id = real_object_id+'to'+real_author_id
+        print(id)
+
         # print(">>>>>>>>>>>>>>>>>>>>>")
         # print(id)
         try:
@@ -129,23 +133,60 @@ class FriendViewSet(viewsets.ModelViewSet):
     # URL: ://service/authors/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
     def remove_follower(self, request, *args, **kwargs):
 
-        id = {kwargs['foreign_author_id']}+'to'+{kwargs['author_id']}
+        actor_id = kwargs['foreign_author_id']
+        obj_id = kwargs['author_id']
+        id = f'{obj_id}to{actor_id}'
+        follower = FollowRequest.objects.get(id=id)
+        print(follower.relation)
         try:
             follower = FollowRequest.objects.get(id=id)
             if follower.relation == 'F':
                 follower.delete()
                 response_msg = "Successfully delete"
+            elif follower.relation == 'T':
+                follower.delete()
+                id_2 = {kwargs['author_id']}+'to'+{kwargs['foreign_author_id']}
+                follower2 = FollowRequest.objects.get(id=id_2)
+                follower2.delete()
             else:
                 response_msg = 'Not your follower'
         except:
             response_msg = 'Not your follower'
 
         return Response(response_msg)
-    
+
+    # URL: ://service/authors/{AUTHOR_ID}/truefriend
     # get all true friend
     def is_true_friend(self, request, *args, **kwargs):
         real_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
-        friend_list = FollowRequest.objects.filter(relation='T', actor=real_author_id)
+        #print("=========")
+        # print(real_author_id)
+        
+        friend_queryset = FollowRequest.objects.filter(relation='T', actor=real_author_id)
+        queryset = list(friend_queryset.values('object'))
+        print(queryset)
+
+        if not queryset:
+            print("22222222")
+            return JsonResponse({})
+        elif len(queryset) == 1:
+            queryset = list(friend_queryset.values('object'))[0].get('object')
+            username = Author.objects.get(id =queryset)
+            return JsonResponse({'True friend': queryset,
+                                "username": str(username)})
+        else:
+            
+            items = []
+            for i in range(len(friend_queryset)):
+                queryset = list(friend_queryset.values('object'))[i].get('object')
+                username = Author.objects.get(id = queryset)
+                username=str(username).strip()
+                
+                items.append({'True friend': queryset,
+                    "username": username})
+            return Response(items)
+                
+
 
         
 
