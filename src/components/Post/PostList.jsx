@@ -27,7 +27,7 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [postData])
-    /*
+    
     useEffect(() => {
         axios.get(`${t06_url}/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
@@ -49,25 +49,25 @@ function PostList({ handleShare }) {
     }, [authors6, postData6])
     
     useEffect(() => {
-         axios.get(`${t07_url}/service/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
+        axios.get(`${t07_url}/service/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
                 setAuthors7(res.data.items)
                 authors7.forEach((author) => {
-                     axios.get(`${t07_url}/service/authors/${author.id}/posts/`, { auth: { username: 'charlotte', password: '12345678' } })
-                         .then((res) => {
-                             Object.values(res.data).forEach((post) => {
-                                 var index = JSON.stringify(postData7).indexOf(JSON.stringify(post))
-                                 if (post.visibility === "PUBLIC" && index === -1) {
-                                     setPostData7(postData7 => [...postData7, post])
-                                 }
+                    axios.get(`${t07_url}/service/authors/${author.id}/posts/`, { auth: { username: 'charlotte', password: '12345678' } })
+                        .then((res) => {
+                            Object.values(res.data).forEach((post) => {
+                                var index = JSON.stringify(postData7).indexOf(JSON.stringify(post))
+                                if (post.visibility === "PUBLIC" && index === -1) {
+                                    setPostData7(postData7 => [...postData7, post])
+                                }
                             })
-                         })
-                         .catch((e) => console.error(e.message));
-                 })
-             })
-             .catch((e) => console.error(e.message));
+                        })
+                        .catch((e) => console.error(e.message));
+                })
+            })
+            .catch((e) => console.error(e.message));
     }, [authors7, postData7])
-  */
+
     useEffect(() => {
         axios.get(`${t18_url}/authors/posts/`, { auth: { username: 't18user1', password: 'Password123!' } })
             .then((res) => {
@@ -85,7 +85,9 @@ function PostList({ handleShare }) {
                             author={val.author.id}
                             displayName={val.author.displayName}
                             postId={val.id}
+                            title = {val.title}
                             description={val.description}
+                            content = {val.content}
                             comments={<CommentList postId={val.id} />}
                             handleShare={handleShare}
                         />
@@ -99,7 +101,9 @@ function PostList({ handleShare }) {
                         <SinglePost
                             author={val.author.id}
                             postId={val.id}
+                            title = {val.title}
                             description={val.description}
+                            content = {val.content}
                             comments={<CommentList postId={val.id} />}
                             handleShare={handleShare}
                         />
@@ -113,7 +117,9 @@ function PostList({ handleShare }) {
                         <SinglePost
                             author={t07_url + '/service/authors/' + val.author.id}
                             postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id}
+                            title = {val.title}
                             description={val.description}
+                            content = {val.content}
                             comments={<CommentList postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id} />}
                             handleShare={handleShare}
                         />
@@ -128,7 +134,9 @@ function PostList({ handleShare }) {
                             author={val.author.id}
                             displayName={val.author.displayName}
                             postId={val.id}
+                            title = {val.title}
                             description={val.description}
+                            content = {val.content}
                             comments={<CommentList postId={val.id} />}
                             handleShare={handleShare}
                         />

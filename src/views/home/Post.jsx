@@ -7,52 +7,38 @@ import HomeNavbar from './../../components/Navbar/HomeNavbar'
 import {  Link } from "react-router-dom";
 import "./Post.css";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 
 import FormData from 'form-data';
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 const userID = "1111111111";
 // Post
-const initState = {
-  type: "post",
-  title: "",
-  //  where did you get this post from?
-  //  "source":"http://lastplaceigotthisfrom.com/posts/yyyyy",
-  //  where is it actually from
-  //  "origin":"http://whereitcamefrom.com/posts/zzzzz",
-  // source:"auto",
-  // origin:"auto",
-  // id:`${base_url}/authors/${userID}/posts/` ,
-  description: "",
-  // comments:"",
-  contentType: "text/plain",
-  content: "",
-  categories: "web",
-  // published: false,
-  visibility: "PUBLIC",
-  unlisted: false,
-};
 let data = new FormData()
 
 export default class Post extends Component {
   constructor(props) {
     super(props);
-    this.state = initState;
+    this.state = {
+      type: "post",
+      title: "",
+      //  where did you get this post from?
+      //  "source":"http://lastplaceigotthisfrom.com/posts/yyyyy",
+      //  where is it actually from
+      //  "origin":"http://whereitcamefrom.com/posts/zzzzz",
+      // source:"auto",
+      // origin:"auto",
+      // id:`${base_url}/authors/${userID}/posts/` ,
+      description: "",
+      // comments:"",
+      contentType: "text/plain",
+      content: "",
+      categories: "web",
+      // published: false,
+      visibility: "PUBLIC",
+      unlisted: false,
+    };
   }
-
-  onChange = (file) => {
-    var reader = new FileReader();
-    if (file) {
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        var Base64 = reader.result;
-        this.setState({ content: Base64 });
-      };
-      reader.onerror = (error) => {
-        console.log("error: ", error);
-      };
-    }
-  };
 
   // _handleReaderLoaded = e => {
   //   console.log("file uploaded 2: ", e);
@@ -84,16 +70,28 @@ export default class Post extends Component {
   handleCheckBox = (e) =>
     this.setState({ [e.target.name]: e.target.checked, error: "" });
 
-  handleUpload = (value) => {
-    this.setState((prevState, props) => {
-      prevState.content = value;
-      console.log(this.state.content)
-      return prevState;
-    });
-  }
+
+
+  onChange = (file) => {
+    
+    var reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        var Base64 = reader.result;
+        console.log(Base64);
+        data.append('content', Base64)
+        this.setState({content: Base64 });
+      };
+      reader.onerror = (error) => {
+        console.log("error: ", error);
+      };
+    }
+  
+  };
 
   handleContent = () => {
-    if (this.state.contentType == "text/markdown" || this.state.contentType == "application/base64" || this.state.contentType == "text/plain") {
+    if (this.state.contentType == "application/base64" || this.state.contentType == "text/plain") {
       return (
         <div className='label'>
           <label className='hint'>Content：</label>
@@ -106,27 +104,39 @@ export default class Post extends Component {
             onChange={this.handleChange}
           />
         </div>)
-    } else {
-      // const { this.state.content } = this.state;
-      // console.log("base64", this.state);
+    } else if (this.state.contentType == "text/markdown"){
       return (
-        
+        <div className="label">
+          <label className='hint'>Content：</label>
+            <textarea
+              placeholder='What&apos;s happening?'
+              className='content-input'
+              name='content'
+              type="textarea"
+              onChange={this.handleChange}
+            />
+          <ReactMarkdown>{this.state.content}</ReactMarkdown> 
+        </div>
+  );
+
+    }
+      else{
+      return (
         <div className='label'>
           <label className='hint'>Content：</label>
-        
-      <div>
+          <div>
         <input
           type="file"
           name="image"
           id="file"
           accept=".jpg, .jpeg, .png"
-
           onChange={e => this.onChange(e.target.files[0])}
         />
 
-        <p>base64 string: {this.state.content}</p>
+        {/* <p>base64 string: {this.state.content}</p> */}
+        {/* make sure the base64 with correct format */}
         <br />
-        {this.state.content != null && <img src={`data:image;base64,${this.state.content}`} />}
+        {this.state.content != null && <img className='upload' src={`data:image;base64,${this.state.content.split(",")[1]}`} />}
         </div>
       </div>
       )
