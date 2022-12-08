@@ -3,7 +3,7 @@ import './CommentList.css'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-const SingleComment = ({ authorId, displayName, comment }) => {
+const SingleComment = ({ authorId = '', displayName, comment }) => {
     const me = "http://fallprojback.herokuapp.com/authors/1111111111"
     const [name, setName] = useState(displayName);
     const navigate = useNavigate();
