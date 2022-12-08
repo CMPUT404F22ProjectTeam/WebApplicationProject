@@ -33,7 +33,7 @@ def getAuthorIDFromRequestURL(request, id):
 class ImagePostViewSet(viewsets.ModelViewSet):
     model = PostImage
     serializer_class = ImagePostSerializer
-    permission_classes = (permissions.AllowAny,)
+    # permission_classes = (permissions.AllowAny,)
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/image
     def getimage(self, request, *args, **kwargs):
         

@@ -28,12 +28,12 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.BasicAuthentication])
 class LikesViewSet(viewsets.ModelViewSet):
     serializer_class = LikesSerializer
     queryset = Likes.objects.all()
-    permission_classes = (permissions.AllowAny,)
+    # permission_classes = (permissions.AllowAny,)
     
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/likes
     # GET [local, remote] a list of likes from other authors on AUTHOR_ID’s post POST_ID

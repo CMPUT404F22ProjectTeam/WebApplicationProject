@@ -24,11 +24,11 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.BasicAuthentication])
 class LikedViewSet(viewsets.ModelViewSet):
     queryset = Likes.objects.all()
-    permission_classes = (permissions.AllowAny,)
+    # permission_classes = (permissions.AllowAny,)
     # URL: ://service/authors/{AUTHOR_ID}/liked
     # GET [local, remote] list what public things AUTHOR_ID liked
     def list(self, request, *args, **kwargs):

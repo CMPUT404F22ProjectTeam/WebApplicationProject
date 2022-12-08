@@ -42,7 +42,7 @@ def validate_url(url):
 # @authentication_classes([authentication.BasicAuthentication])
 class AuthorViewSet(viewsets.ModelViewSet):
     # permission_classes = (IsAuthenticatedOrCreate,)
-    permission_classes = (permissions.AllowAny,)
+    # permission_classes = (permissions.AllowAny,)
     def get_serializer_class(self):
         return AuthorSerializer
 

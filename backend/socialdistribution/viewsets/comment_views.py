@@ -51,7 +51,7 @@ def getAuthorIDFromRequestURL(request, id):
 # @permission_classes([permissions.IsAuthenticated])
 # @authentication_classes([authentication.BasicAuthentication])
 class CommentViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.AllowAny,)
+    # permission_classes = (permissions.AllowAny,)
     queryset = Comment.objects.all()
     #permission_classes = [permissions.AllowAny]
     serializer_class = CommentSerializer

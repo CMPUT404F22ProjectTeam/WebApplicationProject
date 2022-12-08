@@ -19,26 +19,31 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication, authentication.TokenAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.BasicAuthentication])
 class InboxViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.AllowAny,)
+    # permission_classes = (permissions.AllowAny,)
     serializer_class = InboxSerializer
     # The inbox is all the new posts from who you follow
     # URL: : // service/authors/{AUTHOR_ID}/inbox
 
-
     # URL: : // service/authors/{AUTHOR_ID}/inbox
     # GET[local]: if authenticated get a list of posts sent to AUTHOR_ID(paginated)
+
     def getInbox(self, request, *args, **kwargs):
         # author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
         url = request.build_absolute_uri()
         author_id = url[:-6]
         try:
             inbox = Inbox.objects.filter(author=author_id)
+            username = list(Author.objects.filter(
+                id=author_id).values('displayName'))[0].get('displayName')
+            # username = queryset.get('displayName')
         except Inbox.DoesNotExist:
             message = []
-            inbox = Inbox.objects.create(author=author_id, message=message)
+            username = list(Author.objects.filter(
+                id=author_id).values('displayName'))[0].get('displayName')
+            inbox = Inbox.objects.create(author=username, message=message)
             # inbox_data = {
             #     'type': 'inbox',
             #     'author': author_id,
@@ -53,11 +58,10 @@ class InboxViewSet(viewsets.ModelViewSet):
         # for content in inbox:
         #     inbox_info.append(content.get('message'))
 
-
         inbox_data = {
             'type': 'inbox',
-            'author': author_id,
-            'items': inbox_info.data
+            'author': username,
+            'message': inbox_info.data
         }
         return Response(InboxSerializer(inbox_data).data)
 
@@ -89,9 +93,7 @@ class InboxViewSet(viewsets.ModelViewSet):
         # elif type == "comment":
         #     pass
 
-
         Inbox.objects.create(author=author_id, message=RequestData)
-
 
         return Response(RequestData)
 
@@ -106,7 +108,6 @@ class InboxViewSet(viewsets.ModelViewSet):
         #     inbox.message.clear()
         #     inbox.save()
 
-
         # inbox_data = {
         #     'type': 'inbox',
         #     'author': author_id,
@@ -114,11 +115,9 @@ class InboxViewSet(viewsets.ModelViewSet):
         # }
         return Response("Inbox has deleted with author id: {0}".format(author_id))
 
-
     # # if authenticated get a list of posts sent to AUTHOR_ID (paginated)
     # # POST [local]: if authenticated get a list of posts sent to AUTHOR_ID (paginated)
     # # URL: ://service/authors/{AUTHOR_ID}/inbox
-
 
     # def creat_post_rec(self, author_id, item):
     #     # type POST
@@ -130,7 +129,6 @@ class InboxViewSet(viewsets.ModelViewSet):
     #     items.append(item)
     #     inbox.message = items
     #     inbox.save()
-
 
     #     # try:
     #     #     print("GO TRY___________")
@@ -145,7 +143,6 @@ class InboxViewSet(viewsets.ModelViewSet):
     #     #     items_list=[]
     #     #     items_list.append(item)
     #     #     Inbox.objects.create(author=author_id, message=items_list)
-
 
     #     return
 

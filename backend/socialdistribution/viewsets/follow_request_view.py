@@ -26,7 +26,7 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
     queryset=FollowRequest.objects.all()
     #permission_classes = [permissions.AllowAny]
     serializer_class = FollowersSerializer
-    permission_classes = (permissions.AllowAny,)
+    # permission_classes = (permissions.AllowAny,)
 
     # POST Method
     # author sent a follow request to object
@@ -64,11 +64,17 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
             response_msg = "Sending"
 
             # inbox handle
+            actor_username = list(Author.objects.filter(
+                id=real_author_id).values('displayName'))[0].get('displayName')
+            object_username = list(Author.objects.filter(
+                id=real_object_id).values('displayName'))[0].get('displayName')
             msg = {
                 "type": "Follow",
                 "summary": summary,
                 "actor": real_author_id,
+                "actor_username": actor_username,
                 "object": real_object_id,
+                "object_username": object_username,
                 "relation": request_status,
                 "id": id
             }

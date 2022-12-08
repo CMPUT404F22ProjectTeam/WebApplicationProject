@@ -43,11 +43,11 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication, authentication.TokenAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.BasicAuthentication, authentication.TokenAuthentication])
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
-    permission_classes = [permissions.AllowAny]
+    # permission_classes = [permissions.AllowAny]
     serializer_class = PostSerializer
     
     # POST create a new post

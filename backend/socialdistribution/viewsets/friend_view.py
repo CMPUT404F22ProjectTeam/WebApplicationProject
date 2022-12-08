@@ -38,10 +38,10 @@ def checkTrueFriend(obj_id, act_id):
 
 
 
-@permission_classes([permissions.IsAuthenticated])
-@authentication_classes([authentication.BasicAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+# @authentication_classes([authentication.BasicAuthentication])
 class FriendViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.AllowAny,)
+    # permission_classes = (permissions.AllowAny,)
     
     #GET Method
     #get all follows of given author_id
@@ -55,7 +55,7 @@ class FriendViewSet(viewsets.ModelViewSet):
         followers_queryset = FollowRequest.objects.filter(object=real_author_id)
         for item in followers_queryset:
             # follower_list.append(item.actor)
-            if item.relation == 'F' or item.relation == 'R':
+            if item.relation == 'F' or item.relation == 'T':
                 follower = Author.objects.get(id=item.actor)
                 followers_list.append(follower)
 
@@ -73,6 +73,7 @@ class FriendViewSet(viewsets.ModelViewSet):
 
             response_msg = {
             "type": "followers",
+            "relation" : item.relation,
             "items": author_info
             }
         
@@ -117,10 +118,10 @@ class FriendViewSet(viewsets.ModelViewSet):
         except:
             response_msg = 'No follow request'
 
-        is_true_friend = checkTrueFriend(actor_id, obj_id)
+        checkTrueFriend(actor_id, obj_id)
         # print("是不是真朋友！！！！！！" + str(is_true_friend))
 
-        return Response(response_msg)
+        return Response(response_msg, 200)
 
     
     
