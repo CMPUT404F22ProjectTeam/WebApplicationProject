@@ -7,14 +7,16 @@ import Form from "./Form";
 import axios from "axios";
 import FormData from 'form-data'
 import './SinglePost.css'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const MySinglePost = ({ description, image, comments, postId }) => {
+const MySinglePost = ({ title, description, content, comments, postId }) => {
     const navigate = useNavigate();
     const [like, setLike] = useState(0);
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState('');
     let commentData = new FormData();
     let likeData = new FormData();
+    let type = {};
 
     useEffect(() => {
         axios
@@ -84,9 +86,10 @@ const MySinglePost = ({ description, image, comments, postId }) => {
     )
     return (
         <div className="singlePost">
-            <p className="singleDes">{description}</p>
+            <p className="singleTit">{title}</p>
+            <p className="des">{description}</p>
             <div className='center'>
-                <img className='postImage' src={image} />
+                {content.includes("image")&&(<img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />)||<p className='single-content'>{content}</p>}                
             </div>
             <div className="postBar">
                 <button className="eds" onClick={handleDel}>
@@ -98,14 +101,15 @@ const MySinglePost = ({ description, image, comments, postId }) => {
                 <Form
                     type="text"
                     name="comment"
+                    className = "comment-form"
                     action={handleComment}
-                    placeholder="leave your comment"
+                    placeholder="Leave your comment"
                 ></Form>
                 <button className="eds" onClick={handleSend}>
                     <SendIcon />
                 </button>
                 <button className="like" onClick={handleLike}>
-                    Like {like}
+                    <FavoriteBorderIcon /> {like}
                 </button>
             </div>
             <p className="flash">{commentError}</p>

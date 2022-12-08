@@ -17,7 +17,6 @@ const SinglePost = ({ author, displayName, postId, comments, description, image 
     const My_Name = cookies.get('username')
     const [like, setLike] = useState(0);
     const [name, setName] = useState(displayName);
-    const [myName, setMyName] = useState('');
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState('');
     const navigate = useNavigate();
@@ -69,7 +68,7 @@ const SinglePost = ({ author, displayName, postId, comments, description, image 
             .catch((e) => console.log(e));
 
 
-    }, [like, name, myName])
+    }, [like, name])
 
     const handleLike = useCallback(
         async (e) => {
@@ -168,9 +167,10 @@ const SinglePost = ({ author, displayName, postId, comments, description, image 
     return (
         <div className="singlePost" id={foreign}>
             <a className="userName" onClick={() => { toOtherUser() }}>@{name}:</a>
-            <p className="singleDes">{description}</p>
+            <p className="singleTit">{title}</p>
+            <p className="des">{description}</p>
             <div className='center'>
-                <img className='postImage' src={image} />
+                {content.includes("image") && (<img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />) || <p className='single-content'>{content}</p>}
             </div>
             <div className="postBar">
                 <button className="eds" onClick={handleShare}>
@@ -179,8 +179,9 @@ const SinglePost = ({ author, displayName, postId, comments, description, image 
                 <Form
                     type="text"
                     name="comment"
+                    className="comment-form"
                     action={handleComment}
-                    placeholder="leave your comment"
+                    placeholder="Leave your comment"
                 ></Form>
                 <button className="eds" onClick={handleSend}>
                     <SendIcon />

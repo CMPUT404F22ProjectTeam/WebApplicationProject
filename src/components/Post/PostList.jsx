@@ -86,7 +86,9 @@ function PostList() {
                             author={val.author.id}
                             displayName={val.author.displayName}
                             postId={val.id}
+                            title={val.title}
                             description={val.description}
+                            content={val.content}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>
@@ -99,7 +101,9 @@ function PostList() {
                         <SinglePost
                             author={val.author.id}
                             postId={val.id}
+                            title={val.title}
                             description={val.description}
+                            content={val.content}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>
@@ -112,7 +116,9 @@ function PostList() {
                         <SinglePost
                             author={t07_url + '/service/authors/' + val.author.id}
                             postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id}
+                            title={val.title}
                             description={val.description}
+                            content={val.content}
                             comments={<CommentList postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id} />}
                         />
                     </li>
@@ -126,7 +132,9 @@ function PostList() {
                             author={val.author.id}
                             displayName={val.author.displayName}
                             postId={val.id}
+                            title={val.title}
                             description={val.description}
+                            content={val.content}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>
