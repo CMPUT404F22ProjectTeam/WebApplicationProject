@@ -69,7 +69,8 @@ function MessageList() {
             });
     }
 
-    return (<div>
+    return (
+    <div className="message-container">
         <ul className="MessageList">
             {message.map((val, key) => {
                 if (val.type === "Follow") {
@@ -103,7 +104,7 @@ function MessageList() {
                         <li key={key}>
                             <div className="SingleMessage">
                                 <div className="messagePart">
-                                    <p className="message">{val.message}</p>
+                                    <p className="userName">{val.message}</p>
                                 </div>
                             </div>
                         </li>
