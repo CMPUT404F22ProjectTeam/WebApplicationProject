@@ -90,8 +90,6 @@ class FriendViewSet(viewsets.ModelViewSet):
         id = real_object_id+'to'+real_author_id
         print(id)
 
-        # print(">>>>>>>>>>>>>>>>>>>>>")
-        # print(id)
         try:
             exist = FollowRequest.objects.get(id=id)
             if exist.relation == 'F':
@@ -136,24 +134,29 @@ class FriendViewSet(viewsets.ModelViewSet):
         actor_id = kwargs['foreign_author_id']
         obj_id = kwargs['author_id']
         id = f'{obj_id}to{actor_id}'
-        follower = FollowRequest.objects.get(id=id)
-        print(follower.relation)
+        id_2 = f'{actor_id}to{obj_id}'
+
         try:
             follower = FollowRequest.objects.get(id=id)
             if follower.relation == 'F':
                 follower.delete()
                 response_msg = "Successfully delete"
+
             elif follower.relation == 'T':
                 follower.delete()
-                id_2 = {kwargs['author_id']}+'to'+{kwargs['foreign_author_id']}
                 follower2 = FollowRequest.objects.get(id=id_2)
-                follower2.delete()
+                follower2.relation = 'F'
+                follower.save()
+                response_msg = "Successfully delete"
+                
             else:
                 response_msg = 'Not your follower'
+
         except:
             response_msg = 'Not your follower'
-
+        
         return Response(response_msg)
+
 
     # URL: ://service/authors/{AUTHOR_ID}/truefriend
     # get all true friend
@@ -172,8 +175,10 @@ class FriendViewSet(viewsets.ModelViewSet):
         elif len(queryset) == 1:
             queryset = list(friend_queryset.values('object'))[0].get('object')
             username = Author.objects.get(id =queryset)
-            return JsonResponse({'True friend': queryset,
+            items = []
+            items.append({'Truefriend': queryset,
                                 "username": str(username)})
+            return Response(items)
         else:
             
             items = []
@@ -182,7 +187,7 @@ class FriendViewSet(viewsets.ModelViewSet):
                 username = Author.objects.get(id = queryset)
                 username=str(username).strip()
                 
-                items.append({'True friend': queryset,
+                items.append({'Truefriend': queryset,
                     "username": username})
             return Response(items)
                 
