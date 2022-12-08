@@ -7,28 +7,44 @@ import axios from "axios";
 import FormData from 'form-data'
 import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Cookies } from 'react-cookie';
 
-const SinglePost = ({ author, displayName, postId, comments, title, description, content, image, handleShare }) => {
-    const me = "http://fallprojback.herokuapp.com/authors/1111111111";
+const base_url = process.env.REACT_APP_CURRENT_URL;
+
+const SinglePost = ({ author, displayName, postId, comments, description, image }) => {
+    const cookies = new Cookies();
+    const My_ID = cookies.get('id').split("/").pop();
+    const My_Name = cookies.get('username')
     const [like, setLike] = useState(0);
     const [name, setName] = useState(displayName);
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState('');
     const navigate = useNavigate();
-    //let is_liked = count === (like + 1);
+    let me = '';
     let id = String(postId).split("/").pop();
+    let authorId = String(author).split("/").pop();
+    let foreign = "5";
     let commentData = new FormData();
     let likeData = new FormData();
+    let postData = new FormData();
     let auth = {};
     let auth5 = { username: 'admin', password: 'admin' };
     let auth67 = { username: 'charlotte', password: '12345678' };
     let auth18 = { username: 't18user1', password: 'Password123!' };
     if (author.includes('fallprojback') === true) {
         auth = auth5
+        me = cookies.get('id')
     } else if (author.includes('cmput404team18-backend') === true) {
         auth = auth18
+        me = "https://cmput404team18-backend.herokuapp.com/backendapi/authors/91cd9299-6c70-4ec9-8dbc-2afb985fd4f0"
+        foreign = "aaa"
+    } else if (author.includes('socialdistribution-cmput404') === true) {
+        auth = auth67
+        foreign = "bbb"
+
     } else {
         auth = auth67
+        foreign = "ccc"
     }
 
     useEffect(() => {
@@ -44,22 +60,44 @@ const SinglePost = ({ author, displayName, postId, comments, title, description,
                 setName(data.data.displayName)
             })
             .catch((e) => console.log(e));
+        axios
+            .get(`${base_url}/authors/${My_ID}`)
+            .then((data) => {
+                setMyName(data.data.displayName)
+            })
+            .catch((e) => console.log(e));
+
 
     }, [like, name])
 
     const handleLike = useCallback(
         async (e) => {
-            likeData.append('context', "Charlote likes your post.")
-            likeData.append('summary', author)
-            axios
-                .post(`${postId}/likes`, likeData, { auth: auth })
-                .then((response) => {
-                    console.log(response);
-                    window.location.reload()
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
+            likeData.append('context', { myName } + " likes your post.")
+            likeData.append('summary', { myName } + " likes your post.")
+            likeData.append('author', me)
+            likeData.append('post', id)
+            likeData.append('object', "/authors/" + { My_ID } + "/posts/" + { id })
+            if (author.includes('cmput404team18-backend') === true) {
+                axios
+                    .post(`${base_url}/authors/${My_ID}/inbox/like`, likeData, { auth: auth })
+                    .then((response) => {
+                        console.log(response);
+                        //window.location.reload()
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            } else {
+                axios
+                    .post(`${postId}/likes`, likeData, { auth: auth })
+                    .then((response) => {
+                        console.log(response);
+                        window.location.reload()
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            }
 
         },
         [postId, author]
@@ -70,7 +108,7 @@ const SinglePost = ({ author, displayName, postId, comments, title, description,
             alert("This is yourself!")
         }
         else {
-            navigate('./otherProfile', { state: { id: author, name: name } });
+            navigate('../otherProfile', { state: { id: author, name: name } });
 
         }
     }
@@ -88,7 +126,7 @@ const SinglePost = ({ author, displayName, postId, comments, title, description,
         else {
             commentData.append('content', comment)
             axios
-                .post(`${me}/posts/${id}/comments`, commentData, { auth: auth })
+                .post(`${base_url}/authors/${My_ID}/posts/${id}/comments`, commentData, { auth: auth })
                 .then((response) => {
                     console.log(response);
                 })
@@ -99,13 +137,40 @@ const SinglePost = ({ author, displayName, postId, comments, title, description,
     }, [comment]
     )
 
+    const handleShare = useCallback(
+        async (e) => {
+            postData.append('type', "Post")
+            postData.append('id', postId)
+            postData.append('object', My_Name)
+            axios
+                .get(`${base_url}/authors/${My_ID}/followers`, { auth: auth })
+                .then((res) => {
+                    res.data.items.forEach((friend) => {
+                        axios
+                            .post(`${friend.id}/inbox`, postData, { auth: auth })
+                            .then((response) => {
+                                console.log(response);
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                            });
+                    })
+                    alert("Shared successfully!")
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+        [postId, author]
+    )
+
     return (
-        <div className="singlePost">
+        <div className="singlePost" id={foreign}>
             <a className="userName" onClick={() => { toOtherUser() }}>@{name}:</a>
             <p className="singleTit">{title}</p>
             <p className="des">{description}</p>
             <div className='center'>
-            {content.includes("image")&&(<img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />)||<p className='single-content'>{content}</p>}                
+                {content.includes("image") && (<img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />) || <p className='single-content'>{content}</p>}
             </div>
             <div className="postBar">
                 <button className="eds" onClick={handleShare}>
@@ -114,7 +179,7 @@ const SinglePost = ({ author, displayName, postId, comments, title, description,
                 <Form
                     type="text"
                     name="comment"
-                    className = "comment-form"
+                    className="comment-form"
                     action={handleComment}
                     placeholder="Leave your comment"
                 ></Form>

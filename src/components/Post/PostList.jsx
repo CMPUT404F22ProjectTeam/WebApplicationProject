@@ -4,15 +4,16 @@ import axios from "axios";
 import FormData from 'form-data'
 import CommentList from './../Comment/CommentList'
 import './PostList.css'
-import { get } from '../Api'
+import { Cookies } from 'react-cookie';
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 const t06_url = process.env.REACT_APP_API_URL;
 const t07_url = process.env.REACT_APP_API2_URL;
 const t18_url = process.env.REACT_APP_API3_URL;
 
-function PostList({ handleShare }) {
-    const AUTHOR_ID = "37056da9167cd8561877d431be4ecbf12444cce35556c63e217ac27dcbf827ed";
+function PostList() {
+    const cookies = new Cookies();
+    const AUTHOR_ID = cookies.get('id').split("/").pop();
     const [postData, setPostData] = useState([]);
     const [postData6, setPostData6] = useState([]);
     const [postData7, setPostData7] = useState([]);
@@ -27,7 +28,7 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [postData])
-    
+
     useEffect(() => {
         axios.get(`${t06_url}/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
@@ -47,7 +48,7 @@ function PostList({ handleShare }) {
             })
             .catch((e) => console.error(e.message));
     }, [authors6, postData6])
-    
+
     useEffect(() => {
         axios.get(`${t07_url}/service/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
@@ -85,11 +86,10 @@ function PostList({ handleShare }) {
                             author={val.author.id}
                             displayName={val.author.displayName}
                             postId={val.id}
-                            title = {val.title}
+                            title={val.title}
                             description={val.description}
-                            content = {val.content}
+                            content={val.content}
                             comments={<CommentList postId={val.id} />}
-                            handleShare={handleShare}
                         />
                     </li>
                 );
@@ -101,11 +101,10 @@ function PostList({ handleShare }) {
                         <SinglePost
                             author={val.author.id}
                             postId={val.id}
-                            title = {val.title}
+                            title={val.title}
                             description={val.description}
-                            content = {val.content}
+                            content={val.content}
                             comments={<CommentList postId={val.id} />}
-                            handleShare={handleShare}
                         />
                     </li>
                 );
@@ -117,11 +116,10 @@ function PostList({ handleShare }) {
                         <SinglePost
                             author={t07_url + '/service/authors/' + val.author.id}
                             postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id}
-                            title = {val.title}
+                            title={val.title}
                             description={val.description}
-                            content = {val.content}
+                            content={val.content}
                             comments={<CommentList postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id} />}
-                            handleShare={handleShare}
                         />
                     </li>
                 );
@@ -134,11 +132,10 @@ function PostList({ handleShare }) {
                             author={val.author.id}
                             displayName={val.author.displayName}
                             postId={val.id}
-                            title = {val.title}
+                            title={val.title}
                             description={val.description}
-                            content = {val.content}
+                            content={val.content}
                             comments={<CommentList postId={val.id} />}
-                            handleShare={handleShare}
                         />
                     </li>
                 );

@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const base_url = process.env.REACT_APP_CURRENT_URL;
 
 export default function OtherUserPage() {
-    const me = "1111111111";
+    const me = "test_heroku_01";
     const location = useLocation();
     const [objectName, setObjectName] = useState(location.state.name);
     const [response, setResponse] = useState('');

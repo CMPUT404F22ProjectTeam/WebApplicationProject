@@ -2,7 +2,11 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from '../../components/Post/Form';
 import RedirectLink from '../../components/Message/RedirectLink';
+import { useCookies } from 'react-cookie'
 import "./Login.css";
+import axios from 'axios';
+
+const base_url = process.env.REACT_APP_CURRENT_URL;
 
 export default function Login() {
 
@@ -10,6 +14,7 @@ export default function Login() {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
+    const [cookies, setCookie] = useCookies(['id'])
 
     const handleName = useCallback((event) => {
         setError('')
@@ -28,8 +33,15 @@ export default function Login() {
         } else if (!password) {
             setError('*Password cannot be blank!')
         } else {
-            /*connect with backend*/
-            navigate('/home')
+            axios
+                .get(`${base_url}/login/${name}AND${password}/`)
+                .then((res) => {
+                    console.log(res)
+                    setCookie('id', res.data.id, { path: '/' })
+                    setCookie('username', res.data.displayName, { path: '/' })
+                    navigate('/home')
+                })
+                .catch((e) => console.log(e));
         }
     }, [name, password])
 
