@@ -11,7 +11,6 @@ export default function FriendPage() {
                 <Navbar />
             </div>
             <div className='split world'>
-                <hr></hr>
                 <div className='container'>
                     <h1 className='friendHeader'>True Friends</h1>
                     <FriendList />

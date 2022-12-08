@@ -13,7 +13,6 @@ import FormData from 'form-data';
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 const cookies = new Cookies();
-const userID = cookies.get('id').split("/").pop();
 // Post
 let data = new FormData()
 
@@ -57,7 +56,7 @@ export default class Post extends Component {
       })
     }
     axios
-      .post(base_url + '/authors/' + userID + '/posts/', data)
+      .post(base_url + '/authors/' + cookies.get('id').split("/").pop() + '/posts/', data)
       .then((response) => {
         console.log(response)
       })
