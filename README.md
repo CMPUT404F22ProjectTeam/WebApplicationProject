@@ -1,6 +1,10 @@
 # WebApplicationProject
 A Web Application Project :)
 
+##Frontend Deployment: https://react-frontend-404.herokuapp.com
+##Backend Deployment: https://fallprojback.herokuapp.com
+##API documentation: https://fallprojback.herokuapp.com/swagger/
+
 ## How to Install and Run the Project
 ### Backend
 #### Set up PostgreSQL database
