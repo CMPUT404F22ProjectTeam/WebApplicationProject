@@ -26,7 +26,9 @@ function MyPostList() {
                 return (
                     <li key={key} id="onePost">
                         <MySinglePost
+                            title = {val.title}
                             description={val.description}
+                            content = {val.content}
                             postId={val.id}
                             comments={<CommentList postId={val.id} />}
                         />

@@ -11,10 +11,25 @@
     max-height: 300px;
 }
 
-.singleDes {
+.singleTit {
     margin-top: 10px;
     margin-left: 30px;
     margin-right: 10px;
+    font-size: large;
+    font-weight: bold ;
+}
+
+.des{
+    margin-top: 10px;
+    margin-left: 30px;
+    margin-right: 10px;
+    font-size: medium;
+    font-style: italic;
+    color: #888888;
+}
+
+.single-content{
+    font-size: small;
 }
 
 .postBar {
@@ -69,12 +84,8 @@
     color: #ffffff;
 }
 
-.comments {
-    border: 2px solid rgba(211, 211, 211, .5);
-    box-shadow: 3px 3px 20px #888888;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+.comment-form{
+    height: 1%;
 }
 
 .userName {
@@ -93,4 +104,8 @@
 .postBar #liked {
     background-color: #b34f2e;
     color: #ffffff;
+}
+
+.postContent{
+    height: 150px;
 }

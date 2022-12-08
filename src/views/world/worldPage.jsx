@@ -10,7 +10,6 @@ export default function WorldPage() {
                 <Navbar />
             </div>
             <div className=' split world'>
-            <hr></hr>
                 <div className='worldlist'>
                     <PostList />
                 </div>

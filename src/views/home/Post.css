@@ -70,3 +70,7 @@ textarea{
 .back:hover {
     color: #ff6633;
  }
+
+.upload{
+    height: 150px;
+ }
