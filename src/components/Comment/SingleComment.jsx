@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import './CommentList.css'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
 const SingleComment = ({ authorId = '', displayName, comment }) => {
-    const me = "http://fallprojback.herokuapp.com/authors/1111111111"
+    const cookies = new Cookies();
+    const My_ID = cookies.get('id').split("/").pop();
+    const me = cookies.get('id')
     const [name, setName] = useState(displayName);
     const navigate = useNavigate();
     let auth = {};
