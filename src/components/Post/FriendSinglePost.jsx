@@ -5,8 +5,12 @@ import './SinglePost.css'
 import axios from "axios";
 import FormData from 'form-data'
 import { useNavigate } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
 const FriendSinglePost = ({ postId, comments }) => {
+    const cookies = new Cookies();
+    const My_ID = cookies.get('id').split("/").pop();
+    const My_Name = cookies.get('username')
     const [like, setLike] = useState(0);
     const [name, setName] = useState('');
     const [comment, setComment] = useState('');
@@ -17,6 +21,8 @@ const FriendSinglePost = ({ postId, comments }) => {
     const navigate = useNavigate();
     let commentData = new FormData();
     let likeData = new FormData();
+    let id = String(postId).split("/").pop();
+    let me = cookies.get('id')
 
     useEffect(() => {
         axios
@@ -32,33 +38,47 @@ const FriendSinglePost = ({ postId, comments }) => {
                 setLike(Number(data.data.length))
             })
             .catch((e) => console.log(e));
+        axios
+            .get(`${authorId}`)
+            .then((data) => {
+                setName(data.data.displayName)
+            })
+            .catch((e) => console.log(e));
     }, [authorId, description, like])
 
 
     const handleLike = useCallback(
         async (e) => {
             e.preventDefault()
-            likeData.append('context', "Charlote likes your post.")
-            likeData.append('summary', authorId)
-            axios
-                .post(`${postId}/likes`, likeData)
-                .then((response) => {
-                    console.log(response);
-                    window.location.reload()
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
+            likeData.append('context', { My_Name } + " likes your post.")
+            likeData.append('summary', { My_Name } + " likes your post.")
+            likeData.append('author', me)
+            likeData.append('post', id)
+            likeData.append('object', "/authors/" + { My_ID } + "/posts/" + { id })
+            if (authorId.includes('cmput404team18-backend') === true) {
+                axios
+                    .post(`${base_url}/authors/${My_ID}/inbox/like`, likeData, { auth: auth })
+                    .then((response) => {
+                        console.log(response);
+                        //window.location.reload()
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            } else {
+                axios
+                    .post(`${postId}/likes`, likeData, { auth: auth })
+                    .then((response) => {
+                        console.log(response);
+                        window.location.reload()
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            }
         },
         [authorId]
     )
-
-    axios
-        .get(`${authorId}`)
-        .then((data) => {
-            setName(data.data.displayName)
-        })
-        .catch((e) => console.log(e));
 
     const toOtherUser = () => {
         navigate('/otherProfile', { state: { id: authorId } });
