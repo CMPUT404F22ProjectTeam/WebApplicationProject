@@ -34,7 +34,7 @@ export default function OtherUserPage() {
 
     const handleFollow = () => {
         axios
-            .post(`${base_url}/authors/${me}/follow_request/${authorId}/`)
+            .post(`${base_url}/authors/${me}/follow_request/${authorId}/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((response) => {
                 setResponse(response.data)
                 console.log(response)
