@@ -171,7 +171,7 @@ class FriendViewSet(viewsets.ModelViewSet):
 
         if not queryset:
             print("22222222")
-            return JsonResponse({})
+            return Response([])
         elif len(queryset) == 1:
             queryset = list(friend_queryset.values('object'))[0].get('object')
             username = Author.objects.get(id =queryset)
