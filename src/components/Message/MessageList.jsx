@@ -1,21 +1,19 @@
-import { CommentsDisabled } from "@mui/icons-material";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { ExMessageData } from './../Example/ExampleMessage'
 import { useNavigate } from 'react-router-dom';
 import './MessageList.css'
+import { Cookies } from 'react-cookie';
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 
 function MessageList() {
-    //const [posts, setPosts] = useState([]);
-    //const [likes, setLikes] = useState([]);
-    //const[comments, setComments] = useState([]);
-    //const [requestData, setRequestData] = useState([]);
+    const cookies = new Cookies();
     const [message, setMessage] = useState([]);
     const navigate = useNavigate();
-    const AUTHOR_ID = "6a51cf3bcd9e4996ab061dc658c0c8a9";
+    const AUTHOR_ID = cookies.get('id').split("/").pop();
     const auth = { username: 'admin', password: 'admin' };
+    let name = '';
+    let content = '';
     useEffect(() => {
         axios
             .get(`${base_url}/authors/${AUTHOR_ID}/inbox`, { auth: auth })
@@ -27,13 +25,18 @@ function MessageList() {
                     } else if (item.message.type === 'comment') {
 
                     } else if (item.message.type === 'post') {
-                        let name = item.message.author.displayName
-                        let content = name + " shares a post to you!"
-                        temp.push({ "type": item.type, "message": content })
-                    } else {
-                        let name = item.message.actor
-                        let content = name + " wants to follow you!"
-                        temp.push({ "type": item.message.type, "message": content, "id": item.message.actor })
+                        axios
+                            .get(`${item.author}`, { auth: auth })
+                            .then((res) => {
+                                name = res.data.displayName
+                            })
+                            .catch((e) => console.log(e))
+                        content = name + " shares a post to you!"
+                        temp.push({ "type": item.message.type, "message": content, "post": item.message.id })
+                    } else if (item.message.type === 'Follow') {
+                        name = item.message.actor
+                        content = " wants to follow you!"
+                        temp.push({ "type": item.message.type, "message": content, "id": item.message.actor, "name": item.message.actor_username })
                     }
                 })
                 setMessage(temp)
@@ -46,16 +49,21 @@ function MessageList() {
             alert("This is yourself!")
         }
         else {
-            navigate('./otherProfile', { state: { id: author, name: name } });
+            navigate('../otherProfile', { state: { id: author, name: name } });
         }
     }
 
+    const toPost = (id) => {
+        navigate('../sharePost', { state: { id: id } });
+    }
 
-    const handleAccept = (id) => {
+
+    const handleAccept = (id, name) => {
         axios
-            .put(`${base_url}/authors/${AUTHOR_ID}/followers/${id.split("/").pop()}`, { auth: auth })
+            .put(`${base_url}/authors/${AUTHOR_ID}/followers/${id.split("/").pop()}`, { auth: { username: 'admin', password: 'admin' } })
             .then((response) => {
                 console.log(response);
+                alert(name + " follows you now!")
             })
             .catch((e) => {
                 console.log(e);
@@ -70,11 +78,22 @@ function MessageList() {
                         <li key={key}>
                             <div className="SingleMessage">
                                 <div className="messagePart">
-                                    <a className="userName" onClick={() => { toOtherUser(val.displayName, val.id) }}>@{val.displayName}</a>
-                                    <p className="message">{" want to follow you."}</p>
+                                    <a className="userName" onClick={() => { toOtherUser(val.name, val.id) }}>@{val.name}</a>
+                                    <p className="message">{val.message}</p>
                                 </div>
                                 <div className="acceptButton">
-                                    <button className="accept" onClick={() => { handleAccept(val.id) }}>Accept</button>
+                                    <button className="accept" onClick={() => { handleAccept(val.id, val.name) }}>Accept</button>
+                                </div>
+                            </div>
+                        </li>
+                    );
+                }
+                else if (val.type === "Post") {
+                    return (
+                        <li key={key}>
+                            <div className="SingleMessage">
+                                <div className="messagePart">
+                                    <a className="userName" onClick={() => { toPost(val.post) }}>@{val.content}</a>
                                 </div>
                             </div>
                         </li>

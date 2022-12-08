@@ -10,15 +10,18 @@
 .SingleFriend {
     border-radius: 10px;
     list-style-type: none;
-    height: 60px;
+    height: 40px;
+    border: 1px solid grey;
+    vertical-align: middle;
+    align-items: stretch;
 }
 
-h { 
+h {
     display: block;
     margin-top: 1em;
     margin-bottom: 1em;
     margin-left: auto;
     margin-right: auto;
-    border-top: 0.1px solid hsla(200, 10%, 50%,100);
+    border-top: 0.1px solid hsla(200, 10%, 50%, 100);
     border-color: rgb(224, 224, 224);
-} 
+}

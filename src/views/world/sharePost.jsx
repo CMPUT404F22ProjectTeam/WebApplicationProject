@@ -1,0 +1,52 @@
+import React, { useState, useEffect } from 'react'
+import Navbar from '../../components/Navbar/Navbar'
+import './worldPage.css'
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import SinglePost from '../../components/Post/SinglePost';
+import CommentList from '../../components/Comment/CommentList';
+
+export default function SharePost() {
+    const location = useLocation();
+    const [post, setPost] = useState({});
+    const POST_ID = location.state.id;
+    const navigate = useNavigate();
+    const auth = { username: 'admin', password: 'admin' };
+
+    useEffect(() => {
+        axios
+            .get(`${POST_ID}`, { auth: auth })
+            .then((res) => {
+                setPost(res.data)
+            })
+            .catch((e) => console.log(e));
+    }, [post])
+
+    const handleBack = () => {
+        navigate(-1)
+    }
+
+    return (
+        <div className='worldPage'>
+            <div className='bar'>
+                <Navbar />
+            </div>
+            <div className='split world'>
+                <div className='container'>
+                    <button className="BackButton" onClick={handleBack}>{"<"}</button>
+                    <h1 className='userHeader'>Shared Post</h1>
+                    <div className="beFriendButton">
+                        <SinglePost
+                            author={post.author.id}
+                            displayName={post.author.displayName}
+                            postId={post.id}
+                            description={post.description}
+                            comments={<CommentList postId={post.id} />}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}

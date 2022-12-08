@@ -15,6 +15,7 @@ export default function EditProfile() {
     const [name, setName] = useState('');
     const [github, setGithub] = useState('');
     const [error, setError] = useState('');
+    const auth = { username: 'admin', password: 'admin' };
     let data = new FormData()
 
     const handleName = useCallback((event) => {
@@ -36,7 +37,7 @@ export default function EditProfile() {
             data.append('github', github)
         }
         axios
-            .post(`${base_url}/authors/${AUTHOR_ID}/`, data)
+            .post(`${base_url}/authors/${AUTHOR_ID}/`, data, { auth: auth })
             .then((response) => {
                 console.log(response);
                 navigate('/home')
@@ -54,34 +55,34 @@ export default function EditProfile() {
             <div className='bar'>
                 <Navbar />
             </div>
-            
+
             <div className='split profile'>
-            <hr></hr>
-            <div className='container edit'>
-                <Link to={`./../home`} className="back">x</Link>
-                <div className='container'>
-                    <form className='post_information' onSubmit={handleSubmit} >
-                        <Form
-                            type="text"
-                            name="userName"
-                            action={handleName}
-                            placeholder="new name"
-                        />
-                        <Form
-                            type="text"
-                            name="github"
-                            action={handleGit}
-                            placeholder="github name"
-                        />
-                        <div className="field is-clearfix">
-                            <button class="btn" type="submit" >
-                                Submit
-                            </button>
-                        </div>
-                        <p className="flash">{error}</p>
-                    </form>
+                <hr></hr>
+                <div className='container edit'>
+                    <Link to={`./../home`} className="back">x</Link>
+                    <div className='container'>
+                        <form className='post_information' onSubmit={handleSubmit} >
+                            <Form
+                                type="text"
+                                name="userName"
+                                action={handleName}
+                                placeholder="new name"
+                            />
+                            <Form
+                                type="text"
+                                name="github"
+                                action={handleGit}
+                                placeholder="github name"
+                            />
+                            <div className="field is-clearfix">
+                                <button class="btn" type="submit" >
+                                    Submit
+                                </button>
+                            </div>
+                            <p className="flash">{error}</p>
+                        </form>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     );

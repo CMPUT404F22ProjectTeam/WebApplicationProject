@@ -3,12 +3,14 @@ import React, { useState, useEffect } from "react";
 import MySinglePost from "./../Post/MySinglePost";
 import CommentList from './../Comment/CommentList'
 import './PostList.css'
+import { Cookies } from 'react-cookie';
 
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 
 function MyPostList() {
-    const AUTHOR_ID = "1111111111";
+    const cookies = new Cookies();
+    const AUTHOR_ID = cookies.get('id').split("/").pop();
     const [postData, setPostData] = useState([]);
 
     useEffect(() => {

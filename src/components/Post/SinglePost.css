@@ -6,6 +6,18 @@
     border-radius: 1ch;
 }
 
+#aaa {
+    background-color: blueviolet;
+}
+
+#bbb {
+    background-color: brown;
+}
+
+#bbb {
+    background-color: goldenrod;
+}
+
 .postImage {
     max-width: 300px;
     max-height: 300px;
@@ -60,7 +72,7 @@
     font-size: 15px;
 }
 
-.FavoriteBorderIcon{
+.FavoriteBorderIcon {
     background-color: #ff6633;
 }
 
