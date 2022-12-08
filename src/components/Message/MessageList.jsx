@@ -24,14 +24,8 @@ function MessageList() {
                         temp.push({ "type": item.message.type, "message": item.message.context })
                     } else if (item.message.type === 'comment') {
 
-                    } else if (item.message.type === 'post') {
-                        axios
-                            .get(`${item.author}`, { auth: auth })
-                            .then((res) => {
-                                name = res.data.displayName
-                            })
-                            .catch((e) => console.log(e))
-                        content = name + " shares a post to you!"
+                    } else if (item.message.type === 'Post') {
+                        content = item.message.object + " shares a post to you!"
                         temp.push({ "type": item.message.type, "message": content, "post": item.message.id })
                     } else if (item.message.type === 'Follow') {
                         name = item.message.actor
@@ -93,7 +87,7 @@ function MessageList() {
                         <li key={key}>
                             <div className="SingleMessage">
                                 <div className="messagePart">
-                                    <a className="userName" onClick={() => { toPost(val.post) }}>@{val.content}</a>
+                                    <a className="userName" onClick={() => { toPost(val.post) }}>@{val.message}</a>
                                 </div>
                             </div>
                         </li>

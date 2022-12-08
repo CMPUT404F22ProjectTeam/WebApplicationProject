@@ -38,6 +38,7 @@ export default function Login() {
                 .then((res) => {
                     console.log(res)
                     setCookie('id', res.data.id, { path: '/' })
+                    setCookie('username', res.data.displayName, { path: '/' })
                     navigate('/home')
                 })
                 .catch((e) => console.log(e));

@@ -9,7 +9,7 @@ import CommentList from '../../components/Comment/CommentList';
 
 export default function SharePost() {
     const location = useLocation();
-    const [post, setPost] = useState({});
+    const [post, setPost] = useState({ author: "", id: "", description: "" });
     const POST_ID = location.state.id;
     const navigate = useNavigate();
     const auth = { username: 'admin', password: 'admin' };
@@ -22,7 +22,7 @@ export default function SharePost() {
             })
             .catch((e) => console.log(e));
     }, [post])
-
+    console.log(post)
     const handleBack = () => {
         navigate(-1)
     }
@@ -38,8 +38,7 @@ export default function SharePost() {
                     <h1 className='userHeader'>Shared Post</h1>
                     <div className="beFriendButton">
                         <SinglePost
-                            author={post.author.id}
-                            displayName={post.author.displayName}
+                            author={post.author}
                             postId={post.id}
                             description={post.description}
                             comments={<CommentList postId={post.id} />}

@@ -14,6 +14,7 @@ const base_url = process.env.REACT_APP_CURRENT_URL;
 const SinglePost = ({ author, displayName, postId, comments, description, image }) => {
     const cookies = new Cookies();
     const My_ID = cookies.get('id').split("/").pop();
+    const My_Name = cookies.get('username')
     const [like, setLike] = useState(0);
     const [name, setName] = useState(displayName);
     const [myName, setMyName] = useState('');
@@ -68,7 +69,7 @@ const SinglePost = ({ author, displayName, postId, comments, description, image 
             .catch((e) => console.log(e));
 
 
-    }, [like, name])
+    }, [like, name, myName])
 
     const handleLike = useCallback(
         async (e) => {
@@ -139,10 +140,9 @@ const SinglePost = ({ author, displayName, postId, comments, description, image 
 
     const handleShare = useCallback(
         async (e) => {
-            console.log(me)
-            postData.append('author', me)
-            let message = { 'id': postId, 'type': "post" }
-            postData.append('message', message)
+            postData.append('type', "Post")
+            postData.append('id', postId)
+            postData.append('object', My_Name)
             axios
                 .get(`${base_url}/authors/${My_ID}/followers`, { auth: auth })
                 .then((res) => {
@@ -151,12 +151,12 @@ const SinglePost = ({ author, displayName, postId, comments, description, image 
                             .post(`${friend.id}/inbox`, postData, { auth: auth })
                             .then((response) => {
                                 console.log(response);
-                                alert("Shared successfully!")
                             })
                             .catch((e) => {
                                 console.log(e);
                             });
                     })
+                    alert("Shared successfully!")
                 })
                 .catch((e) => {
                     console.log(e);
