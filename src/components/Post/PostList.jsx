@@ -89,6 +89,7 @@ function PostList() {
                             title={val.title}
                             description={val.description}
                             content={val.content}
+                            contentType = {val.contentType}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>
@@ -104,6 +105,7 @@ function PostList() {
                             title={val.title}
                             description={val.description}
                             content={val.content}
+                            contentType = {val.contentType}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>
@@ -119,6 +121,7 @@ function PostList() {
                             title={val.title}
                             description={val.description}
                             content={val.content}
+                            contentType = {val.contentType}
                             comments={<CommentList postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id} />}
                         />
                     </li>
@@ -135,6 +138,7 @@ function PostList() {
                             title={val.title}
                             description={val.description}
                             content={val.content}
+                            contentType = {val.contentType}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>

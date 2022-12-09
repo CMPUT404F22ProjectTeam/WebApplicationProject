@@ -10,12 +10,10 @@ const base_url = process.env.REACT_APP_CURRENT_URL;
 export default function Profile() {
   const cookies = new Cookies();
   const AUTHOR_ID = cookies.get('id').split("/").pop();
-  const My_Name = cookies.get('username')
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [profile, setProfile] = useState('');
   const [github, setGithub] = useState('');
-  const [githubAcivities, setGithubactivities] = useState('');
   const handleEdit = () => {
     navigate("/editProfile")
   }
@@ -35,17 +33,6 @@ export default function Profile() {
       })
       .catch((e) => console.log(e));
   }, [name, profile, github])
-  useEffect(() => {
-    const octokit = new Octokit();
-    let doc = null;
-    if (github) {
-      doc = octokit.request(
-        "GET /users/" + github.split("/")[3] + "/events/public/"
-      );
-    }
-
-    setGithubactivities({ githubAcivities: doc?.data ?? [] });
-  }, [githubAcivities])
 
   useEffect(() => {
     axios
