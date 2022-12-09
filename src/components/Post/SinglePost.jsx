@@ -121,6 +121,7 @@ const SinglePost = ({ author, displayName, postId, comments, title, description,
                 .post(`${base_url}/authors/${My_ID}/posts/${id}/comments`, commentData, { auth: auth })
                 .then((response) => {
                     console.log(response);
+                    window.location.reload()
                 })
                 .catch((e) => {
                     console.log(e);
