@@ -1,0 +1,19 @@
+.friendPage {
+    height: 100vh;
+}
+
+.friend {
+    background-color: #f7f8fa;
+    left: 10%;
+    width: 20%;
+    height: 100%;
+    display: flex;
+}
+
+.friendHeader {
+    color: #ff6633;
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}

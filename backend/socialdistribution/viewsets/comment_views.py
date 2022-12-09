@@ -14,6 +14,7 @@ from rest_framework import permissions
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework import viewsets, permissions, authentication
 
+
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
 
@@ -31,6 +32,8 @@ HOST = 'https://fallprojback.herokuapp.com'
 #     return post_id
 
 
+
+
 # def current_id(request):
 #     url = request.build_absolute_uri()[:-1]
 #     author_id = url.split('/')[4]
@@ -41,6 +44,7 @@ HOST = 'https://fallprojback.herokuapp.com'
 def getPostIDFromRequestURL(author_id,id):
     post_id = f"{author_id}/posts/{id}"
     return post_id
+
 
 
 def getAuthorIDFromRequestURL(request, id):
@@ -106,11 +110,16 @@ class CommentViewSet(viewsets.ModelViewSet):
         # print("UPDATE COMMENT TO INBOX")
         # inbox_view.InboxViewSet.creat_comment_rec(self, author_id, post_data)
 
+        Inbox.objects.create(author=current_author_id, message=response_msg)
+        # print("UPDATE COMMENT TO INBOX")
+        # inbox_view.InboxViewSet.creat_comment_rec(self, author_id, post_data)
+
         return JsonResponse(response_msg)
 
     # URL://service/authors/{AUTHOR_ID}/posts/{POST_ID}/comments
     # http://service/authors/{authors_id}/posts/{post_id}/comments?page=4&size=40
     # GET Method list all comments pagination
+
     def all_post_comments(self, request, *args, **kwargs):
 
         current_author_id = getAuthorIDFromRequestURL(request, kwargs['author_id'])
@@ -129,6 +138,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             return Response({})
 
         else:
+
             comment_list = post.comments.split("AND")
 
             # parse all comments to dictionary
@@ -141,6 +151,14 @@ class CommentViewSet(viewsets.ModelViewSet):
                 except:
                     pass
 
+
+            for item in comment_list:
+                try:
+                    comments_queryset = Comment.objects.get(id=item)
+                    comments.append(comments_queryset)
+                except:
+                    pass
+       
             if is_pagination:
                 # set up pagination
                 size = request.build_absolute_uri()[-1]
@@ -148,10 +166,12 @@ class CommentViewSet(viewsets.ModelViewSet):
                 page = request.GET.get('page')
                 comments = pagination.get_page(page)
 
+
             else:
                 size = len(comment_list)
                 page = 1
             print("REACH HERE2222")
+
             all_comments = CommentSerializer(comments, many=True)
             real_comment_id = post_id + f'/comments'
             comments_response = {
@@ -161,7 +181,10 @@ class CommentViewSet(viewsets.ModelViewSet):
                 "post": post_id,
                 "id": real_comment_id,
                 "comments": all_comments.data
+
             }
 
+
             return Response(comments_response)
+
 

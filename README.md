@@ -1,6 +1,10 @@
 # WebApplicationProject
 A Web Application Project :)
 
+### Frontend Deployment: https://react-frontend-404.herokuapp.com
+### Backend Deployment: https://fallprojback.herokuapp.com
+### API documentation: https://fallprojback.herokuapp.com/swagger/
+
 ## How to Install and Run the Project
 ### Backend
 #### Set up PostgreSQL database
@@ -43,6 +47,13 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 `python manage.py runserver`
 to view api documentations after building, go to `http://127.0.0.1:8000/admin` if working on local host
 
+#### When working:
+
+- If adding new dependency always add to requirements.txt file
+  - `pip freeze > requirements.txt`
+- To update your installation after a pull, simply run pip install again
+  - `pip install -r requirements.txt`
+  
 ### Frontend
 ```
 npm install
@@ -77,3 +88,4 @@ Contributors:
     Yanzhi Huang
     Yuting He
     Simiao Zheng
+

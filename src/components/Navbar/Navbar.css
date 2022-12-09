@@ -1,0 +1,52 @@
+.Sidebar {
+    display: flex;
+    height: 100vh;
+    width: 10%;
+    left:0;
+    background-color: #f7f8fa;
+}
+
+.li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    display: inline;
+} 
+
+
+
+.SidebarList .row {
+    height: 50px;
+    list-style-type: none;
+    margin-top: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.row #icon {
+    display: grid;
+    color: #c3cad9;
+    place-items: center;
+}
+
+.icon-button {
+    display: block;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: white;
+}
+
+.icon-button:hover,
+.icon-button:focus {
+    background-color: #ff6633;
+    color: #ffffff;
+}
+
+.row #active {
+    background-color: #ff6633;
+    color: #ffffff;
+}

@@ -28,8 +28,10 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
+
 # @permission_classes([permissions.IsAuthenticated])
 # @authentication_classes([authentication.BasicAuthentication])
+
 class LikesViewSet(viewsets.ModelViewSet):
     serializer_class = LikesSerializer
     queryset = Likes.objects.all()

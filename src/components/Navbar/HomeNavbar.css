@@ -1,0 +1,23 @@
+.homeNavbar {
+    height: 100vh;
+}
+
+.profile {
+    background-color: #f7f8fa;
+    padding: 0;
+    left: 10%;
+    width: 20%;
+    height: 100%;
+    display: flex;
+}
+
+.bar {
+    height: 100%;
+}
+
+.center {
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    padding: 20px;
+}

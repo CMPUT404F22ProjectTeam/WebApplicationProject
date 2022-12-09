@@ -22,6 +22,7 @@ def getAuthorIDFromRequestURL(request, id):
 
 # @permission_classes([permissions.IsAuthenticated])
 # @authentication_classes([authentication.BasicAuthentication], authentication.TokenAuthentication])
+
 class FollowRequestViewSet(viewsets.ModelViewSet):
     queryset=FollowRequest.objects.all()
     #permission_classes = [permissions.AllowAny]
@@ -63,6 +64,7 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
                 summary=summary, actor=real_author_id, object=real_object_id, relation=request_status, id=id)
             response_msg = "Sending"
 
+
             # inbox handle
             actor_username = list(Author.objects.filter(
                 id=real_author_id).values('displayName'))[0].get('displayName')
@@ -79,6 +81,7 @@ class FollowRequestViewSet(viewsets.ModelViewSet):
                 "id": id
             }
             Inbox.objects.create(author=real_object_id, message=msg)
+
 
 
         return Response(response_msg)

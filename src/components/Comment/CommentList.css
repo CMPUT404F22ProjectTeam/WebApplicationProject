@@ -1,0 +1,31 @@
+.CommentList {
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    list-style-type: none;
+}
+
+.SingleComment {
+    border: 1px solid rgba(211, 211, 211, .5);
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    list-style-type: none;
+}
+
+.userComment {
+    color: black;
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.userComment:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.comment {
+    color: black;
+    font-size: 15px;
+    margin-left: 10px;
+}

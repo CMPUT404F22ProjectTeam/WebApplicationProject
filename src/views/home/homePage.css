@@ -1,0 +1,61 @@
+.Home {
+    background-color: #f7f8fa;
+    right: 0;
+    width: 70%;
+    height: 100%;
+}
+
+.editProfile{
+    background-color: #f7f8fa;
+}
+.profile {
+    background-color: #f7f8fa;
+    padding: 0;
+    left: 10%;
+    width: 20%;
+    height: 100%;
+    display: flex;
+}
+
+.split {
+    height: 100%;
+    position: fixed;
+    display: flex;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+}
+
+.container {
+    padding: 16px;
+    align-items: center;
+}
+.container1 {
+    text-align: center;
+    padding: 16px;
+    align-items: center;
+}
+
+
+.home{
+    height: 100%;
+    width: 100%;
+
+}
+.name {
+    text-align: center;
+    font-size: large;
+    margin-top: 40px;
+    font-weight: bold;
+}
+
+.profileimg {
+    position: relative;
+    margin-top: 60px;
+    border-radius: 50%;
+}
+
+.profileImgDiv {
+    display: flex;
+    justify-content: center;
+}

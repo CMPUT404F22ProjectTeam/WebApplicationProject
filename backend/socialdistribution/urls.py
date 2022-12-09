@@ -16,6 +16,7 @@ from .viewsets.inbox_view import InboxViewSet
 from django.urls import path
 # from .views import current_user, UserList
 
+
 urlpatterns = [
 
     path('signup/', AuthorViewSet.as_view({'put': 'sign_up'})),
@@ -27,15 +28,19 @@ urlpatterns = [
          AuthorViewSet.as_view({'get': 'find_author', 'post': 'update_profile'})),
 
     # Post url
+
     path('authors/posts_all',
          PostViewSet.as_view({'get': 'all_public'})),
+
     path('authors/<str:author_id>/posts/',
          PostViewSet.as_view({'get': 'getlist', 'post': 'create'})),
     path('authors/<str:author_id>/posts/<str:post_id>', PostViewSet.as_view(
         {'get': 'get', 'put': 'put', 'post': 'update', 'delete': 'delete'})),
 
+
     #     path('authors/posts_all/',
     #          PostViewSet.as_view({'get': 'all_public'})),
+
 
     path('authors/<str:author_id>/posts_friend_only/',
          PostViewSet.as_view({'get': 'friend_only'})),
@@ -67,12 +72,15 @@ urlpatterns = [
          FriendViewSet.as_view({'get': 'get_followers'})),
     path('authors/<str:author_id>/followers/<str:foreign_author_id>', FriendViewSet.as_view(
         {'get': 'is_follower', 'put': 'accept_follow_request', 'delete': 'remove_follower'})),
+
     path('authors/<str:author_id>/truefriend',
          FriendViewSet.as_view({'get': 'is_true_friend'})),
+
 
     # image posts request
     path('authors/<str:author_id>/posts/<str:post_id>/image',
          ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
+
 
     path('authorid/<str:username>/', AuthorViewSet.as_view({'get': 'getAuthor_id'})),
 
@@ -85,6 +93,7 @@ urlpatterns = [
 
     #     path('current_user/', current_user),
     #     path('users/', UserList.as_view())
+
 
 
 ]

@@ -150,6 +150,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
                 github_link = None
 
         #save in database
+
         Author.objects.create(id=id, host=host, username=username, url=url, github=github_link, displayName=username,
                               profileImage=profileImage, admin_permission=admin_permission, password=password)
 
@@ -161,6 +162,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
                         'github': github_link,
                         'profileImage': profileImage}
         print(response_msg)
+
         return JsonResponse(response_msg)
 
     # GET

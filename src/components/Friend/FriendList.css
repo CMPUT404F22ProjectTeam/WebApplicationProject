@@ -1,0 +1,27 @@
+.FriendList {
+    margin-top: 20px;
+    padding: 0;
+    margin-bottom: 20px;
+    list-style-type: none;
+    width: 100%;
+    margin-left: -1px;
+}
+
+.SingleFriend {
+    list-style-type: none;
+    height: 40px;
+    border-bottom: 1px solid rgb(200, 200, 200);
+    vertical-align: middle;
+    align-items: stretch;
+    margin: 10%;
+}
+
+h {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    border-top: 0.1px solid hsla(200, 10%, 50%, 100);
+    border-color: rgb(224, 224, 224);
+}

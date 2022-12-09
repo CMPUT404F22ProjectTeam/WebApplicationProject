@@ -24,8 +24,10 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
+
 # @permission_classes([permissions.IsAuthenticated])
 # @authentication_classes([authentication.BasicAuthentication])
+
 class LikedViewSet(viewsets.ModelViewSet):
     queryset = Likes.objects.all()
     # permission_classes = (permissions.AllowAny,)

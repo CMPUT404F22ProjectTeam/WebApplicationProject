@@ -41,6 +41,7 @@ def checkTrueFriend(obj_id, act_id):
 
 # @permission_classes([permissions.IsAuthenticated])
 # @authentication_classes([authentication.BasicAuthentication])
+
 class FriendViewSet(viewsets.ModelViewSet):
     # permission_classes = (permissions.AllowAny,)
     

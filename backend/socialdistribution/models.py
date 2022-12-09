@@ -109,13 +109,15 @@ class Post(models.Model):
     origin = models.URLField(max_length=255)
     description = models.TextField(max_length=255, default="")
     contentType = models.CharField(max_length=60, choices=ContentType.choices, default=ContentType.PLAIN)
+
     content = models.TextField(blank=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     categories = models.JSONField(default=default_list, null=True)
     published = models.DateTimeField(default=timezone.now)
     count = models.IntegerField(default=0, blank=True)
     comments = models.TextField(null=True)
-    visibility = models.CharField(max_length=50, choices=Visibility.choices, default=Visibility.PUBLIC)
+    visibility = models.CharField(
+        max_length=50, choices=Visibility.choices, default=Visibility.PUBLIC)
     unlisted = models.BooleanField(default="False")
     uuid = models.CharField(max_length=60, null=True)
 

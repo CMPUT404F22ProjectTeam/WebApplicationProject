@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from socialdistribution.models import *
 from socialdistribution.serializers import *
 from . import urlhandler
+
 from rest_framework import permissions
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework import viewsets, permissions, authentication
@@ -19,10 +20,12 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
+
 # @permission_classes([permissions.IsAuthenticated])
 # @authentication_classes([authentication.BasicAuthentication])
 class InboxViewSet(viewsets.ModelViewSet):
     # permission_classes = (permissions.AllowAny,)
+
     serializer_class = InboxSerializer
     # The inbox is all the new posts from who you follow
     # URL: : // service/authors/{AUTHOR_ID}/inbox
@@ -36,6 +39,7 @@ class InboxViewSet(viewsets.ModelViewSet):
         author_id = url[:-6]
         try:
             inbox = Inbox.objects.filter(author=author_id)
+
             username = list(Author.objects.filter(
                 id=author_id).values('displayName'))[0].get('displayName')
             # username = queryset.get('displayName')
@@ -44,6 +48,7 @@ class InboxViewSet(viewsets.ModelViewSet):
             username = list(Author.objects.filter(
                 id=author_id).values('displayName'))[0].get('displayName')
             inbox = Inbox.objects.create(author=username, message=message)
+
             # inbox_data = {
             #     'type': 'inbox',
             #     'author': author_id,
@@ -58,9 +63,11 @@ class InboxViewSet(viewsets.ModelViewSet):
         # for content in inbox:
         #     inbox_info.append(content.get('message'))
 
+
         inbox_data = {
             'type': 'inbox',
             'author': username,
+
             'message': inbox_info.data
         }
         return Response(InboxSerializer(inbox_data).data)
@@ -79,12 +86,14 @@ class InboxViewSet(viewsets.ModelViewSet):
         # inbox = Inbox.objects.filter(author=author_id)
         # if inbox.exists():
 
+
         #     inbox = Inbox.objects.get(author=author_id)
         # else:
         #     Inbox.objects.create(author=author_id)
         #     inbox = Inbox.objects.get(author=author_id)
 
         # if type == "post":
+
 
         # elif type == "follow":
         #     pass
@@ -93,7 +102,9 @@ class InboxViewSet(viewsets.ModelViewSet):
         # elif type == "comment":
         #     pass
 
+
         Inbox.objects.create(author=author_id, message=RequestData)
+
 
         return Response(RequestData)
 
@@ -115,9 +126,11 @@ class InboxViewSet(viewsets.ModelViewSet):
         # }
         return Response("Inbox has deleted with author id: {0}".format(author_id))
 
+
     # # if authenticated get a list of posts sent to AUTHOR_ID (paginated)
     # # POST [local]: if authenticated get a list of posts sent to AUTHOR_ID (paginated)
     # # URL: ://service/authors/{AUTHOR_ID}/inbox
+
 
     # def creat_post_rec(self, author_id, item):
     #     # type POST
@@ -144,9 +157,11 @@ class InboxViewSet(viewsets.ModelViewSet):
     #     #     items_list.append(item)
     #     #     Inbox.objects.create(author=author_id, message=items_list)
 
+
     #     return
 
     # def creat_comment_rec(self, author_id, item):
+
 
     #     print("TRANSFER TO INBOX")
     #     # update comment in inbox
@@ -156,3 +171,4 @@ class InboxViewSet(viewsets.ModelViewSet):
     #     inbox.message = items
     #     inbox.save()
     #     return
+

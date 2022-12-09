@@ -1,0 +1,60 @@
+.MessageList {
+    height: 100%;
+    margin-top: 20px;
+    padding: 0;
+    margin-bottom: 20px;
+    list-style-type: none;
+    width: 100%;
+}
+
+
+
+.SingleMessage {
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid grey;
+    list-style-type: none;
+    vertical-align: middle;
+    align-items: stretch;
+    border-radius: 1ch;
+    background-color: white;
+}
+
+.message {
+    color: black;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.accept {
+    background-color:#ff6633;
+    border: none;
+    border-radius: 1ch;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    width: 70px;
+    height: 30px;
+    float: right;
+    margin-top: 10px;
+}
+
+.accept:hover {
+    background-color: #b34f2e;
+    color: #ffffff;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.messagePart {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+}
+
+.acceptButton {
+    width: 40%;
+}

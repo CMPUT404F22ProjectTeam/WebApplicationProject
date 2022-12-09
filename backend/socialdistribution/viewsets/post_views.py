@@ -11,10 +11,12 @@ from . import urlhandler
 from django.core import serializers
 from rest_framework import permissions
 from socialdistribution.viewsets import inbox_view
+
 from rest_framework import permissions
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework import viewsets, permissions, authentication
 import requests
+
 '''
 URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
 GET [local, remote] get the public post whose id is POST_ID
@@ -29,7 +31,9 @@ posts can also hyperlink to images that are public
 '''
 
 #HOST = 'http://127.0.0.1:8000'
+
 HOST = 'https://fallprojback.herokuapp.com'
+
 
 
 def getPostIDFromRequestURL(author_id, id):
@@ -46,15 +50,18 @@ def getAuthorIDFromRequestURL(request, id):
 # @permission_classes([permissions.IsAuthenticated])
 # @authentication_classes([authentication.BasicAuthentication, authentication.TokenAuthentication])
 class PostViewSet(viewsets.ModelViewSet):
+
     queryset = Post.objects.all()
     # permission_classes = [permissions.AllowAny]
-    serializer_class = PostSerializer
 
+    serializer_class = PostSerializer
+    
+    
     # POST create a new post
     # URL: ://service/authors/{AUTHOR_ID}/posts/
 
     def create(self, request, *args, **kwargs):
-
+        
         RequestData = request.data.copy()
         url = request.build_absolute_uri()
         author_id = url[:-7]
@@ -103,6 +110,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
         #create in database
 
+
         Post.objects.create(title=title, id=post_id,  origin=origin, description=description, contentType=contentType,
                             content=content, author=author, categories=categories, count=count, comments=comments, published=published, visibility=visibility,
                             unlisted=unlisted, uuid=post_uuid)
@@ -117,6 +125,7 @@ class PostViewSet(viewsets.ModelViewSet):
                     au_id = i.get('Truefriend')
                     print('auid is >>>>>>>>>>>>>>>>>>', au_id)
                     Inbox.objects.create(author=au_id, message=post_data)
+
 
         # print("POST UPDATE TO INBOX")
         # inbox_view.InboxViewSet.creat_post_rec(self, author_id, post_data)
@@ -134,15 +143,19 @@ class PostViewSet(viewsets.ModelViewSet):
         url = request.build_absolute_uri()
         author_id = url[:-7]
         author_id = Author.objects.get(id=author_id)
+
         queryset = Post.objects.filter(author=author_id)
         return Response(PostSerializer(queryset, many=True).data)
+
 
     # GET get a specific post using POST_ID
     # URL: ://service/authors/{AUTHOR_ID}/posts/{POST_ID}
     def get(self, request, *args, **kwargs):
+
         author_id = getAuthorIDFromRequestURL(
             request, self.kwargs["author_id"])
         post_id = getPostIDFromRequestURL(author_id, kwargs['post_id'])
+
         try:
             querypost = Post.objects.get(id=post_id)
             post_serializer = PostSerializer(querypost)
@@ -207,7 +220,9 @@ class PostViewSet(viewsets.ModelViewSet):
     def put(self, request, *args, **kwargs):
         # author_id = getAuthorIDFromRequestURL(request, self.kwargs["author_id"])
 
+
         author_id = HOST + '/authors/' + self.kwargs["author_id"]
+
         post_id = HOST + request.get_full_path()[:-1]
         querypost = Post.objects.get(id=post_id)
 
@@ -314,6 +329,7 @@ class PostViewSet(viewsets.ModelViewSet):
         author_id = HOST + '/authors/' + self.kwargs["author_id"]
         friend_queryset = FollowRequest.objects.filter(
             actor=author_id, relation='F')
+
 
         for item in friend_queryset:
             print(item)
