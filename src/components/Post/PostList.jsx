@@ -32,11 +32,11 @@ function PostList() {
     useEffect(() => {
         axios.get(`${t06_url}/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
-                setAuthors6(res.items)
+                setAuthors6(res.data.items)
                 authors6.forEach((author) => {
                     axios.get(`${author.id}/posts/`, { auth: { username: 'charlotte', password: '12345678' } })
                         .then((res) => {
-                            res.items.forEach((post) => {
+                            res.data.items.forEach((post) => {
                                 var index = JSON.stringify(postData6).indexOf(JSON.stringify(post))
                                 if (post.visibility === "PUBLIC" && index === -1) {
                                     setPostData6(postData6 => [...postData6, post])
@@ -89,7 +89,7 @@ function PostList() {
                             title={val.title}
                             description={val.description}
                             content={val.content}
-                            contentType = {val.contentType}
+                            contentType={val.contentType}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>
@@ -105,7 +105,7 @@ function PostList() {
                             title={val.title}
                             description={val.description}
                             content={val.content}
-                            contentType = {val.contentType}
+                            contentType={val.contentType}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>
@@ -121,7 +121,7 @@ function PostList() {
                             title={val.title}
                             description={val.description}
                             content={val.content}
-                            contentType = {val.contentType}
+                            contentType={val.contentType}
                             comments={<CommentList postId={t07_url + '/service/authors/' + val.author.id + '/posts/' + val._id} />}
                         />
                     </li>
@@ -138,7 +138,7 @@ function PostList() {
                             title={val.title}
                             description={val.description}
                             content={val.content}
-                            contentType = {val.contentType}
+                            contentType={val.contentType}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>

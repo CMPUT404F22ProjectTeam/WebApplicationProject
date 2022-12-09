@@ -10,7 +10,7 @@
     background-color: blueviolet;
 }
 
-#bbb {
+#ccc {
     background-color: brown;
 }
 
@@ -28,10 +28,10 @@
     margin-left: 30px;
     margin-right: 10px;
     font-size: large;
-    font-weight: bold ;
+    font-weight: bold;
 }
 
-.des{
+.des {
     margin-top: 10px;
     margin-left: 30px;
     margin-right: 10px;
@@ -40,7 +40,7 @@
     color: #888888;
 }
 
-.single-content{
+.single-content {
     font-size: small;
 }
 
@@ -96,7 +96,7 @@
     color: #ffffff;
 }
 
-.comment-form{
+.comment-form {
     height: 1%;
 }
 
@@ -118,6 +118,6 @@
     color: #ffffff;
 }
 
-.postContent{
+.postContent {
     height: 150px;
 }
