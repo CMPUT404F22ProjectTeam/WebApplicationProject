@@ -12,8 +12,7 @@ const base_url = process.env.REACT_APP_CURRENT_URL;
 
 export default function EditProfile() {
     const cookies = new Cookies();
-    const AUTHOR_ID = cookies.get('id').split("/").pop();
-    const My_Name = cookies.get('username')
+    const AUTHOR_ID = cookies.get('id').split("/").pop()
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [github, setGithub] = useState('');

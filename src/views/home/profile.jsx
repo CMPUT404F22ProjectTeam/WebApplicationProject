@@ -10,12 +10,10 @@ const base_url = process.env.REACT_APP_CURRENT_URL;
 export default function Profile() {
   const cookies = new Cookies();
   const AUTHOR_ID = cookies.get('id').split("/").pop();
-  const My_Name = cookies.get('username')
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [profile, setProfile] = useState('');
   const [github, setGithub] = useState('');
-  const [githubAcivities, setGithubactivities] = useState('');
   const handleEdit = () => {
     navigate("/editProfile")
   }
@@ -29,7 +27,6 @@ export default function Profile() {
       .get(`${base_url}/authors/${AUTHOR_ID}/`)
 
       .then((data) => {
-        console.log(data.data)
         setName(data.data.displayName)
         setProfile(data.data.profileImage)
         setGithub(data.data.github)

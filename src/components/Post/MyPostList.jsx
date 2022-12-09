@@ -32,6 +32,7 @@ function MyPostList() {
                             description={val.description}
                             content = {val.content}
                             postId={val.id}
+                            contentType = {val.contentType}
                             comments={<CommentList postId={val.id} />}
                         />
                     </li>

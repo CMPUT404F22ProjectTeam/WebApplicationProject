@@ -14,9 +14,9 @@ const SingleComment = ({ authorId = '', displayName, comment }) => {
     let auth5 = { username: 'admin', password: 'admin' };
     let auth67 = { username: 'charlotte', password: '12345678' };
     let auth18 = { username: 't18user1', password: 'Password123!' };
-    if (authorId.includes('fallprojback') === true) {
+    if (authorId.toString().includes('fallprojback') === true) {
         auth = auth5
-    } else if (authorId.includes('cmput404team18-backend') === true) {
+    } else if (authorId.toString().includes('cmput404team18-backend') === true) {
         auth = auth18
     } else {
         auth = auth67
