@@ -29,29 +29,7 @@ export default function Profile() {
       .get(`${base_url}/authors/${AUTHOR_ID}/`)
 
       .then((data) => {
-        setName(data.data.displayName)
-        setProfile(data.data.profileImage)
-        setGithub(data.data.github)
-      })
-      .catch((e) => console.log(e));
-  }, [name, profile, github])
-  useEffect(() => {
-    const octokit = new Octokit();
-    let doc = null;
-    if (github) {
-      doc = octokit.request(
-        "GET /users/" + github.split("/")[3] + "/events/public/"
-      );
-    }
-
-    setGithubactivities({ githubAcivities: doc?.data ?? [] });
-  }, [githubAcivities])
-
-  useEffect(() => {
-    axios
-      .get(`${base_url}/authors/${AUTHOR_ID}/`)
-
-      .then((data) => {
+        console.log(data.data)
         setName(data.data.displayName)
         setProfile(data.data.profileImage)
         setGithub(data.data.github)

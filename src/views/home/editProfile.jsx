@@ -5,12 +5,15 @@ import Form from '../../components/Post/Form';
 import { Link, useNavigate } from "react-router-dom";
 import FormData from 'form-data';
 import axios from 'axios';
+import { Cookies } from 'react-cookie';
 
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 
 export default function EditProfile() {
-    const AUTHOR_ID = "1111111111";
+    const cookies = new Cookies();
+    const AUTHOR_ID = cookies.get('id').split("/").pop();
+    const My_Name = cookies.get('username')
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [github, setGithub] = useState('');
@@ -46,7 +49,6 @@ export default function EditProfile() {
                 setError(e)
                 console.log(e);
             });
-        this.props.toggle();
     }, [name, github]
     )
 

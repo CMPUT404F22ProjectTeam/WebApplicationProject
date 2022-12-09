@@ -10,7 +10,7 @@ import { Cookies } from 'react-cookie';
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 
-const FriendSinglePost = ({ author, displayName, postId, comments, title, content, description }) => {
+const FriendSinglePost = ({ author, displayName, postId, title, content, description }) => {
     const cookies = new Cookies();
     const My_ID = cookies.get('id').split("/").pop();
     const My_Name = cookies.get('username')
@@ -95,6 +95,7 @@ const FriendSinglePost = ({ author, displayName, postId, comments, title, conten
                 .post(`${postId}/comments`, commentData)
                 .then((response) => {
                     console.log(response);
+                    window.location.reload()
                 })
                 .catch((e) => {
                     console.log(e);
@@ -125,7 +126,6 @@ const FriendSinglePost = ({ author, displayName, postId, comments, title, conten
                 </button>
             </div>
             <p className="flash">{commentError}</p>
-            <div> {comments}</div>
         </div>
     )
 }
