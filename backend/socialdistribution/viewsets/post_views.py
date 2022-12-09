@@ -190,8 +190,10 @@ class PostViewSet(viewsets.ModelViewSet):
     def delete(self, request, *args, **kwargs):
         author_id = getAuthorIDFromRequestURL(
             request, self.kwargs["author_id"])
-        post_id = HOST + request.get_full_path()[:-1]
-        querypost = Post.objects.get(id=post_id)
+        # post_id = HOST + request.get_full_path()[:-1]
+        # post_id = request.build_absolute_uri()
+        post_id = getPostIDFromRequestURL(author_id, self.kwargs["post_id"])
+        querypost = Post.objects.filter(id=post_id)
 
         # delete the post
         try:

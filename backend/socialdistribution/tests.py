@@ -236,13 +236,16 @@ class PostTests(APITestCase):
             "description": "Update Post test 1",
             "content": "This is a update Post test",
         }
-        # auth_headers = {
-        #     'HTTP_AUTHORIZATION': 'Basic ' + base64.b64encode('admin:admin'.encode()).decode(),
-        # }
-        response = self.client.post("http://127.0.0.1:8000/authors/unitest_author_1"+'/posts/post_test_1', update_post_test_data1)
+        auth_headers = {
+            'HTTP_AUTHORIZATION': 'Basic ' + base64.b64encode('admin:admin'.encode()).decode(),
+        }
+        # response = self.client.post("http://127.0.0.1:8000/authors/unitest_author_1"+'/posts/post_test_1', update_post_test_data1)
+        response = self.client.post(update_post_test_data1)
+        print(response)
         self.assertEqual(self.response_code, status.HTTP_200_OK)
         # assert
         post = Post.objects.get(id=update_post_test_data1['id'])
+
         self.assertEqual(post.title, "post test 1")
         self.assertEqual(
             post.id, "http://127.0.0.1:8000/authors/unitest_author_1/posts/post_test_1")
