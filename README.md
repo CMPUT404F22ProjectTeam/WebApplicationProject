@@ -4,7 +4,11 @@ A Web Application Project :)
 ### Frontend Deployment: https://react-frontend-404.herokuapp.com
 ### Backend Deployment: https://fallprojback.herokuapp.com
 ### API documentation: https://fallprojback.herokuapp.com/swagger/
-### Credential for using our app: admin:admin
+### Video Demo: [click raw](https://github.com/CMPUT404F22ProjectTeam/WebApplicationProject/blob/main/docs/404project_videodemo.mp4) to download or you can click [here](https://drive.google.com/file/d/1ytRScchNYtUTt2V4mMW5GQwUfQUtkXMT/view) watch at Google drive.
+
+
+### Credential for using our app: 
+`admin:admin`
 
 # Group Connection
 
