@@ -49,7 +49,7 @@ const MySinglePost = ({ title, description, content, comments, postId, contentTy
         async (e) => {
             e.preventDefault()
             axios
-                .delete(`${postId}/`, { auth: { username: 'admin', password: 'admin' } })
+                .delete(`${postId}`, { auth: { username: 'admin', password: 'admin' } })
                 .then((response) => {
                     console.log(response);
                     alert("Delete Successfully!")
