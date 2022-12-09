@@ -49,7 +49,7 @@ class Liked(models.Model):
 
     type = "liked"
 
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.URLField(max_length=255, default="")
     items = models.JSONField(default=default_list)
 
 
@@ -67,7 +67,7 @@ class Likes(models.Model):
 class Inbox(models.Model):
 
     type = "Inbox"
-    
+
     author = models.CharField(max_length=256, default="")
     message = models.JSONField(default=default_list)
 
@@ -108,8 +108,8 @@ class Post(models.Model):
     source = models.URLField(max_length=255, null=True)
     origin = models.URLField(max_length=255)
     description = models.TextField(max_length=255, default="")
-    contentType = models.CharField(
-        max_length=60, choices=ContentType.choices, default=ContentType.PLAIN)
+    contentType = models.CharField(max_length=60, choices=ContentType.choices, default=ContentType.PLAIN)
+
     content = models.TextField(blank=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     categories = models.JSONField(default=default_list, null=True)

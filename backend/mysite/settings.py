@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
+import sys
 import django_on_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -91,15 +92,38 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # cite from
 # https://www.youtube.com/watch?v=dYDoGHV-9hY
-DATABASES = {
-    'default': {
+if 'test' in sys.argv:
+
+    DATABASES = {
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.postgresql',
+        #     'NAME': 'd61t5m59r5hh02',
+        #     'USER': 'tsumkmeykfefgj',
+        #     'PASSWORD': 'da16de73f71592ccbd769ee2145883a0141e5ed73bdbf9f96efb0cb4ac2f60de',
+        #     'HOST': 'ec2-44-209-24-62.compute-1.amazonaws.com',
+        #     'PORT': 5432
+        # },
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'mysite',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
+    }
+else:
+    
+    DATABASES = {
+        'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'d61t5m59r5hh02',
-        'USER':'tsumkmeykfefgj',
-        'PASSWORD':'da16de73f71592ccbd769ee2145883a0141e5ed73bdbf9f96efb0cb4ac2f60de',
+        'NAME': 'd61t5m59r5hh02',
+        'USER': 'tsumkmeykfefgj',
+        'PASSWORD': 'da16de73f71592ccbd769ee2145883a0141e5ed73bdbf9f96efb0cb4ac2f60de',
         'HOST': 'ec2-44-209-24-62.compute-1.amazonaws.com',
         'PORT': 5432
-        }
+    },
+
 }
 # 'NAME':'postgres',
 #         'USER':'postgres',
@@ -126,6 +150,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    #     # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    #     'rest_framework.authentication.BasicAuthentication',
+    # ),
 }
 
 # Internationalization
@@ -156,7 +188,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 AUTH_USER_MODEL = 'socialdistribution.Author'
 
-CORS_ALLOW_ALL_ORIGINS  = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -185,7 +217,14 @@ CORS_ALLOW_HEADERS = [
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8000',
     'http://localhost:8000',
+    'http://localhost:3000',
 )
 
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'mysite.utils.my_jwt_response_handler',
+    'JWT_VERIFY_EXPIRATION': False,
+}
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media') 
+MEDIA_URL = '/IMG/'
 django_on_heroku.settings(locals())

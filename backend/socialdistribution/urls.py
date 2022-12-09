@@ -13,22 +13,35 @@ from .viewsets.likes_view import LikesViewSet
 from .viewsets.image_post_view import ImagePostViewSet
 from .viewsets.inbox_view import InboxViewSet
 
+from django.urls import path
+# from .views import current_user, UserList
+
+
 urlpatterns = [
 
     path('signup/', AuthorViewSet.as_view({'put': 'sign_up'})),
-    path('login/', AuthorViewSet.as_view({'get': 'login'})),
+    path('login/<str:usernameANDpassword>/',
+         AuthorViewSet.as_view({'get': 'login'})),
     # Author url
     path('authors/', AuthorViewSet.as_view({'get': 'list_all'})),
     path('authors/<str:author_id>/',
          AuthorViewSet.as_view({'get': 'find_author', 'post': 'update_profile'})),
 
     # Post url
+
+    path('authors/posts_all',
+         PostViewSet.as_view({'get': 'all_public'})),
+
     path('authors/<str:author_id>/posts/',
          PostViewSet.as_view({'get': 'getlist', 'post': 'create'})),
     path('authors/<str:author_id>/posts/<str:post_id>', PostViewSet.as_view(
         {'get': 'get', 'put': 'put', 'post': 'update', 'delete': 'delete'})),
-    path('authors/<str:author_id>/posts_all/',
-         PostViewSet.as_view({'get': 'all_public'})),
+
+
+    #     path('authors/posts_all/',
+    #          PostViewSet.as_view({'get': 'all_public'})),
+
+
     path('authors/<str:author_id>/posts_friend_only/',
          PostViewSet.as_view({'get': 'friend_only'})),
 
@@ -60,15 +73,27 @@ urlpatterns = [
     path('authors/<str:author_id>/followers/<str:foreign_author_id>', FriendViewSet.as_view(
         {'get': 'is_follower', 'put': 'accept_follow_request', 'delete': 'remove_follower'})),
 
+    path('authors/<str:author_id>/truefriend',
+         FriendViewSet.as_view({'get': 'is_true_friend'})),
+
+
     # image posts request
     path('authors/<str:author_id>/posts/<str:post_id>/image',
          ImagePostViewSet.as_view({'get': 'getimage', 'post': 'postimage'})),
 
-#     # get inbox post
-#     path('author/<str:author_id>/inbox',
-#          InboxViewSet.as_view({'get': 'get_posts'})),
+
+    path('authorid/<str:username>/', AuthorViewSet.as_view({'get': 'getAuthor_id'})),
+
+    #     # get inbox post
+    #     path('author/<str:author_id>/inbox',
+    #          InboxViewSet.as_view({'get': 'get_posts'})),
     # get inbox post
     path('authors/<str:author_id>/inbox',
          InboxViewSet.as_view({'get': 'getInbox', 'post': 'postInbox', 'delete': 'deleteInbox'})),
+
+    #     path('current_user/', current_user),
+    #     path('users/', UserList.as_view())
+
+
 
 ]
