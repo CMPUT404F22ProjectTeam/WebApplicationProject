@@ -146,7 +146,7 @@ class FriendViewSet(viewsets.ModelViewSet):
                 follower.delete()
                 follower2 = FollowRequest.objects.get(id=id_2)
                 follower2.relation = 'F'
-                follower.save()
+                follower2.save()
                 response_msg = "Successfully delete"
                 
             else:

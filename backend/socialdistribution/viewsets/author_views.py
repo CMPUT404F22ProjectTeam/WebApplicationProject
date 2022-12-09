@@ -108,9 +108,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
             is_valid = validate_url(github_link)
             if is_valid == 404:
                 github_link = None
-                return Response({"msg": "Sorry this github account is invalid"}, 200)
             else:
-                author.github = github
+                author.github = github_link
 
         if profileImage:
             author.profileImage = profileImage
@@ -130,9 +129,9 @@ class AuthorViewSet(viewsets.ModelViewSet):
         id = f'{host}/authors/{author_id}'
         url = id
         admin_permission = request.data.get('admin_permission', 'False')
-        github = request.data.get('github', 'False')
+        github = request.data.get('github', False)
         profileImage = request.data.get('profileImage')
-
+        github_link = None
         try:
             author_obj = Author.objects.get(username=username)
             if author_obj:
@@ -149,10 +148,9 @@ class AuthorViewSet(viewsets.ModelViewSet):
             print(is_valid)
             if is_valid == 404:
                 github_link = None
-                return Response({"msg": "Sorry this github account is invalid"}, 200)
 
         #save in database
-        Author.objects.create(id=id, host=host, username=username, url=url, github=github, displayName=username,
+        Author.objects.create(id=id, host=host, username=username, url=url, github=github_link, displayName=username,
                               profileImage=profileImage, admin_permission=admin_permission, password=password)
 
         # Response
