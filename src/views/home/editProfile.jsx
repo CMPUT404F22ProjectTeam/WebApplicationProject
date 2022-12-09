@@ -48,7 +48,6 @@ export default function EditProfile() {
                 setError(e)
                 console.log(e);
             });
-        this.props.toggle();
     }, [name, github]
     )
 

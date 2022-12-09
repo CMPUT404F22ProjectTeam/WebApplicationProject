@@ -59,7 +59,6 @@ export default function SharePost() {
                                 title={post.title}
                                 description={post.description}
                                 content={post.content}
-                                comments={<CommentList postId={post.id} />}
                             />
                         </div>
                     )}

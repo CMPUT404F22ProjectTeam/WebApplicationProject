@@ -33,18 +33,6 @@ export default function Profile() {
       })
       .catch((e) => console.log(e));
   }, [name, profile, github])
-
-  useEffect(() => {
-    axios
-      .get(`${base_url}/authors/${AUTHOR_ID}/`)
-
-      .then((data) => {
-        setName(data.data.displayName)
-        setProfile(data.data.profileImage)
-        setGithub(data.data.github)
-      })
-      .catch((e) => console.log(e));
-  }, [name, profile, github])
   // useEffect(() => {
   //     const octokit = new Octokit();
   //     let doc = null;
