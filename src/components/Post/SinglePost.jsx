@@ -8,10 +8,11 @@ import FormData from 'form-data'
 import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Cookies } from 'react-cookie';
+import ReactMarkdown from "react-markdown";
 
 const base_url = process.env.REACT_APP_CURRENT_URL;
 
-const SinglePost = ({ author, displayName, postId, comments, title, description, content, image }) => {
+const SinglePost = ({ author, displayName, postId, comments, title, description, content, contentType }) => {
     const cookies = new Cookies();
     const My_ID = cookies.get('id').split("/").pop();
     const My_Name = cookies.get('username')
@@ -157,13 +158,31 @@ const SinglePost = ({ author, displayName, postId, comments, title, description,
         [postId, author]
     )
 
+    const handleContent = () => {
+        if (content.includes("image")) {
+            return (
+                <img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />
+            )
+        } else if (contentType == "text/markdown") {
+            return (
+                <ReactMarkdown>{content}</ReactMarkdown>
+            );
+      
+        }else {
+            return (
+                <p className='single-content'>{content}</p>)
+            
+          }
+        // {(content.includes("image") && (<img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />)) || (contentType.includes("markdown")&& (<ReactMarkdown>{content}</ReactMarkdown>)) || <p className='single-content'>{content}</p>}
+    }
+
     return (
         <div className="singlePost" id={foreign}>
             <a className="userName" onClick={() => { toOtherUser() }}>@{name}:</a>
             <p className="singleTit">{title}</p>
             <p className="des">{description}</p>
             <div className='center'>
-                {content.includes("image") && (<img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />) || <p className='single-content'>{content}</p>}
+                {handleContent()}
             </div>
             <div className="postBar">
                 <button className="eds" onClick={handleShare}>

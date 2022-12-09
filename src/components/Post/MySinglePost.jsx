@@ -8,8 +8,9 @@ import axios from "axios";
 import FormData from 'form-data'
 import './SinglePost.css'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ReactMarkdown from "react-markdown";
 
-const MySinglePost = ({ title, description, content, comments, postId }) => {
+const MySinglePost = ({ title, description, content, comments, postId, contentType }) => {
     const navigate = useNavigate();
     const [like, setLike] = useState(0);
     const [comment, setComment] = useState('');
@@ -84,12 +85,31 @@ const MySinglePost = ({ title, description, content, comments, postId }) => {
         }
     }, [comment, postId]
     )
+
+    const handleContent = () => {
+        if (content.includes("image")) {
+            return (
+                <img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />
+            )
+        } else if (contentType == "text/markdown") {
+            return (
+                <ReactMarkdown>{content}</ReactMarkdown>
+            );
+      
+        }else {
+            return (
+                <p className='single-content'>{content}</p>)
+            
+          }
+        // {(content.includes("image") && (<img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />)) || (contentType.includes("markdown")&& (<ReactMarkdown>{content}</ReactMarkdown>)) || <p className='single-content'>{content}</p>}
+    }
+
     return (
         <div className="singlePost">
             <p className="singleTit">{title}</p>
             <p className="des">{description}</p>
             <div className='center'>
-                {content.includes("image")&&(<img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />)||<p className='single-content'>{content}</p>}                
+            {handleContent()}   
             </div>
             <div className="postBar">
                 <button className="eds" onClick={handleDel}>
