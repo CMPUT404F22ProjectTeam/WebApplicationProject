@@ -32,11 +32,11 @@ function PostList() {
     useEffect(() => {
         axios.get(`${t06_url}/authors/`, { auth: { username: 'charlotte', password: '12345678' } })
             .then((res) => {
-                setAuthors6(res.data.items)
+                setAuthors6(res.items)
                 authors6.forEach((author) => {
                     axios.get(`${author.id}/posts/`, { auth: { username: 'charlotte', password: '12345678' } })
                         .then((res) => {
-                            res.data.items.forEach((post) => {
+                            res.items.forEach((post) => {
                                 var index = JSON.stringify(postData6).indexOf(JSON.stringify(post))
                                 if (post.visibility === "PUBLIC" && index === -1) {
                                     setPostData6(postData6 => [...postData6, post])
