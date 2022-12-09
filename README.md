@@ -4,6 +4,13 @@ A Web Application Project :)
 ### Frontend Deployment: https://react-frontend-404.herokuapp.com
 ### Backend Deployment: https://fallprojback.herokuapp.com
 ### API documentation: https://fallprojback.herokuapp.com/swagger/
+### Credential for using our app: admin:admin
+
+# Group Connection
+
+### T06: https://socialdistribution-cmput404.herokuapp.com
+### T07: https://cmput404-social.herokuapp.com
+### T18: https://cmput404team18-backend.herokuapp.com/backendapi
 
 ## How to Install and Run the Project
 ### Backend

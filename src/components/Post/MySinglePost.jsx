@@ -95,12 +95,12 @@ const MySinglePost = ({ title, description, content, comments, postId, contentTy
             return (
                 <ReactMarkdown>{content}</ReactMarkdown>
             );
-      
-        }else {
+
+        } else {
             return (
                 <p className='single-content'>{content}</p>)
-            
-          }
+
+        }
         // {(content.includes("image") && (<img className='postContent' src={`data:image;base64,${content.split(",")[1]}`} />)) || (contentType.includes("markdown")&& (<ReactMarkdown>{content}</ReactMarkdown>)) || <p className='single-content'>{content}</p>}
     }
 
@@ -109,7 +109,7 @@ const MySinglePost = ({ title, description, content, comments, postId, contentTy
             <p className="singleTit">{title}</p>
             <p className="des">{description}</p>
             <div className='center'>
-            {handleContent()}   
+                {handleContent()}
             </div>
             <div className="postBar">
                 <button className="eds" onClick={handleDel}>
@@ -121,7 +121,7 @@ const MySinglePost = ({ title, description, content, comments, postId, contentTy
                 <Form
                     type="text"
                     name="comment"
-                    className = "comment-form"
+                    className="comment-form"
                     action={handleComment}
                     placeholder="Leave your comment"
                 ></Form>
